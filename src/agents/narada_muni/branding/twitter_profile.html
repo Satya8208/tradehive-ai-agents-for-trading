@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narada Muni — Twitter Profile Picture (400x400)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background: #0d0520;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Playfair Display', serif;
+        }
+        .canvas-label {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+            letter-spacing: 0.15em;
+            font-family: monospace;
+        }
+        .canvas-instructions {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.3);
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas-label">NARADA MUNI — PROFILE PICTURE — 400×400</div>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+        <defs>
+            <!-- Background gradient -->
+            <radialGradient id="bgGlow" cx="50%" cy="50%" r="70%">
+                <stop offset="0%" stop-color="#1a0a3e"/>
+                <stop offset="60%" stop-color="#110730"/>
+                <stop offset="100%" stop-color="#0d0520"/>
+            </radialGradient>
+
+            <!-- Saffron radial glow behind veena -->
+            <radialGradient id="saffronGlow" cx="50%" cy="48%" r="35%">
+                <stop offset="0%" stop-color="#FF6B00" stop-opacity="0.25"/>
+                <stop offset="50%" stop-color="#FF6B00" stop-opacity="0.08"/>
+                <stop offset="100%" stop-color="#FF6B00" stop-opacity="0"/>
+            </radialGradient>
+
+            <!-- Veena string glow -->
+            <filter id="stringGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+                <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <!-- Star glow -->
+            <filter id="starGlow" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
+                <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <!-- Dot glow for constellation nodes -->
+            <filter id="nodeGlow" x="-200%" y="-200%" width="500%" height="500%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+                <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <!-- Noise texture -->
+            <filter id="noise" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch" result="noise"/>
+                <feColorMatrix type="saturate" values="0" in="noise" result="grey"/>
+                <feBlend in="SourceGraphic" in2="grey" mode="overlay" result="blend"/>
+                <feComponentTransfer in="blend">
+                    <feFuncA type="linear" slope="1"/>
+                </feComponentTransfer>
+            </filter>
+
+            <!-- Vignette -->
+            <radialGradient id="vignette" cx="50%" cy="50%" r="50%">
+                <stop offset="60%" stop-color="black" stop-opacity="0"/>
+                <stop offset="100%" stop-color="black" stop-opacity="0.5"/>
+            </radialGradient>
+
+            <!-- Saffron gradient for lines -->
+            <linearGradient id="saffronLine" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FF6B00"/>
+                <stop offset="100%" stop-color="#fbbf24"/>
+            </linearGradient>
+        </defs>
+
+        <!-- Deep cosmic background -->
+        <rect width="400" height="400" fill="url(#bgGlow)"/>
+
+        <!-- Star field - tiny dots scattered -->
+        <g opacity="0.4">
+            <circle cx="45" cy="30" r="0.8" fill="#fbbf24"/>
+            <circle cx="120" cy="55" r="0.5" fill="white"/>
+            <circle cx="350" cy="40" r="0.7" fill="#fbbf24"/>
+            <circle cx="370" cy="120" r="0.5" fill="white"/>
+            <circle cx="30" cy="180" r="0.6" fill="white"/>
+            <circle cx="80" cy="310" r="0.5" fill="#fbbf24"/>
+            <circle cx="355" cy="280" r="0.6" fill="white"/>
+            <circle cx="310" cy="350" r="0.5" fill="white"/>
+            <circle cx="60" cy="370" r="0.7" fill="#fbbf24"/>
+            <circle cx="200" cy="25" r="0.6" fill="white"/>
+            <circle cx="280" cy="60" r="0.5" fill="#fbbf24"/>
+            <circle cx="20" cy="100" r="0.4" fill="white"/>
+            <circle cx="380" cy="200" r="0.5" fill="white"/>
+            <circle cx="150" cy="370" r="0.6" fill="#fbbf24"/>
+            <circle cx="330" cy="15" r="0.5" fill="white"/>
+            <circle cx="250" cy="375" r="0.4" fill="white"/>
+            <circle cx="15" cy="250" r="0.5" fill="#fbbf24"/>
+            <circle cx="390" cy="340" r="0.6" fill="white"/>
+            <circle cx="170" cy="15" r="0.5" fill="white"/>
+            <circle cx="95" cy="140" r="0.4" fill="#fbbf24"/>
+            <circle cx="340" cy="170" r="0.5" fill="white"/>
+            <circle cx="50" cy="350" r="0.4" fill="white"/>
+            <circle cx="290" cy="20" r="0.6" fill="#fbbf24"/>
+            <circle cx="380" cy="370" r="0.5" fill="white"/>
+            <circle cx="110" cy="240" r="0.4" fill="white"/>
+            <circle cx="300" cy="310" r="0.5" fill="#fbbf24"/>
+            <circle cx="230" cy="50" r="0.4" fill="white"/>
+            <circle cx="160" cy="290" r="0.5" fill="white"/>
+        </g>
+
+        <!-- Dimmer background stars -->
+        <g opacity="0.2">
+            <circle cx="70" cy="70" r="0.3" fill="white"/>
+            <circle cx="190" cy="90" r="0.3" fill="white"/>
+            <circle cx="310" cy="100" r="0.3" fill="white"/>
+            <circle cx="130" cy="160" r="0.3" fill="white"/>
+            <circle cx="270" cy="250" r="0.3" fill="white"/>
+            <circle cx="50" cy="290" r="0.3" fill="white"/>
+            <circle cx="350" cy="310" r="0.3" fill="white"/>
+            <circle cx="220" cy="340" r="0.3" fill="white"/>
+            <circle cx="100" cy="50" r="0.3" fill="white"/>
+            <circle cx="260" cy="150" r="0.3" fill="white"/>
+        </g>
+
+        <!-- Saffron glow behind veena -->
+        <rect width="400" height="400" fill="url(#saffronGlow)"/>
+
+        <!-- VEENA as constellation - connected dots forming the instrument silhouette -->
+        <!-- The veena: a long-necked Indian stringed instrument -->
+        <!-- Rendered as constellation points connected by thin lines -->
+        <g filter="url(#stringGlow)">
+            <!-- Main body resonator (bottom gourd) - circular shape from dots -->
+            <line x1="175" y1="280" x2="195" y2="310" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+            <line x1="195" y1="310" x2="225" y2="320" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+            <line x1="225" y1="320" x2="255" y2="310" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+            <line x1="255" y1="310" x2="265" y2="280" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+            <line x1="265" y1="280" x2="255" y2="255" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+            <line x1="255" y1="255" x2="225" y2="245" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+            <line x1="225" y1="245" x2="195" y2="255" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+            <line x1="195" y1="255" x2="175" y2="280" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+
+            <!-- Neck of veena - ascending line from body to tuning head -->
+            <line x1="215" y1="248" x2="200" y2="210" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+            <line x1="200" y1="210" x2="188" y2="170" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+            <line x1="188" y1="170" x2="178" y2="130" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+            <line x1="178" y1="130" x2="170" y2="95" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+
+            <!-- Upper gourd (smaller resonator at top) -->
+            <line x1="170" y1="95" x2="155" y2="85" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+            <line x1="155" y1="85" x2="150" y2="70" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+            <line x1="150" y1="70" x2="158" y2="58" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+            <line x1="158" y1="58" x2="175" y2="55" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+            <line x1="175" y1="55" x2="188" y2="62" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+            <line x1="188" y1="62" x2="190" y2="78" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+            <line x1="190" y1="78" x2="178" y2="90" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+            <line x1="178" y1="90" x2="170" y2="95" stroke="url(#saffronLine)" stroke-width="1" opacity="0.7"/>
+
+            <!-- Strings (4 parallel lines along the neck) -->
+            <line x1="210" y1="260" x2="168" y2="88" stroke="#fbbf24" stroke-width="0.5" opacity="0.35"/>
+            <line x1="218" y1="258" x2="172" y2="85" stroke="#fbbf24" stroke-width="0.5" opacity="0.35"/>
+            <line x1="226" y1="257" x2="176" y2="82" stroke="#fbbf24" stroke-width="0.5" opacity="0.35"/>
+            <line x1="234" y1="258" x2="180" y2="80" stroke="#fbbf24" stroke-width="0.5" opacity="0.35"/>
+
+            <!-- Fret markers on neck -->
+            <line x1="196" y1="225" x2="210" y2="222" stroke="#FF6B00" stroke-width="0.6" opacity="0.4"/>
+            <line x1="192" y1="195" x2="204" y2="192" stroke="#FF6B00" stroke-width="0.6" opacity="0.4"/>
+            <line x1="185" y1="155" x2="196" y2="152" stroke="#FF6B00" stroke-width="0.6" opacity="0.4"/>
+        </g>
+
+        <!-- Constellation node dots (larger, glowing) -->
+        <g filter="url(#nodeGlow)">
+            <!-- Bottom resonator nodes -->
+            <circle cx="175" cy="280" r="3" fill="#fbbf24"/>
+            <circle cx="195" cy="310" r="2.5" fill="#FF6B00"/>
+            <circle cx="225" cy="320" r="3" fill="#fbbf24"/>
+            <circle cx="255" cy="310" r="2.5" fill="#FF6B00"/>
+            <circle cx="265" cy="280" r="3" fill="#fbbf24"/>
+            <circle cx="255" cy="255" r="2.5" fill="#FF6B00"/>
+            <circle cx="225" cy="245" r="2.5" fill="#fbbf24"/>
+            <circle cx="195" cy="255" r="2.5" fill="#FF6B00"/>
+
+            <!-- Neck nodes -->
+            <circle cx="215" cy="248" r="2" fill="#fbbf24"/>
+            <circle cx="200" cy="210" r="2" fill="#FF6B00"/>
+            <circle cx="188" cy="170" r="2.5" fill="#fbbf24"/>
+            <circle cx="178" cy="130" r="2" fill="#FF6B00"/>
+            <circle cx="170" cy="95" r="2.5" fill="#fbbf24"/>
+
+            <!-- Upper gourd nodes -->
+            <circle cx="155" cy="85" r="2" fill="#FF6B00"/>
+            <circle cx="150" cy="70" r="2.5" fill="#fbbf24"/>
+            <circle cx="158" cy="58" r="2" fill="#FF6B00"/>
+            <circle cx="175" cy="55" r="3" fill="#fbbf24"/>
+            <circle cx="188" cy="62" r="2" fill="#FF6B00"/>
+            <circle cx="190" cy="78" r="2.5" fill="#fbbf24"/>
+            <circle cx="178" cy="90" r="2" fill="#FF6B00"/>
+        </g>
+
+        <!-- Brightest accent stars near the veena -->
+        <g filter="url(#starGlow)">
+            <circle cx="130" cy="120" r="1.2" fill="#fbbf24" opacity="0.8"/>
+            <circle cx="290" cy="230" r="1" fill="#fbbf24" opacity="0.7"/>
+            <circle cx="310" cy="160" r="1.1" fill="#fbbf24" opacity="0.6"/>
+            <circle cx="120" cy="300" r="1" fill="#fbbf24" opacity="0.5"/>
+        </g>
+
+        <!-- Noise texture overlay -->
+        <rect width="400" height="400" filter="url(#noise)" opacity="0.04"/>
+
+        <!-- Vignette -->
+        <rect width="400" height="400" fill="url(#vignette)"/>
+    </svg>
+
+    <div class="canvas-instructions">Right-click → Save Image As... or screenshot at 400×400</div>
+</body>
+</html>

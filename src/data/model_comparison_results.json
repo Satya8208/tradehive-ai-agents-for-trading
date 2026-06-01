@@ -1,0 +1,64 @@
+{
+  "timestamp": "2026-01-17T13:23:20.726849",
+  "tweet": "Just quit my 6-figure job to follow my passion. Scared but excited!",
+  "results": [
+    {
+      "label": "Sonnet 4.5",
+      "model_name": "claude-sonnet-4-5-20250929",
+      "model_type": "claude",
+      "reply": "Passion doesn't pay bills, but it's a great story to tell yourself when the savings run out. Hope you calculated the cost of excitement.",
+      "chars": 136,
+      "time_sec": 3.67,
+      "cost_usd": 0.001584,
+      "input_tokens": 358,
+      "output_tokens": 34
+    },
+    {
+      "label": "Haiku 3.5",
+      "model_name": "claude-3-5-haiku-latest",
+      "model_type": "claude",
+      "reply": "Passion doesn't pay rent. Excitement is the sugar rush before reality's cold breakfast. Hope your runway is longer than your courage.",
+      "chars": 133,
+      "time_sec": 1.59,
+      "cost_usd": 0.000418,
+      "input_tokens": 358,
+      "output_tokens": 33
+    },
+    {
+      "label": "DeepSeek-V3",
+      "model_name": "deepseek-chat",
+      "model_type": "deepseek",
+      "reply": "The courage you admire in yourself is just the fear you're running from wearing a costume.",
+      "chars": 90,
+      "time_sec": 2.13,
+      "cost_usd": 0.000121,
+      "input_tokens": 358,
+      "output_tokens": 22
+    },
+    {
+      "label": "Grok-4-Fast",
+      "model_name": "grok-4-fast",
+      "model_type": "xai",
+      "reply": "Your passion chase isn't liberation. It's fear fleeing one grind for the next.",
+      "chars": 78,
+      "time_sec": 4.86,
+      "cost_usd": 0.000906,
+      "input_tokens": 358,
+      "output_tokens": 19
+    }
+  ],
+  "errors": [
+    {
+      "error": "Error code: 401 - {'error': {'message': 'Incorrect API key provided: your_ope********here. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}",
+      "label": "GPT-4o"
+    },
+    {
+      "error": "Error code: 401 - {'error': {'message': 'Incorrect API key provided: your_ope********here. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}",
+      "label": "GPT-4o-mini"
+    },
+    {
+      "error": "400 API key not valid. Please pass a valid API key. [reason: \"API_KEY_INVALID\"\ndomain: \"googleapis.com\"\nmetadata {\n  key: \"service\"\n  value: \"generativelanguage.googleapis.com\"\n}\n, locale: \"en-US\"\nmessage: \"API key not valid. Please pass a valid API key.\"\n]",
+      "label": "Gemini 2.5 Flash"
+    }
+  ]
+}

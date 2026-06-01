@@ -1,0 +1,34 @@
+{
+  "timestamp": "20251230_113131",
+  "original_tweet": "I wake up at 5am every day. Discipline is everything.",
+  "analysis": {
+    "tone": "unknown",
+    "assumptions": "their entire worldview",
+    "angle": "challenge everything",
+    "recommended_mode": "savage",
+    "why": "when in doubt, be savage",
+    "engagement_potential": "medium"
+  },
+  "replies": [
+    {
+      "mode": "savage",
+      "reply": ""
+    },
+    {
+      "mode": "funny",
+      "reply": ""
+    },
+    {
+      "mode": "philosophical",
+      "reply": ""
+    },
+    {
+      "mode": "controversial",
+      "reply": ""
+    },
+    {
+      "mode": "nuclear",
+      "reply": ""
+    }
+  ]
+}

@@ -1,0 +1,2531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nirvana Nuts | Growth Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0a0a0f;
+            --bg-surface: #12121a;
+            --bg-elevated: #1a1a24;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-medium: rgba(255, 255, 255, 0.1);
+
+            /* Challenge Palette - Hot */
+            --challenge-primary: #ff6b4a;
+            --challenge-glow: rgba(255, 107, 74, 0.4);
+            --challenge-surface: rgba(255, 107, 74, 0.08);
+
+            /* Align Palette - Cool */
+            --align-primary: #10b981;
+            --align-glow: rgba(16, 185, 129, 0.4);
+            --align-surface: rgba(16, 185, 129, 0.08);
+
+            /* Accent */
+            --accent: #a78bfa;
+            --accent-glow: rgba(167, 139, 250, 0.3);
+
+            /* Mode Colors - Challenge */
+            --mode-savage: #ef4444;
+            --mode-funny: #f59e0b;
+            --mode-philosophical: #a78bfa;
+            --mode-controversial: #f472b6;
+            --mode-nuclear: #dc2626;
+
+            /* Mode Colors - Align */
+            --mode-align_insight: #10b981;
+            --mode-align_humor: #14b8a6;
+            --mode-osho: #3b82f6;
+
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Subtle noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Ambient glow effects */
+        .ambient-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+            transition: opacity 1s ease;
+        }
+
+        .ambient-glow.challenge {
+            background: var(--challenge-primary);
+            top: -200px;
+            right: -100px;
+        }
+
+        .ambient-glow.align {
+            background: var(--align-primary);
+            bottom: -200px;
+            left: -100px;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-medium);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+        /* Layout */
+        .app-container {
+            position: relative;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 2.5rem;
+            min-height: 100vh;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--challenge-primary), var(--align-primary));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 20px rgba(255, 107, 74, 0.2), 0 4px 20px rgba(16, 185, 129, 0.2);
+        }
+
+        .brand h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--align-surface);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--align-primary);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--align-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--align-primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.9); }
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            display: inline-flex;
+            gap: 0.25rem;
+            padding: 4px;
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+            margin-bottom: 2rem;
+        }
+
+        .nav-tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: calc(var(--radius-lg) - 4px);
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .nav-tab.active {
+            color: var(--text-primary);
+            background: var(--bg-elevated);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Main Content */
+        .tab-content {
+            display: none;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        .tab-content.active { display: block; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .glass-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-title-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-elevated);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        /* Input Areas */
+        .input-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            background: var(--bg-deep);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.25rem;
+            color: var(--text-primary);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            transition: var(--transition-fast);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* MODE SELECTOR */
+        .mode-selector {
+            margin-bottom: 1.5rem;
+        }
+
+        .mode-selector-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .mode-selector-label span {
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+        }
+
+        .mode-toggle-group {
+            display: inline-flex;
+            background: var(--bg-deep);
+            border-radius: var(--radius-md);
+            padding: 4px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .mode-toggle {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: calc(var(--radius-md) - 4px);
+            transition: var(--transition-fast);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .mode-toggle:hover {
+            color: var(--text-secondary);
+        }
+
+        .mode-toggle.active {
+            color: var(--text-primary);
+            background: var(--bg-elevated);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .mode-toggle.active[data-mode="challenge"] {
+            background: linear-gradient(135deg, rgba(255, 107, 74, 0.2), rgba(239, 68, 68, 0.2));
+            box-shadow: 0 2px 12px var(--challenge-glow);
+        }
+
+        .mode-toggle.active[data-mode="align"] {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(20, 184, 166, 0.2));
+            box-shadow: 0 2px 12px var(--align-glow);
+        }
+
+        /* Mode Chips Display */
+        .mode-chips-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--bg-deep);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-subtle);
+            min-height: 60px;
+            align-items: center;
+        }
+
+        .mode-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            transition: var(--transition-fast);
+            border: 1px solid transparent;
+        }
+
+        .mode-chip.challenge-mode {
+            background: var(--challenge-surface);
+            color: var(--challenge-primary);
+            border-color: rgba(255, 107, 74, 0.2);
+        }
+
+        .mode-chip.align-mode {
+            background: var(--align-surface);
+            color: var(--align-primary);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .mode-chip-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .mode-chip.savage .mode-chip-dot { background: var(--mode-savage); }
+        .mode-chip.funny .mode-chip-dot { background: var(--mode-funny); }
+        .mode-chip.philosophical .mode-chip-dot { background: var(--mode-philosophical); }
+        .mode-chip.controversial .mode-chip-dot { background: var(--mode-controversial); }
+        .mode-chip.nuclear .mode-chip-dot { background: var(--mode-nuclear); }
+        .mode-chip.align_insight .mode-chip-dot { background: var(--mode-align_insight); }
+        .mode-chip.align_humor .mode-chip-dot { background: var(--mode-align_humor); }
+        .mode-chip.osho .mode-chip-dot { background: var(--mode-osho); }
+
+        .mode-group-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            width: 100%;
+            margin-bottom: 0.25rem;
+            margin-top: 0.25rem;
+        }
+
+        .mode-group-label:first-child {
+            margin-top: 0;
+        }
+
+        /* Drag & Drop Zone */
+        .drop-zone {
+            position: relative;
+            border: 2px dashed var(--border-medium);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition-smooth);
+            background: var(--bg-deep);
+            margin-bottom: 1.25rem;
+            cursor: pointer;
+        }
+
+        .drop-zone:hover {
+            border-color: var(--accent);
+            background: rgba(167, 139, 250, 0.03);
+        }
+
+        .drop-zone.drag-over {
+            border-color: var(--accent);
+            background: rgba(167, 139, 250, 0.08);
+            transform: scale(1.01);
+        }
+
+        .drop-zone-content { pointer-events: none; }
+
+        .drop-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            opacity: 0.7;
+        }
+
+        .drop-text {
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .drop-hint {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        .preview-container {
+            display: none;
+            margin-top: 1rem;
+            position: relative;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 280px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .remove-image {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+            transition: var(--transition-fast);
+        }
+
+        .remove-image:hover {
+            transform: scale(1.1);
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            color: white;
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--accent-glow);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1));
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Results */
+        .results-section {
+            margin-top: 2rem;
+        }
+
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .results-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .result-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            opacity: 0.8;
+        }
+
+        .result-card.challenge-card::before {
+            background: linear-gradient(180deg, var(--challenge-primary), var(--mode-nuclear));
+        }
+
+        .result-card.align-card::before {
+            background: linear-gradient(180deg, var(--align-primary), var(--mode-osho));
+        }
+
+        .result-card:hover {
+            border-color: var(--border-medium);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Mode Tags */
+        .mode-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.35rem 0.85rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .mode-tag-icon {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .savage {
+            color: var(--mode-savage);
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+        }
+        .savage .mode-tag-icon { background: var(--mode-savage); box-shadow: 0 0 8px var(--mode-savage); }
+
+        .funny {
+            color: var(--mode-funny);
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+        }
+        .funny .mode-tag-icon { background: var(--mode-funny); box-shadow: 0 0 8px var(--mode-funny); }
+
+        .philosophical {
+            color: var(--mode-philosophical);
+            background: rgba(167, 139, 250, 0.1);
+            border: 1px solid rgba(167, 139, 250, 0.25);
+        }
+        .philosophical .mode-tag-icon { background: var(--mode-philosophical); box-shadow: 0 0 8px var(--mode-philosophical); }
+
+        .controversial {
+            color: var(--mode-controversial);
+            background: rgba(244, 114, 182, 0.1);
+            border: 1px solid rgba(244, 114, 182, 0.25);
+        }
+        .controversial .mode-tag-icon { background: var(--mode-controversial); box-shadow: 0 0 8px var(--mode-controversial); }
+
+        .nuclear {
+            color: var(--mode-nuclear);
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.25);
+        }
+        .nuclear .mode-tag-icon { background: var(--mode-nuclear); box-shadow: 0 0 8px var(--mode-nuclear); }
+
+        .osho {
+            color: var(--mode-osho);
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+        }
+        .osho .mode-tag-icon { background: var(--mode-osho); box-shadow: 0 0 8px var(--mode-osho); }
+
+        .align_insight {
+            color: var(--mode-align_insight);
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+        }
+        .align_insight .mode-tag-icon { background: var(--mode-align_insight); box-shadow: 0 0 8px var(--mode-align_insight); }
+
+        .align_humor {
+            color: var(--mode-align_humor);
+            background: rgba(20, 184, 166, 0.1);
+            border: 1px solid rgba(20, 184, 166, 0.25);
+        }
+        .align_humor .mode-tag-icon { background: var(--mode-align_humor); box-shadow: 0 0 8px var(--mode-align_humor); }
+
+        /* Tweet Content */
+        .tweet-content {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+            margin-bottom: 1rem;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .char-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            background: var(--bg-deep);
+            border-radius: var(--radius-sm);
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            padding: 0.4rem 0.85rem;
+            border-radius: var(--radius-sm);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .copy-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(167, 139, 250, 0.05);
+        }
+
+        .copy-btn.copied {
+            border-color: var(--align-primary);
+            color: var(--align-primary);
+            background: var(--align-surface);
+        }
+
+        /* Analysis Dashboard */
+        .analysis-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--bg-deep);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.25rem;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.35rem;
+        }
+
+        .stat-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .stat-value.accent { color: var(--accent); }
+
+        /* Vision Analysis Card */
+        .vision-card {
+            background: linear-gradient(135deg, var(--align-surface), rgba(59, 130, 246, 0.05));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .vision-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--align-primary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .vision-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Toast */
+        #toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--align-primary);
+            color: #000;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transform: translateY(150%);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 20px var(--align-glow);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        #toast.show { transform: translateY(0); }
+
+        /* Loader */
+        .loader {
+            display: none;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .spinner-wrapper {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .spinner {
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--border-subtle);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .spinner-inner {
+            position: absolute;
+            inset: 8px;
+            border: 3px solid var(--border-subtle);
+            border-bottom-color: var(--challenge-primary);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite reverse;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loader-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Thread Results */
+        .thread-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .thread-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            border-left: 3px solid var(--accent);
+        }
+
+        .thread-card::after {
+            content: '';
+            position: absolute;
+            left: -2px;
+            bottom: -1rem;
+            width: 3px;
+            height: 1rem;
+            background: linear-gradient(180deg, var(--accent), transparent);
+        }
+
+        .thread-card:last-child::after { display: none; }
+
+        .thread-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .thread-role {
+            padding: 0.2rem 0.5rem;
+            background: var(--accent-glow);
+            color: var(--accent);
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+        }
+
+        /* Copy All Button */
+        .copy-all-btn {
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-fast);
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        .copy-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--accent-glow);
+        }
+
+        .thread-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 1rem;
+        }
+
+        /* Article Styles */
+        .article-select {
+            width: 100%;
+            background: var(--bg-deep);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 1rem 1.25rem;
+            color: var(--text-primary);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1rem;
+        }
+
+        .article-select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .article-select option {
+            background: var(--bg-surface);
+            color: var(--text-primary);
+            padding: 0.5rem;
+        }
+
+        .article-result-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            margin-top: 1.5rem;
+            position: relative;
+        }
+
+        .article-type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--accent-glow), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .article-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.3;
+            flex: 1;
+            margin-right: 1rem;
+        }
+
+        .article-stats {
+            display: flex;
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+
+        .article-stat {
+            text-align: center;
+            padding: 0.5rem 1rem;
+            background: var(--bg-deep);
+            border-radius: var(--radius-md);
+        }
+
+        .article-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .article-stat-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        .article-hook {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, var(--accent-glow), transparent);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        }
+
+        .article-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-section-heading {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .article-section-heading::before {
+            content: '##';
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .article-section-body {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+        }
+
+        .article-closer {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-subtle);
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+            font-style: italic;
+        }
+
+        .article-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        /* ===== OSHO TAB STYLES ===== */
+        .osho-card {
+            background: linear-gradient(135deg, var(--bg-surface), rgba(59, 130, 246, 0.03));
+            border: 1px solid rgba(59, 130, 246, 0.15);
+        }
+
+        .osho-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .osho-icon {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        }
+
+        .osho-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #3b82f6;
+        }
+
+        .osho-dot {
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 50%;
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        .osho-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .osho-suggestions {
+            margin-bottom: 1.5rem;
+        }
+
+        .suggestions-label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .suggestion-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .suggestion-chip {
+            background: var(--bg-deep);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .suggestion-chip:hover {
+            border-color: #3b82f6;
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .btn-osho {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-osho:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
+        }
+
+        .osho-stats {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .stats-divider {
+            opacity: 0.3;
+        }
+
+        .osho-spinner {
+            border-top-color: #3b82f6 !important;
+        }
+
+        .osho-spinner-inner {
+            border-bottom-color: #8b5cf6 !important;
+        }
+
+        /* Osho Response Card */
+        .osho-response-card {
+            background: var(--bg-surface);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .osho-response-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #3b82f6, #8b5cf6);
+        }
+
+        .osho-question-display {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+            font-style: italic;
+        }
+
+        .osho-answer {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+        }
+
+        .osho-sources {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .osho-sources-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #3b82f6;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .osho-sources-title:hover {
+            opacity: 0.8;
+        }
+
+        .sources-toggle-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .sources-toggle-icon.expanded {
+            transform: rotate(180deg);
+        }
+
+        .osho-sources-list {
+            display: none;
+        }
+
+        .osho-sources-list.expanded {
+            display: block;
+        }
+
+        .osho-source-item {
+            background: var(--bg-deep);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-left: 3px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .osho-source-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .osho-source-book {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #3b82f6;
+        }
+
+        .osho-source-score {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .osho-source-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .osho-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .btn-osho-copy {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-fast);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-osho-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0 1rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .app-container { padding: 1.5rem; }
+            .results-grid { grid-template-columns: 1fr; }
+            .analysis-dashboard { grid-template-columns: 1fr 1fr; }
+            .nav-tabs { width: 100%; justify-content: center; }
+            header { flex-direction: column; gap: 1rem; text-align: center; }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Ambient Glow Effects -->
+    <div class="ambient-glow challenge"></div>
+    <div class="ambient-glow align"></div>
+
+    <div class="app-container">
+        <header>
+            <div class="brand">
+                <div class="brand-icon">🥜</div>
+                <div>
+                    <h1>Nirvana Nuts</h1>
+                    <span class="brand-sub">Growth Engine v2.0</span>
+                </div>
+            </div>
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                <span>System Online</span>
+            </div>
+        </header>
+
+        <nav>
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="switchTab('replies')">Reply Generator</button>
+                <button class="nav-tab" onclick="switchTab('tweets')">Idea Lab</button>
+                <button class="nav-tab" onclick="switchTab('threads')">Thread Weaver</button>
+                <button class="nav-tab" onclick="switchTab('articles')">Article Writer</button>
+                <button class="nav-tab" onclick="switchTab('osho')" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1)); border: 1px solid rgba(59, 130, 246, 0.2);">Ask Osho</button>
+            </div>
+        </nav>
+
+        <main>
+            <!-- REPLY GENERATOR -->
+            <div id="replies-tab" class="tab-content active">
+                <div class="glass-card">
+                    <h2 class="card-title">
+                        <span class="card-title-icon">⚡</span>
+                        Command Center
+                    </h2>
+
+                    <!-- Drag & Drop Zone -->
+                    <div id="drop-zone" class="drop-zone">
+                        <input type="file" id="file-input" accept="image/*" style="display: none;">
+                        <div class="drop-zone-content">
+                            <div class="drop-icon">🖼️</div>
+                            <p class="drop-text">Drop an image or click to upload</p>
+                            <p class="drop-hint">Or paste with Ctrl+V anywhere</p>
+                        </div>
+                        <div id="preview-container" class="preview-container">
+                            <img id="image-preview" class="preview-image" src="" alt="Preview">
+                            <button class="remove-image" onclick="clearImage(event)">×</button>
+                        </div>
+                    </div>
+
+                    <!-- Text Input -->
+                    <div class="input-group">
+                        <textarea id="tweet-input" placeholder="Paste tweet text here, or add a caption for your image..."></textarea>
+                    </div>
+
+                    <!-- MODE SELECTOR -->
+                    <div class="mode-selector">
+                        <div class="mode-selector-label">
+                            <span>Response Mode</span>
+                            <div class="mode-toggle-group">
+                                <button class="mode-toggle active" data-mode="all" onclick="setModeFilter('all')">All</button>
+                                <button class="mode-toggle" data-mode="challenge" onclick="setModeFilter('challenge')">Challenge</button>
+                                <button class="mode-toggle" data-mode="align" onclick="setModeFilter('align')">Align</button>
+                            </div>
+                        </div>
+                        <div class="mode-chips-container" id="mode-chips">
+                            <span class="mode-group-label">Challenge</span>
+                            <span class="mode-chip challenge-mode savage"><span class="mode-chip-dot"></span>Savage</span>
+                            <span class="mode-chip challenge-mode funny"><span class="mode-chip-dot"></span>Funny</span>
+                            <span class="mode-chip challenge-mode philosophical"><span class="mode-chip-dot"></span>Philosophical</span>
+                            <span class="mode-chip challenge-mode controversial"><span class="mode-chip-dot"></span>Controversial</span>
+                            <span class="mode-chip challenge-mode nuclear"><span class="mode-chip-dot"></span>Nuclear</span>
+                            <span class="mode-group-label">Align</span>
+                            <span class="mode-chip align-mode align_insight"><span class="mode-chip-dot"></span>Insight</span>
+                            <span class="mode-chip align-mode align_humor"><span class="mode-chip-dot"></span>Humor</span>
+                            <span class="mode-chip align-mode osho"><span class="mode-chip-dot"></span>Osho</span>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="handleGenerate()">
+                        <span>Generate Responses</span>
+                        <span>⚡</span>
+                    </button>
+                </div>
+
+                <div id="replies-loader" class="loader">
+                    <div class="spinner-wrapper">
+                        <div class="spinner"></div>
+                        <div class="spinner-inner"></div>
+                    </div>
+                    <p class="loader-text">Analyzing content & crafting responses...</p>
+                </div>
+
+                <div id="replies-results"></div>
+            </div>
+
+            <!-- TWEET GENERATOR -->
+            <div id="tweets-tab" class="tab-content">
+                <div class="glass-card">
+                    <h2 class="card-title">
+                        <span class="card-title-icon">💡</span>
+                        Idea Lab
+                    </h2>
+                    <div class="input-group">
+                        <label class="input-label">Topic / Niche</label>
+                        <input type="text" id="tweet-topic" placeholder="e.g. AI Agents, Crypto Trading, Meditation...">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Quantity</label>
+                        <input type="number" id="tweet-count" value="5" min="1" max="10">
+                    </div>
+                    <button class="btn btn-primary" onclick="generateTweets()">
+                        <span>Synthesize Ideas</span>
+                        <span>💡</span>
+                    </button>
+                </div>
+
+                <div id="tweets-loader" class="loader">
+                    <div class="spinner-wrapper">
+                        <div class="spinner"></div>
+                        <div class="spinner-inner"></div>
+                    </div>
+                    <p class="loader-text">Cooking up fresh takes...</p>
+                </div>
+                <div id="tweets-results" class="results-grid"></div>
+            </div>
+
+            <!-- THREAD GENERATOR -->
+            <div id="threads-tab" class="tab-content">
+                <div class="glass-card">
+                    <h2 class="card-title">
+                        <span class="card-title-icon">🧵</span>
+                        Thread Weaver
+                    </h2>
+                    <div class="input-group">
+                        <label class="input-label">Core Topic</label>
+                        <input type="text" id="thread-topic" placeholder="What are we teaching today?">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Length (Tweets)</label>
+                        <input type="number" id="thread-length" value="5" min="3" max="15">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Thesis / Main Argument (Optional)</label>
+                        <textarea id="thread-thesis" style="min-height: 80px;" placeholder="The one key takeaway you want them to have..."></textarea>
+                    </div>
+                    <button class="btn btn-primary" onclick="generateThread()">
+                        <span>Weave Thread</span>
+                        <span>🧵</span>
+                    </button>
+                </div>
+
+                <div id="thread-loader" class="loader">
+                    <div class="spinner-wrapper">
+                        <div class="spinner"></div>
+                        <div class="spinner-inner"></div>
+                    </div>
+                    <p class="loader-text">Structuring narrative...</p>
+                </div>
+                <div id="thread-results"></div>
+            </div>
+
+            <!-- ARTICLE WRITER -->
+            <div id="articles-tab" class="tab-content">
+                <div class="glass-card">
+                    <h2 class="card-title">
+                        <span class="card-title-icon">📝</span>
+                        Article Writer
+                    </h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem;">
+                        Generate long-form articles for X/Twitter Premium+. Full rich-text formatting, up to 100K characters.
+                    </p>
+
+                    <div class="input-group">
+                        <label class="input-label">Topic</label>
+                        <input type="text" id="article-topic" placeholder="e.g. Why Morning Routines Are a Lie">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Article Type</label>
+                        <select id="article-type" class="article-select">
+                            <option value="deep_dive">🔍 Deep Dive - Comprehensive analysis</option>
+                            <option value="listicle">📋 Listicle - Numbered insights</option>
+                            <option value="opinion">💬 Opinion - Strong stance</option>
+                            <option value="howto">🛠️ How-To - Practical guide</option>
+                            <option value="contrarian">🔥 Contrarian - Challenge norms</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Length</label>
+                        <select id="article-length" class="article-select">
+                            <option value="short">Short (2-3K chars)</option>
+                            <option value="medium" selected>Medium (5-8K chars)</option>
+                            <option value="long">Long (10-15K chars)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Thesis / Angle (Optional)</label>
+                        <textarea id="article-thesis" style="min-height: 80px;" placeholder="The core argument or perspective you want to take..."></textarea>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="generateArticle()">
+                        <span>Generate Article</span>
+                        <span>📝</span>
+                    </button>
+                </div>
+
+                <div id="article-loader" class="loader">
+                    <div class="spinner-wrapper">
+                        <div class="spinner"></div>
+                        <div class="spinner-inner"></div>
+                    </div>
+                    <p class="loader-text">Crafting your article...</p>
+                </div>
+                <div id="article-results"></div>
+            </div>
+
+            <!-- ASK OSHO - WISDOM ORACLE -->
+            <div id="osho-tab" class="tab-content">
+                <div class="glass-card osho-card">
+                    <div class="osho-header">
+                        <h2 class="card-title">
+                            <span class="card-title-icon osho-icon">🕉️</span>
+                            Ask Osho
+                        </h2>
+                        <div class="osho-badge">
+                            <span class="osho-dot"></span>
+                            <span>Deep Wisdom RAG</span>
+                        </div>
+                    </div>
+                    <p class="osho-subtitle">
+                        Ask any question and receive authentic Osho insights, retrieved from his actual teachings and discourses.
+                    </p>
+
+                    <div class="input-group">
+                        <label class="input-label">Your Question</label>
+                        <textarea id="osho-question" placeholder="How do I deal with jealousy in relationships? What is the meaning of meditation? How do I overcome fear?" style="min-height: 100px;"></textarea>
+                    </div>
+
+                    <div class="osho-suggestions">
+                        <span class="suggestions-label">Try asking about:</span>
+                        <div class="suggestion-chips">
+                            <button class="suggestion-chip" onclick="setOshoQuestion('What is meditation and how do I practice it?')">Meditation</button>
+                            <button class="suggestion-chip" onclick="setOshoQuestion('How do I deal with anger without suppressing it?')">Anger</button>
+                            <button class="suggestion-chip" onclick="setOshoQuestion('What is the ego and how do I transcend it?')">Ego</button>
+                            <button class="suggestion-chip" onclick="setOshoQuestion('How do I find true love and freedom in relationships?')">Love</button>
+                            <button class="suggestion-chip" onclick="setOshoQuestion('How do I overcome fear and live courageously?')">Fear</button>
+                            <button class="suggestion-chip" onclick="setOshoQuestion('What is the meaning of death and how do I accept it?')">Death</button>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-osho" onclick="askOshoWisdom()">
+                        <span>Receive Wisdom</span>
+                        <span>✨</span>
+                    </button>
+
+                    <div id="osho-stats" class="osho-stats" style="display: none;">
+                        <span id="osho-passage-count">0 passages</span>
+                        <span class="stats-divider">|</span>
+                        <span id="osho-book-count">0 books</span>
+                    </div>
+                </div>
+
+                <div id="osho-loader" class="loader">
+                    <div class="spinner-wrapper">
+                        <div class="spinner osho-spinner"></div>
+                        <div class="spinner-inner osho-spinner-inner"></div>
+                    </div>
+                    <p class="loader-text">Channeling Osho's wisdom...</p>
+                </div>
+                <div id="osho-results"></div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Powered by <a href="#">TradeHive Intelligence</a></p>
+        </footer>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast">✓ Copied to clipboard</div>
+
+    <script>
+        // --- GLOBAL STATE ---
+        let currentImageBase64 = null;
+        let currentModeFilter = null; // null = all, "challenge", or "align"
+        const API_BASE = "";
+
+        const CHALLENGE_MODES = ['savage', 'funny', 'philosophical', 'controversial', 'nuclear'];
+        const ALIGN_MODES = ['align_insight', 'align_humor', 'osho'];
+
+        // --- MODE FILTER ---
+        function setModeFilter(mode) {
+            // Update button states
+            document.querySelectorAll('.mode-toggle').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.mode === mode) btn.classList.add('active');
+            });
+
+            // Set the filter
+            if (mode === 'all') {
+                currentModeFilter = null;
+            } else {
+                currentModeFilter = mode;
+            }
+
+            // Update chip visibility
+            updateModeChips(mode);
+        }
+
+        function updateModeChips(mode) {
+            const container = document.getElementById('mode-chips');
+
+            if (mode === 'all') {
+                container.innerHTML = `
+                    <span class="mode-group-label">Challenge</span>
+                    <span class="mode-chip challenge-mode savage"><span class="mode-chip-dot"></span>Savage</span>
+                    <span class="mode-chip challenge-mode funny"><span class="mode-chip-dot"></span>Funny</span>
+                    <span class="mode-chip challenge-mode philosophical"><span class="mode-chip-dot"></span>Philosophical</span>
+                    <span class="mode-chip challenge-mode controversial"><span class="mode-chip-dot"></span>Controversial</span>
+                    <span class="mode-chip challenge-mode nuclear"><span class="mode-chip-dot"></span>Nuclear</span>
+                    <span class="mode-group-label">Align</span>
+                    <span class="mode-chip align-mode align_insight"><span class="mode-chip-dot"></span>Insight</span>
+                    <span class="mode-chip align-mode align_humor"><span class="mode-chip-dot"></span>Humor</span>
+                    <span class="mode-chip align-mode osho"><span class="mode-chip-dot"></span>Osho</span>
+                `;
+            } else if (mode === 'challenge') {
+                container.innerHTML = `
+                    <span class="mode-chip challenge-mode savage"><span class="mode-chip-dot"></span>Savage</span>
+                    <span class="mode-chip challenge-mode funny"><span class="mode-chip-dot"></span>Funny</span>
+                    <span class="mode-chip challenge-mode philosophical"><span class="mode-chip-dot"></span>Philosophical</span>
+                    <span class="mode-chip challenge-mode controversial"><span class="mode-chip-dot"></span>Controversial</span>
+                    <span class="mode-chip challenge-mode nuclear"><span class="mode-chip-dot"></span>Nuclear</span>
+                `;
+            } else if (mode === 'align') {
+                container.innerHTML = `
+                    <span class="mode-chip align-mode align_insight"><span class="mode-chip-dot"></span>Insight</span>
+                    <span class="mode-chip align-mode align_humor"><span class="mode-chip-dot"></span>Humor</span>
+                    <span class="mode-chip align-mode osho"><span class="mode-chip-dot"></span>Osho</span>
+                `;
+            }
+        }
+
+        // --- IMAGE HANDLING ---
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const imagePreview = document.getElementById('image-preview');
+        const previewContainer = document.getElementById('preview-container');
+        const dropContent = document.querySelector('.drop-zone-content');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) handleFile(e.target.files[0]);
+        });
+
+        document.addEventListener('paste', (e) => {
+            const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+            for (let item of items) {
+                if (item.type.indexOf('image') !== -1) {
+                    handleFile(item.getAsFile());
+                    switchTab('replies');
+                }
+            }
+        });
+
+        function handleFile(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                currentImageBase64 = e.target.result;
+                imagePreview.src = currentImageBase64;
+                previewContainer.style.display = 'block';
+                dropContent.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearImage(e) {
+            e.stopPropagation();
+            currentImageBase64 = null;
+            fileInput.value = '';
+            previewContainer.style.display = 'none';
+            dropContent.style.display = 'block';
+        }
+
+        // --- CORE FUNCTIONS ---
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(`${tabId}-tab`).classList.add('active');
+
+            const tabs = document.querySelectorAll('.nav-tab');
+            if(tabId === 'replies') tabs[0].classList.add('active');
+            if(tabId === 'tweets') tabs[1].classList.add('active');
+            if(tabId === 'threads') tabs[2].classList.add('active');
+            if(tabId === 'articles') tabs[3].classList.add('active');
+            if(tabId === 'osho') {
+                tabs[4].classList.add('active');
+                loadOshoStats();
+            }
+        }
+
+        async function handleGenerate() {
+            const text = document.getElementById('tweet-input').value.trim();
+            const loader = document.getElementById('replies-loader');
+            const results = document.getElementById('replies-results');
+
+            if (!text && !currentImageBase64) {
+                showToast("⚠️ Provide text or an image!");
+                return;
+            }
+
+            loader.style.display = 'block';
+            results.innerHTML = '';
+
+            try {
+                let endpoint, body;
+
+                if (currentImageBase64) {
+                    endpoint = '/api/image-replies';
+                    body = {
+                        image_data: currentImageBase64,
+                        caption: text,
+                        mode_filter: currentModeFilter
+                    };
+                } else {
+                    endpoint = '/api/replies';
+                    body = {
+                        tweet: text,
+                        mode_filter: currentModeFilter
+                    };
+                }
+
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+
+                if (!response.ok) throw new Error('API Error');
+                const data = await response.json();
+                renderReplies(data);
+
+            } catch (error) {
+                console.error(error);
+                results.innerHTML = `<div class="glass-card" style="border-color: #ef4444;">Error: ${error.message}</div>`;
+            } finally {
+                loader.style.display = 'none';
+            }
+        }
+
+        function renderReplies(data) {
+            const container = document.getElementById('replies-results');
+            const analysis = data.analysis;
+            const replies = data.replies;
+            const imageInfo = data.image_analysis;
+
+            let html = `
+                <div class="results-section">
+                    <div class="analysis-dashboard">
+                        <div class="stat-card">
+                            <div class="stat-label">Tone Detected</div>
+                            <div class="stat-value">${analysis.tone}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Strategy</div>
+                            <div class="stat-value" style="font-size: 0.9rem">${analysis.angle}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Recommended</div>
+                            <div class="stat-value accent">${formatModeName(analysis.recommended_mode)}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Potential</div>
+                            <div class="stat-value">${analysis.engagement_potential || 'High'}</div>
+                        </div>
+                    </div>
+            `;
+
+            if (imageInfo) {
+                html += `
+                    <div class="vision-card">
+                        <h3>🖼️ Vision Analysis</h3>
+                        <p style="margin-bottom: 0.5rem;">${imageInfo.description}</p>
+                        <p><strong>Hook:</strong> ${imageInfo.hook}</p>
+                    </div>
+                `;
+            }
+
+            html += '<div class="results-grid">';
+
+            replies.forEach(item => {
+                const isChallenge = CHALLENGE_MODES.includes(item.mode);
+                const cardClass = isChallenge ? 'challenge-card' : 'align-card';
+
+                html += `
+                    <div class="result-card ${cardClass}">
+                        <span class="mode-tag ${item.mode}">
+                            <span class="mode-tag-icon"></span>
+                            ${formatModeName(item.mode)}
+                        </span>
+                        <div class="tweet-content">${escapeHtml(item.reply)}</div>
+                        <div class="meta-info">
+                            <span class="char-count">${item.char_count} chars</span>
+                            <button class="copy-btn" onclick="copyText(this, '${escapeHtml(item.reply, true)}')">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div></div>';
+            container.innerHTML = html;
+        }
+
+        function formatModeName(mode) {
+            if (!mode) return '';
+            return mode.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+        }
+
+        async function generateTweets() {
+            const topic = document.getElementById('tweet-topic').value;
+            const count = document.getElementById('tweet-count').value;
+            const loader = document.getElementById('tweets-loader');
+            const container = document.getElementById('tweets-results');
+
+            loader.style.display = 'block';
+            container.innerHTML = '';
+
+            try {
+                const res = await fetch('/api/tweets', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ topic, count: parseInt(count) })
+                });
+                const data = await res.json();
+
+                data.tweets.forEach((t, i) => {
+                    container.innerHTML += `
+                        <div class="result-card">
+                            <span class="mode-tag" style="background: rgba(167, 139, 250, 0.1); color: var(--accent); border: 1px solid rgba(167, 139, 250, 0.25);">
+                                #${i+1}
+                            </span>
+                            <div class="tweet-content">${escapeHtml(t.text)}</div>
+                            <div class="meta-info">
+                                <span class="char-count">${t.char_count} chars</span>
+                                <button class="copy-btn" onclick="copyText(this, '${escapeHtml(t.text, true)}')">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+            } catch (e) {
+                container.innerHTML = `<div class="glass-card" style="border-color: #ef4444;">Error: ${e.message}</div>`;
+            } finally {
+                loader.style.display = 'none';
+            }
+        }
+
+        async function generateThread() {
+            const topic = document.getElementById('thread-topic').value;
+            const length = document.getElementById('thread-length').value;
+            const thesis = document.getElementById('thread-thesis').value;
+            const loader = document.getElementById('thread-loader');
+            const container = document.getElementById('thread-results');
+
+            if(!topic) { showToast("⚠️ Need a topic!"); return; }
+
+            loader.style.display = 'block';
+            container.innerHTML = '';
+
+            try {
+                const res = await fetch('/api/thread', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ topic, length: parseInt(length), thesis })
+                });
+                const data = await res.json();
+
+                // Store for copy-all functionality
+                currentThread = data.tweets;
+
+                let html = '<div class="thread-container">';
+
+                // Copy All button at top
+                html += `
+                    <div class="thread-actions">
+                        <button class="copy-all-btn" onclick="copyAllThread()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            Copy All Thread
+                        </button>
+                    </div>
+                `;
+
+                data.tweets.forEach((t, i) => {
+                    html += `
+                        <div class="thread-card">
+                            <div class="thread-meta">
+                                <span class="thread-role">${t.role}</span>
+                                <span>${i+1} of ${data.tweets.length}</span>
+                            </div>
+                            <div class="tweet-content">${escapeHtml(t.text)}</div>
+                            <div class="meta-info">
+                                <span class="char-count">${t.char_count} chars</span>
+                                <button class="copy-btn" onclick="copyText(this, '${escapeHtml(t.text, true)}')">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                container.innerHTML = html;
+
+            } catch (e) {
+                container.innerHTML = `<div class="glass-card" style="border-color: #ef4444;">Error: ${e.message}</div>`;
+            } finally {
+                loader.style.display = 'none';
+            }
+        }
+
+        // --- UTILS ---
+        function copyText(btn, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                btn.classList.add('copied');
+                btn.innerHTML = `
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Copied!
+                `;
+                showToast("✓ Copied to clipboard");
+
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.innerHTML = `
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy
+                    `;
+                }, 2000);
+            });
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Copy entire thread for Twitter
+        let currentThread = [];
+
+        function copyAllThread() {
+            if (!currentThread || currentThread.length === 0) {
+                showToast("⚠️ No thread to copy");
+                return;
+            }
+
+            // Format: just the tweet text, separated by blank lines
+            const threadText = currentThread
+                .map(t => t.text)
+                .join('\n\n');
+
+            navigator.clipboard.writeText(threadText).then(() => {
+                showToast("✅ Thread copied! Ready to paste on Twitter");
+            });
+        }
+
+        // --- ARTICLE GENERATION ---
+        let currentArticle = null;
+
+        async function generateArticle() {
+            const topic = document.getElementById('article-topic').value.trim();
+            const articleType = document.getElementById('article-type').value;
+            const length = document.getElementById('article-length').value;
+            const thesis = document.getElementById('article-thesis').value.trim();
+            const loader = document.getElementById('article-loader');
+            const container = document.getElementById('article-results');
+
+            if (!topic) {
+                showToast("⚠️ Need a topic!");
+                return;
+            }
+
+            loader.style.display = 'block';
+            container.innerHTML = '';
+
+            try {
+                const res = await fetch('/api/articles', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        topic,
+                        article_type: articleType,
+                        length,
+                        thesis: thesis || null
+                    })
+                });
+
+                if (!res.ok) {
+                    const error = await res.json();
+                    throw new Error(error.detail || 'Failed to generate article');
+                }
+
+                const data = await res.json();
+                currentArticle = data;
+                renderArticle(data);
+
+            } catch (e) {
+                console.error(e);
+                container.innerHTML = `<div class="glass-card" style="border-color: #ef4444;">Error: ${e.message}</div>`;
+            } finally {
+                loader.style.display = 'none';
+            }
+        }
+
+        function renderArticle(article) {
+            const container = document.getElementById('article-results');
+
+            let sectionsHtml = '';
+            if (article.sections && article.sections.length > 0) {
+                article.sections.forEach(section => {
+                    sectionsHtml += `
+                        <div class="article-section">
+                            <h3 class="article-section-heading">${escapeHtml(section.heading)}</h3>
+                            <div class="article-section-body">${formatArticleContent(section.body)}</div>
+                        </div>
+                    `;
+                });
+            }
+
+            const typeLabels = {
+                'deep_dive': '🔍 Deep Dive',
+                'listicle': '📋 Listicle',
+                'opinion': '💬 Opinion',
+                'howto': '🛠️ How-To',
+                'contrarian': '🔥 Contrarian'
+            };
+            const typeLabel = typeLabels[article.article_type] || article.article_type;
+
+            const html = `
+                <div class="article-result-card">
+                    <div class="article-type-badge">${typeLabel}</div>
+                    <div class="article-header">
+                        <h2 class="article-title">${escapeHtml(article.title)}</h2>
+                        <div class="article-stats">
+                            <div class="article-stat">
+                                <div class="article-stat-value">${article.char_count.toLocaleString()}</div>
+                                <div class="article-stat-label">Chars</div>
+                            </div>
+                            <div class="article-stat">
+                                <div class="article-stat-value">${article.word_count.toLocaleString()}</div>
+                                <div class="article-stat-label">Words</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="article-hook">${escapeHtml(article.hook)}</div>
+
+                    ${sectionsHtml}
+
+                    <div class="article-closer">${escapeHtml(article.closer)}</div>
+
+                    <div class="article-actions">
+                        <button class="copy-all-btn" onclick="copyArticle()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            Copy Article
+                        </button>
+                        <button class="generate-btn" onclick="generateTeaser()" id="teaser-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 2L11 13"></path>
+                                <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
+                            </svg>
+                            Generate Teaser
+                        </button>
+                    </div>
+
+                    <div id="teaser-container" style="display: none; margin-top: 1.5rem;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+                                <path d="M22 2L11 13"></path>
+                                <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
+                            </svg>
+                            <span style="color: var(--accent); font-weight: 600; font-size: 0.9rem;">TEASER TWEET</span>
+                        </div>
+                        <div id="teaser-text" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px; padding: 1rem; color: var(--text-primary); line-height: 1.5; font-size: 1rem;"></div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.75rem;">
+                            <span id="teaser-chars" style="color: var(--text-muted); font-size: 0.8rem;"></span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button onclick="generateTeaser()" style="padding: 0.4rem 0.75rem; background: transparent; border: 1px solid var(--border); color: var(--text-secondary); border-radius: 6px; cursor: pointer; font-size: 0.8rem;">Regenerate</button>
+                                <button onclick="copyTeaser()" style="padding: 0.4rem 0.75rem; background: var(--accent); border: none; color: black; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 500;">Copy Teaser</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function formatArticleContent(text) {
+            if (!text) return '';
+            // Escape HTML first
+            let formatted = escapeHtml(text);
+
+            // Convert **bold** to <strong>
+            formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+            // Convert > quotes to styled blockquotes
+            formatted = formatted.replace(/^&gt;\s*(.+)$/gm, '<span style="color: var(--accent); font-weight: 500;">▸ $1</span>');
+
+            // Convert - list items to styled bullets
+            formatted = formatted.replace(/^-\s+(.+)$/gm, '<span style="display: block; padding-left: 1rem;">• $1</span>');
+
+            // Convert numbered lists (1. 2. 3.)
+            formatted = formatted.replace(/^(\d+)\.\s+(.+)$/gm, '<span style="display: block; padding-left: 1rem;"><strong style="color: var(--accent);">$1.</strong> $2</span>');
+
+            return formatted;
+        }
+
+        function copyArticle() {
+            if (!currentArticle) {
+                showToast("⚠️ No article to copy");
+                return;
+            }
+
+            // Use the full_content if available, otherwise build it
+            let articleText = currentArticle.full_content;
+
+            if (!articleText) {
+                articleText = `# ${currentArticle.title}\n\n`;
+                articleText += `${currentArticle.hook}\n\n`;
+
+                if (currentArticle.sections) {
+                    currentArticle.sections.forEach(section => {
+                        articleText += `## ${section.heading}\n\n${section.body}\n\n`;
+                    });
+                }
+
+                articleText += `---\n\n${currentArticle.closer}`;
+            }
+
+            navigator.clipboard.writeText(articleText).then(() => {
+                showToast("✅ Article copied! Ready to paste on Twitter");
+            });
+        }
+
+        // Current teaser for copy functionality
+        let currentTeaser = "";
+
+        async function generateTeaser() {
+            if (!currentArticle) {
+                showToast("⚠️ Generate an article first");
+                return;
+            }
+
+            const btn = document.getElementById('teaser-btn');
+            const container = document.getElementById('teaser-container');
+            const teaserText = document.getElementById('teaser-text');
+            const teaserChars = document.getElementById('teaser-chars');
+
+            // Show loading state
+            btn.disabled = true;
+            btn.innerHTML = `
+                <svg class="loading-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 6v6l4 2"></path>
+                </svg>
+                Generating...
+            `;
+
+            try {
+                // Extract key insight from first section if available
+                let keyInsight = "";
+                if (currentArticle.sections && currentArticle.sections.length > 0) {
+                    keyInsight = currentArticle.sections[0].body.substring(0, 200);
+                }
+
+                const response = await fetch('/api/teaser', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title: currentArticle.title,
+                        hook: currentArticle.hook,
+                        key_insight: keyInsight
+                    })
+                });
+
+                if (!response.ok) throw new Error('Failed to generate teaser');
+
+                const data = await response.json();
+                currentTeaser = data.teaser;
+
+                // Display teaser
+                teaserText.textContent = data.teaser;
+                teaserChars.textContent = `${data.char_count} chars`;
+                container.style.display = 'block';
+
+                showToast("✅ Teaser generated!");
+
+            } catch (error) {
+                showToast(`❌ Error: ${error.message}`);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 2L11 13"></path>
+                        <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
+                    </svg>
+                    Generate Teaser
+                `;
+            }
+        }
+
+        function copyTeaser() {
+            if (!currentTeaser) {
+                showToast("⚠️ No teaser to copy");
+                return;
+            }
+
+            navigator.clipboard.writeText(currentTeaser).then(() => {
+                showToast("✅ Teaser copied! Post it to promote your article");
+            });
+        }
+
+        // --- OSHO WISDOM FUNCTIONS ---
+        let currentOshoResponse = null;
+
+        function setOshoQuestion(question) {
+            document.getElementById('osho-question').value = question;
+        }
+
+        async function loadOshoStats() {
+            try {
+                const res = await fetch('/api/osho-stats');
+                const data = await res.json();
+
+                if (data.rag_available) {
+                    document.getElementById('osho-stats').style.display = 'flex';
+                    document.getElementById('osho-passage-count').textContent = `${data.total_passages} passages`;
+                    document.getElementById('osho-book-count').textContent = `${data.books.length} books`;
+                }
+            } catch (e) {
+                console.log('[OSHO] Stats not available');
+            }
+        }
+
+        async function askOshoWisdom() {
+            const question = document.getElementById('osho-question').value.trim();
+            const loader = document.getElementById('osho-loader');
+            const container = document.getElementById('osho-results');
+
+            if (!question) {
+                showToast("⚠️ Ask a question first");
+                return;
+            }
+
+            loader.style.display = 'block';
+            container.innerHTML = '';
+
+            try {
+                const res = await fetch('/api/osho-wisdom', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        question: question,
+                        top_k: 5
+                    })
+                });
+
+                if (!res.ok) {
+                    const error = await res.json();
+                    throw new Error(error.detail || 'Failed to get wisdom');
+                }
+
+                const data = await res.json();
+                currentOshoResponse = data;
+                renderOshoResponse(data);
+
+            } catch (e) {
+                console.error(e);
+                container.innerHTML = `<div class="glass-card" style="border-color: #ef4444;">Error: ${e.message}</div>`;
+            } finally {
+                loader.style.display = 'none';
+            }
+        }
+
+        function renderOshoResponse(data) {
+            const container = document.getElementById('osho-results');
+
+            let sourcesHtml = '';
+            if (data.passages && data.passages.length > 0) {
+                sourcesHtml = data.passages.map((p, i) => `
+                    <div class="osho-source-item">
+                        <div class="osho-source-header">
+                            <span class="osho-source-book">${escapeHtml(p.book_title)}${p.chapter ? ' - ' + escapeHtml(p.chapter) : ''}</span>
+                            <span class="osho-source-score">${(p.relevance_score * 100).toFixed(0)}% match</span>
+                        </div>
+                        <div class="osho-source-text">${escapeHtml(p.text.substring(0, 300))}${p.text.length > 300 ? '...' : ''}</div>
+                    </div>
+                `).join('');
+            }
+
+            const html = `
+                <div class="osho-response-card">
+                    <div class="osho-question-display">"${escapeHtml(data.question)}"</div>
+
+                    <div class="osho-answer">${escapeHtml(data.answer)}</div>
+
+                    ${data.passages && data.passages.length > 0 ? `
+                        <div class="osho-sources">
+                            <div class="osho-sources-title" onclick="toggleOshoSources()">
+                                <span>📚 Sources (${data.passages.length} passages from ${data.sources.length} books)</span>
+                                <span class="sources-toggle-icon" id="sources-toggle-icon">▼</span>
+                            </div>
+                            <div class="osho-sources-list" id="osho-sources-list">
+                                ${sourcesHtml}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <div class="osho-actions">
+                        <button class="btn-osho-copy" onclick="copyOshoResponse()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            Copy Response
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function toggleOshoSources() {
+            const list = document.getElementById('osho-sources-list');
+            const icon = document.getElementById('sources-toggle-icon');
+
+            if (list.classList.contains('expanded')) {
+                list.classList.remove('expanded');
+                icon.classList.remove('expanded');
+            } else {
+                list.classList.add('expanded');
+                icon.classList.add('expanded');
+            }
+        }
+
+        function copyOshoResponse() {
+            if (!currentOshoResponse) {
+                showToast("⚠️ No response to copy");
+                return;
+            }
+
+            const text = `Q: ${currentOshoResponse.question}\n\n${currentOshoResponse.answer}\n\n---\nSources: ${currentOshoResponse.sources.join(', ')}`;
+
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("✅ Osho's wisdom copied!");
+            });
+        }
+
+        function escapeHtml(text, forAttribute = false) {
+            if (!text) return "";
+            if (forAttribute) {
+                return text.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n');
+            }
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥜 Nirvana Nuts Growth Engine</title>
+    <style>
+        :root {
+            --primary: #8B5CF6;
+            --primary-dark: #7C3AED;
+            --secondary: #10B981;
+            --background: #0F172A;
+            --surface: #1E293B;
+            --surface-hover: #334155;
+            --text: #F1F5F9;
+            --text-muted: #94A3B8;
+            --accent: #F59E0B;
+            --danger: #EF4444;
+            --success: #22C55E;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--background) 100%);
+            border-bottom: 1px solid var(--surface);
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.15);
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 2px solid var(--surface-hover);
+            background: var(--background);
+            color: var(--text);
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--surface-hover);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-dark);
+        }
+
+        .results {
+            margin-top: 1.5rem;
+        }
+
+        .result-item {
+            background: var(--background);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .result-item.savage { border-left-color: #EF4444; }
+        .result-item.funny { border-left-color: #F59E0B; }
+        .result-item.philosophical { border-left-color: #8B5CF6; }
+        .result-item.controversial { border-left-color: #EC4899; }
+        .result-item.nuclear { border-left-color: #DC2626; }
+        .result-item.osho { border-left-color: #3B82F6; }
+
+        .mode-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .mode-savage { background: rgba(239, 68, 68, 0.2); color: #EF4444; }
+        .mode-funny { background: rgba(245, 158, 11, 0.2); color: #F59E0B; }
+        .mode-philosophical { background: rgba(139, 92, 246, 0.2); color: #8B5CF6; }
+        .mode-controversial { background: rgba(236, 72, 153, 0.2); color: #EC4899; }
+        .mode-nuclear { background: rgba(220, 38, 38, 0.2); color: #DC2626; }
+        .mode-osho { background: rgba(59, 130, 246, 0.2); color: #3B82F6; }
+
+        .reply-text {
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .char-count {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .analysis-box {
+            background: var(--background);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--primary);
+        }
+
+        .analysis-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--surface-hover);
+        }
+
+        .analysis-item:last-child {
+            border-bottom: none;
+        }
+
+        .analysis-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .analysis-value {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--surface-hover);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .copy-btn {
+            background: var(--surface-hover);
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            width: auto;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--surface-hover);
+            padding-bottom: 1rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--surface-hover);
+            border-radius: 8px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 0;
+            width: auto;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--surface);
+            margin-top: 2rem;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid var(--success);
+            border-radius: 20px;
+            color: var(--success);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 2px solid var(--surface-hover);
+            background: var(--background);
+            color: var(--text);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        label {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🥜 Nirvana Nuts</h1>
+        <p>Twitter Growth Engine - Craft Viral Replies & Threads</p>
+        <div class="status-badge">
+            <span class="status-dot"></span>
+            Engine Online
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('replies')">🔥 Reply Generator</button>
+            <button class="tab" onclick="switchTab('tweets')">💡 Tweet Ideas</button>
+            <button class="tab" onclick="switchTab('threads')">🧵 Thread Builder</button>
+        </div>
+
+        <!-- Reply Generator Tab -->
+        <div id="replies-tab" class="tab-content active">
+            <div class="card">
+                <h2><span class="card-icon">💬</span> Generate Viral Replies</h2>
+                <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                    Paste a tweet and get 6 different reply styles to dominate engagement.
+                </p>
+                <textarea id="tweet-input" placeholder="Paste the tweet you want to reply to..."></textarea>
+                <button class="btn-primary" onclick="generateReplies()">Generate Replies 🚀</button>
+
+                <div id="replies-loading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Crafting perfect replies...</p>
+                </div>
+
+                <div id="replies-results" class="results"></div>
+            </div>
+        </div>
+
+        <!-- Tweet Ideas Tab -->
+        <div id="tweets-tab" class="tab-content">
+            <div class="card">
+                <h2><span class="card-icon">✨</span> Generate Tweet Ideas</h2>
+                <div class="input-group">
+                    <label>Topic (optional)</label>
+                    <input type="text" id="tweet-topic" placeholder="e.g., crypto, AI, startups...">
+                </div>
+                <div class="input-group">
+                    <label>Number of tweets</label>
+                    <input type="number" id="tweet-count" value="5" min="1" max="10">
+                </div>
+                <button class="btn-primary" onclick="generateTweets()">Generate Tweets 💡</button>
+
+                <div id="tweets-loading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Generating viral tweet ideas...</p>
+                </div>
+
+                <div id="tweets-results" class="results"></div>
+            </div>
+        </div>
+
+        <!-- Thread Builder Tab -->
+        <div id="threads-tab" class="tab-content">
+            <div class="card">
+                <h2><span class="card-icon">🧵</span> Build Twitter Thread</h2>
+                <div class="input-group">
+                    <label>Topic *</label>
+                    <input type="text" id="thread-topic" placeholder="What's your thread about?">
+                </div>
+                <div class="input-group">
+                    <label>Thread length</label>
+                    <input type="number" id="thread-length" value="5" min="3" max="15">
+                </div>
+                <div class="input-group">
+                    <label>Thesis (optional)</label>
+                    <textarea id="thread-thesis" placeholder="What's the main argument or takeaway?" style="min-height: 80px;"></textarea>
+                </div>
+                <button class="btn-primary" onclick="generateThread()">Build Thread 🧵</button>
+
+                <div id="thread-loading" class="loading">
+                    <div class="spinner"></div>
+                    <p>Weaving your thread...</p>
+                </div>
+
+                <div id="thread-results" class="results"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Built with 💜 by TradeHive</p>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem;">Nirvana Nuts v1.0 | Standalone Edition</p>
+    </footer>
+
+    <script>
+        const API_BASE = '';
+
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        async function generateReplies() {
+            const tweet = document.getElementById('tweet-input').value.trim();
+            if (!tweet) {
+                alert('Please paste a tweet first!');
+                return;
+            }
+
+            const loading = document.getElementById('replies-loading');
+            const results = document.getElementById('replies-results');
+
+            loading.classList.add('active');
+            results.innerHTML = '';
+
+            try {
+                const response = await fetch(`${API_BASE}/api/replies`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ tweet })
+                });
+
+                const data = await response.json();
+
+                // Show analysis
+                let html = `
+                    <div class="analysis-box">
+                        <h3 style="margin-bottom: 0.75rem;">📊 Tweet Analysis</h3>
+                        <div class="analysis-item">
+                            <span class="analysis-label">Tone</span>
+                            <span class="analysis-value">${data.analysis.tone}</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label">Best Angle</span>
+                            <span class="analysis-value">${data.analysis.angle}</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label">Recommended Mode</span>
+                            <span class="analysis-value">${data.analysis.recommended_mode}</span>
+                        </div>
+                        <div class="analysis-item">
+                            <span class="analysis-label">Engagement Potential</span>
+                            <span class="analysis-value">${data.analysis.engagement_potential}</span>
+                        </div>
+                    </div>
+                `;
+
+                // Show replies
+                data.replies.forEach(reply => {
+                    html += `
+                        <div class="result-item ${reply.mode}">
+                            <span class="mode-badge mode-${reply.mode}">${reply.mode}</span>
+                            <p class="reply-text">${reply.reply}</p>
+                            <p class="char-count">${reply.char_count} characters</p>
+                            <button class="copy-btn" onclick="copyToClipboard('${reply.reply.replace(/'/g, "\\'")}')">📋 Copy</button>
+                        </div>
+                    `;
+                });
+
+                results.innerHTML = html;
+            } catch (error) {
+                results.innerHTML = `<div class="result-item" style="border-left-color: var(--danger);">Error: ${error.message}</div>`;
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        async function generateTweets() {
+            const topic = document.getElementById('tweet-topic').value.trim();
+            const count = parseInt(document.getElementById('tweet-count').value) || 5;
+
+            const loading = document.getElementById('tweets-loading');
+            const results = document.getElementById('tweets-results');
+
+            loading.classList.add('active');
+            results.innerHTML = '';
+
+            try {
+                const response = await fetch(`${API_BASE}/api/tweets`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ topic: topic || null, count })
+                });
+
+                const data = await response.json();
+
+                let html = `<h3 style="margin-bottom: 1rem;">Topic: ${data.topic}</h3>`;
+
+                data.tweets.forEach((tweet, i) => {
+                    html += `
+                        <div class="result-item">
+                            <span class="mode-badge" style="background: rgba(139, 92, 246, 0.2); color: var(--primary);">#${i + 1}</span>
+                            <p class="reply-text">${tweet.text}</p>
+                            <p class="char-count">${tweet.char_count} characters</p>
+                            <button class="copy-btn" onclick="copyToClipboard('${tweet.text.replace(/'/g, "\\'")}')">📋 Copy</button>
+                        </div>
+                    `;
+                });
+
+                results.innerHTML = html;
+            } catch (error) {
+                results.innerHTML = `<div class="result-item" style="border-left-color: var(--danger);">Error: ${error.message}</div>`;
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        async function generateThread() {
+            const topic = document.getElementById('thread-topic').value.trim();
+            if (!topic) {
+                alert('Please enter a topic for your thread!');
+                return;
+            }
+
+            const length = parseInt(document.getElementById('thread-length').value) || 5;
+            const thesis = document.getElementById('thread-thesis').value.trim();
+
+            const loading = document.getElementById('thread-loading');
+            const results = document.getElementById('thread-results');
+
+            loading.classList.add('active');
+            results.innerHTML = '';
+
+            try {
+                const response = await fetch(`${API_BASE}/api/thread`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ topic, length, thesis: thesis || null })
+                });
+
+                const data = await response.json();
+
+                let html = `<h3 style="margin-bottom: 1rem;">🧵 Thread: ${data.topic}</h3>`;
+
+                const roleColors = {
+                    'HOOK': 'var(--secondary)',
+                    'BODY': 'var(--primary)',
+                    'CLOSER': 'var(--accent)'
+                };
+
+                data.tweets.forEach((tweet, i) => {
+                    const role = tweet.role || 'BODY';
+                    html += `
+                        <div class="result-item" style="border-left-color: ${roleColors[role]};">
+                            <span class="mode-badge" style="background: ${roleColors[role]}22; color: ${roleColors[role]};">${i + 1}. ${role}</span>
+                            <p class="reply-text">${tweet.text}</p>
+                            <p class="char-count">${tweet.char_count} characters</p>
+                            <button class="copy-btn" onclick="copyToClipboard('${tweet.text.replace(/'/g, "\\'")}')">📋 Copy</button>
+                        </div>
+                    `;
+                });
+
+                results.innerHTML = html;
+            } catch (error) {
+                results.innerHTML = `<div class="result-item" style="border-left-color: var(--danger);">Error: ${error.message}</div>`;
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const original = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => btn.textContent = original, 2000);
+            });
+        }
+
+        // Check API health on load
+        fetch(`${API_BASE}/health`)
+            .then(r => r.json())
+            .then(data => console.log('API Status:', data))
+            .catch(e => console.error('API Error:', e));
+    </script>
+</body>
+</html>

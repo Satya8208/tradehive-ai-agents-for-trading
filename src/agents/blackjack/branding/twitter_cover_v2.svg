@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 500" width="1500" height="500">
+  <defs>
+    <linearGradient id="fadeGold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#d4af37;stop-opacity:0"/>
+      <stop offset="50%" style="stop-color:#d4af37;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#d4af37;stop-opacity:0"/>
+    </linearGradient>
+    <linearGradient id="feltGreen" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1a0f"/>
+      <stop offset="100%" style="stop-color:#050505"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background - subtle felt -->
+  <rect width="1500" height="500" fill="url(#feltGreen)"/>
+
+  <!-- Card fan silhouettes on left -->
+  <g transform="translate(180, 250)" opacity="0.06">
+    <rect x="-60" y="-120" width="120" height="170" rx="8" fill="#d4af37" transform="rotate(-15)"/>
+    <rect x="-60" y="-120" width="120" height="170" rx="8" fill="#d4af37" transform="rotate(0)"/>
+    <rect x="-60" y="-120" width="120" height="170" rx="8" fill="#d4af37" transform="rotate(15)"/>
+  </g>
+
+  <!-- Card fan silhouettes on right -->
+  <g transform="translate(1320, 250)" opacity="0.06">
+    <rect x="-60" y="-120" width="120" height="170" rx="8" fill="#d4af37" transform="rotate(-15)"/>
+    <rect x="-60" y="-120" width="120" height="170" rx="8" fill="#d4af37" transform="rotate(0)"/>
+    <rect x="-60" y="-120" width="120" height="170" rx="8" fill="#d4af37" transform="rotate(15)"/>
+  </g>
+
+  <!-- Center content -->
+  <g transform="translate(750, 250)">
+    <!-- Top decorative line -->
+    <rect x="-200" y="-120" width="400" height="1" fill="url(#fadeGold)"/>
+
+    <!-- Main A with spade -->
+    <text x="0" y="30"
+          font-family="Cinzel, Georgia, serif"
+          font-size="180"
+          font-weight="900"
+          fill="#d4af37"
+          text-anchor="middle"
+          style="filter: drop-shadow(0 0 60px rgba(212,175,55,0.25))">A</text>
+
+    <!-- Small spade above A -->
+    <g transform="translate(0, -85)">
+      <path d="M0 -18 C0 -18 -18 0 -18 12 C-18 22 -10 26 -4 23 C-7 30 -11 35 -11 35 L11 35 C11 35 7 30 4 23 C10 26 18 22 18 12 C18 0 0 -18 0 -18 Z"
+            fill="#f5f0e1"/>
+    </g>
+
+    <!-- Bottom decorative line -->
+    <rect x="-200" y="70" width="400" height="1" fill="url(#fadeGold)"/>
+
+    <!-- Tagline -->
+    <text x="0" y="115"
+          font-family="Cinzel, Georgia, serif"
+          font-size="22"
+          font-weight="400"
+          letter-spacing="0.5em"
+          fill="#8a8070"
+          text-anchor="middle">BLACKJACK GOD</text>
+  </g>
+</svg>

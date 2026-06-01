@@ -1,0 +1,39 @@
+{
+  "session_id": "20251231_215659",
+  "type": "live_advisor",
+  "start_time": "2025-12-31T21:56:59.543174",
+  "end_time": "2025-12-31T21:56:59.555657",
+  "duration_minutes": 0.00020809173583984374,
+  "stats": {
+    "hands": 3,
+    "wins": 2,
+    "profit": 48.5,
+    "win_rate": 66.66666666666666
+  },
+  "hand_history": [
+    {
+      "hole_cards": "A\u2665 K\u2665",
+      "board": "",
+      "position": 7,
+      "won": true,
+      "amount": 15.5,
+      "timestamp": "2025-12-31T21:56:59.555517"
+    },
+    {
+      "hole_cards": "7\u2663 2\u2666",
+      "board": "",
+      "position": "",
+      "won": false,
+      "amount": 2.0,
+      "timestamp": "2025-12-31T21:56:59.555608"
+    },
+    {
+      "hole_cards": "Q\u2665 Q\u2666",
+      "board": "",
+      "position": 6,
+      "won": true,
+      "amount": 35.0,
+      "timestamp": "2025-12-31T21:56:59.555626"
+    }
+  ]
+}

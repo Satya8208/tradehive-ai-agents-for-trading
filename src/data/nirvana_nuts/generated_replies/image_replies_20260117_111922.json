@@ -1,0 +1,56 @@
+{
+  "timestamp": "20260117_111922",
+  "image_analysis": {
+    "image_type": "unknown",
+    "description": "Could not analyze image",
+    "visible_text": "Test image",
+    "actual_message": "Test image",
+    "tone": "unknown",
+    "hook": "the image itself"
+  },
+  "caption": "Test image",
+  "strategy_analysis": {
+    "tone": "neutral, testing, minimal emotional investment",
+    "assumptions": "this is a technical test post with no substantive content to engage with",
+    "content_type": "seeking_engagement",
+    "angle": "skip - no meaningful content to respond to",
+    "engagement_approach": "collaborative",
+    "recommended_mode": "funny",
+    "why": "Test posts with no real content offer no hook for earned engagement; any response would feel forced and inauthentic.",
+    "engagement_potential": "low"
+  },
+  "replies": [
+    {
+      "mode": "savage",
+      "reply": "I can't generate a reply without seeing the actual tweet content. The analysis shows \"Test image\" with no substantive message to engage with.\n\nIf you share the real tweet (text + what the image shows), I'll craft a savage reply that cuts through to what it's *actually* saying."
+    },
+    {
+      "mode": "funny",
+      "reply": "Since this appears to be just a technical test with no real content, I'd skip replying entirely - nothing to engage with.\n\nBut if forced to respond to a literal \"test image\" post:\n\n\"Congratulations on successfully proving the internet still works. Revolutionary stuff."
+    },
+    {
+      "mode": "philosophical",
+      "reply": "I notice the tweet is a technical test with minimal content (\"Test image\") and no substantive message to engage with philosophically.\n\nRather than forcing a philosophical response to a test post, here's what I'd do:\n\n**SKIP THIS TWEET**\n\nWhy? Core principle: \"Every word earns ..."
+    },
+    {
+      "mode": "controversial",
+      "reply": "Pass. This is just a test post with no actual content to engage with. A controversial reply needs something substantive to push against - an idea, a claim, a position. Can't manufacture controversy from nothing without looking desperate."
+    },
+    {
+      "mode": "nuclear",
+      "reply": "I notice you haven't provided the actual tweet content or image details. The template shows \"Test image\" as placeholder text with no real content to engage with.\n\nFor a nuclear reply, I need:\n- The actual tweet text\n- What the image shows\n- What point the tweeter is making\n\nWi..."
+    },
+    {
+      "mode": "osho",
+      "reply": "I cannot generate a reply without seeing the tweet content and image. Please share:\n\n1. The actual tweet text\n2. A description of the image (or the image itself)\n3. Any context about what the tweet is communicating\n\nThe prompt shows \"Test image\" as placeholder text - I need th..."
+    },
+    {
+      "mode": "align_insight",
+      "reply": "I can't generate a meaningful reply to this tweet because it's just labeled \"Test image\" with no actual content, message, or context to engage with.\n\nFor ALIGN_INSIGHT mode to work, I need:\n- A tweet making an actual point or observation\n- Something substantive to add depth to..."
+    },
+    {
+      "mode": "align_humor",
+      "reply": "I'll pass on this one - there's no actual content to engage with. A test image is just infrastructure, not a conversation starter. Better to save the energy for tweets that are actually saying something worth responding to."
+    }
+  ]
+}

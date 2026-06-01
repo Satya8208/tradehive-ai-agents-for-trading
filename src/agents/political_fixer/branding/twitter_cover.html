@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Political Fixer — Twitter Cover Photo (1500x500)</title>
+    <style>
+        body {
+            margin: 0;
+            background: #2a2520;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Courier New', monospace;
+        }
+        .canvas-label {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+            letter-spacing: 0.15em;
+            font-family: monospace;
+        }
+        .canvas-instructions {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.3);
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas-label">THE POLITICAL FIXER — COVER PHOTO — 1500×500</div>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="1500" height="500" viewBox="0 0 1500 500">
+        <defs>
+            <!-- Aged paper background -->
+            <linearGradient id="paperBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#f5f0e8"/>
+                <stop offset="30%" stop-color="#ede6da"/>
+                <stop offset="70%" stop-color="#e8e0d0"/>
+                <stop offset="100%" stop-color="#e0d8c8"/>
+            </linearGradient>
+
+            <!-- Paper grain noise -->
+            <filter id="paperGrain" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="5" stitchTiles="stitch" result="noise"/>
+                <feColorMatrix type="saturate" values="0" in="noise" result="grey"/>
+                <feBlend in="SourceGraphic" in2="grey" mode="multiply" result="blend"/>
+                <feComponentTransfer in="blend">
+                    <feFuncA type="linear" slope="1"/>
+                </feComponentTransfer>
+            </filter>
+
+            <!-- Heavier noise for overlay -->
+            <filter id="heavyGrain" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="4" stitchTiles="stitch" result="noise"/>
+                <feColorMatrix type="saturate" values="0" in="noise" result="grey"/>
+                <feBlend in="SourceGraphic" in2="grey" mode="overlay"/>
+            </filter>
+
+            <!-- Vignette -->
+            <radialGradient id="vignette" cx="50%" cy="50%" r="60%">
+                <stop offset="50%" stop-color="black" stop-opacity="0"/>
+                <stop offset="100%" stop-color="black" stop-opacity="0.12"/>
+            </radialGradient>
+
+            <!-- Edge ageing -->
+            <linearGradient id="topFade" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#c4b8a0" stop-opacity="0.15"/>
+                <stop offset="10%" stop-color="#c4b8a0" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="bottomFade" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="90%" stop-color="#c4b8a0" stop-opacity="0"/>
+                <stop offset="100%" stop-color="#c4b8a0" stop-opacity="0.15"/>
+            </linearGradient>
+
+            <!-- Stamp color -->
+            <linearGradient id="stampRed" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#8b0000"/>
+                <stop offset="100%" stop-color="#6b0000"/>
+            </linearGradient>
+        </defs>
+
+        <!-- Paper background -->
+        <rect width="1500" height="500" fill="url(#paperBg)"/>
+
+        <!-- Fold/crease lines -->
+        <line x1="500" y1="0" x2="500" y2="500" stroke="#c4b8a0" stroke-width="0.8" opacity="0.2"/>
+        <line x1="1000" y1="0" x2="1000" y2="500" stroke="#c4b8a0" stroke-width="0.8" opacity="0.15"/>
+        <line x1="0" y1="250" x2="1500" y2="250" stroke="#c4b8a0" stroke-width="0.5" opacity="0.1"/>
+
+        <!-- Typed text lines - redacted content blocks across the banner -->
+        <!-- Row 1 - top area -->
+        <g font-family="'Courier New', monospace" font-size="13" fill="#666666" opacity="0.35">
+            <text x="80" y="60">MEMORANDUM — INTERNAL USE ONLY — DO NOT DISTRIBUTE</text>
+            <text x="80" y="82">RE: Operation ████████ — Phase III Implementation</text>
+            <text x="80" y="104">DATE: ██/██/████     CLEARANCE: ████████</text>
+            <text x="80" y="126">FROM: ████████████     TO: ████████████</text>
+        </g>
+
+        <!-- Redaction bars over typed text -->
+        <g fill="#1a1a1a" opacity="0.85">
+            <!-- Row 1 redactions -->
+            <rect x="295" y="68" width="140" height="15" rx="1"/>
+            <rect x="156" y="90" width="95" height="15" rx="1"/>
+            <rect x="400" y="90" width="180" height="15" rx="1"/>
+            <rect x="156" y="112" width="115" height="15" rx="1"/>
+            <rect x="197" y="112" width="85" height="15" rx="1"/>
+        </g>
+
+        <!-- More typed lines - left side, below header -->
+        <g font-family="'Courier New', monospace" font-size="12" fill="#666666" opacity="0.25">
+            <text x="80" y="170">1. Subject was observed at ████████ on ██/██/██</text>
+            <text x="80" y="190">   in contact with known operative ████████████</text>
+            <text x="80" y="210">2. Financial transfers totaling ███████ were</text>
+            <text x="80" y="230">   routed through ████████ holdings via ██████</text>
+        </g>
+
+        <!-- Redaction bars for left content -->
+        <g fill="#1a1a1a" opacity="0.75">
+            <rect x="336" y="157" width="105" height="13" rx="1"/>
+            <rect x="480" y="157" width="82" height="13" rx="1"/>
+            <rect x="330" y="177" width="130" height="13" rx="1"/>
+            <rect x="368" y="197" width="85" height="13" rx="1"/>
+            <rect x="236" y="217" width="110" height="13" rx="1"/>
+            <rect x="393" y="217" width="70" height="13" rx="1"/>
+        </g>
+
+        <!-- Right side typed content -->
+        <g font-family="'Courier New', monospace" font-size="12" fill="#666666" opacity="0.25">
+            <text x="1020" y="60">ASSET STATUS: ██████████</text>
+            <text x="1020" y="82">HANDLER: ██████████████</text>
+            <text x="1020" y="104">RISK ASSESSMENT: ██████</text>
+            <text x="1020" y="148">NOTES:</text>
+            <text x="1020" y="168">██████████████████████</text>
+            <text x="1020" y="188">██████████████████████</text>
+            <text x="1020" y="208">████████████████</text>
+        </g>
+
+        <!-- Right side redaction bars -->
+        <g fill="#1a1a1a" opacity="0.75">
+            <rect x="1165" y="47" width="120" height="13" rx="1"/>
+            <rect x="1106" y="69" width="155" height="13" rx="1"/>
+            <rect x="1186" y="91" width="80" height="13" rx="1"/>
+            <rect x="1020" y="155" width="240" height="13" rx="1"/>
+            <rect x="1020" y="175" width="240" height="13" rx="1"/>
+            <rect x="1020" y="195" width="175" height="13" rx="1"/>
+        </g>
+
+        <!-- THE PROMINENT UNREDACTED LINE — center of banner -->
+        <text x="750" y="300" text-anchor="middle" font-family="'Courier New', monospace" font-size="26" font-weight="bold" fill="#1a1a1a" letter-spacing="0.04em" opacity="0.9">"I don't have a side. I have a method."</text>
+
+        <!-- Thin line above and below the quote -->
+        <line x1="380" y1="268" x2="1120" y2="268" stroke="#1a1a1a" stroke-width="0.5" opacity="0.15"/>
+        <line x1="380" y1="318" x2="1120" y2="318" stroke="#1a1a1a" stroke-width="0.5" opacity="0.15"/>
+
+        <!-- More redacted content below the quote -->
+        <g font-family="'Courier New', monospace" font-size="12" fill="#666666" opacity="0.2">
+            <text x="80" y="370">CONCLUSION: ████████████████████████████████</text>
+            <text x="80" y="390">RECOMMENDED ACTION: ██████████████████████</text>
+            <text x="80" y="410">NEXT REVIEW: ██/██/████</text>
+        </g>
+
+        <!-- Bottom redaction bars -->
+        <g fill="#1a1a1a" opacity="0.65">
+            <rect x="195" y="357" width="340" height="13" rx="1"/>
+            <rect x="261" y="377" width="280" height="13" rx="1"/>
+            <rect x="201" y="397" width="100" height="13" rx="1"/>
+        </g>
+
+        <!-- Case file number - bottom right corner -->
+        <text x="1370" y="460" font-family="'Courier New', monospace" font-size="14" fill="#666666" opacity="0.25" letter-spacing="0.1em">CASE FILE #0001</text>
+
+        <!-- Page number -->
+        <text x="750" y="475" text-anchor="middle" font-family="'Courier New', monospace" font-size="11" fill="#666666" opacity="0.15">— PAGE 1 OF ██ —</text>
+
+        <!-- DECLASSIFIED stamp - slight angle, faded -->
+        <g transform="translate(1200, 380) rotate(-8)" opacity="0.1">
+            <rect x="-110" y="-25" width="220" height="50" rx="5" fill="none" stroke="#8b0000" stroke-width="3.5"/>
+            <text x="0" y="12" text-anchor="middle" font-family="'Courier New', monospace" font-size="30" font-weight="bold" fill="#8b0000" letter-spacing="0.12em">DECLASSIFIED</text>
+        </g>
+
+        <!-- Additional faint stamp fragment - top right area -->
+        <g transform="translate(1280, 100) rotate(5)" opacity="0.06">
+            <rect x="-70" y="-16" width="140" height="32" rx="3" fill="none" stroke="#8b0000" stroke-width="2.5"/>
+            <text x="0" y="7" text-anchor="middle" font-family="'Courier New', monospace" font-size="18" font-weight="bold" fill="#8b0000" letter-spacing="0.1em">TOP SECRET</text>
+        </g>
+
+        <!-- Edge aging effects -->
+        <rect width="1500" height="500" fill="url(#topFade)"/>
+        <rect width="1500" height="500" fill="url(#bottomFade)"/>
+
+        <!-- Paper grain overlay -->
+        <rect width="1500" height="500" fill="url(#paperBg)" filter="url(#heavyGrain)" opacity="0.06"/>
+        <rect width="1500" height="500" filter="url(#paperGrain)" opacity="0.04"/>
+
+        <!-- Vignette -->
+        <rect width="1500" height="500" fill="url(#vignette)"/>
+    </svg>
+
+    <div class="canvas-instructions">Right-click → Save Image As... or screenshot at 1500×500</div>
+</body>
+</html>

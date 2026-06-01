@@ -1,0 +1,5 @@
+# Thread Material from sample_discourse
+# Generated: 2026-02-01T00:14:12.523975
+# Format: Each section is a potential thread (break into tweets manually)
+================================================================================
+

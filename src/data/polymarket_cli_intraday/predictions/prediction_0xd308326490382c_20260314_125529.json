@@ -1,0 +1,41 @@
+{
+  "market_id": "0xd308326490382c8227d303968d7774101c535f21d85e532aaf10b868c124615d",
+  "timestamp": "2026-03-14T12:55:29.399037",
+  "consensus_prediction": "YES",
+  "consensus_probability": 0.45,
+  "consensus_confidence": 0.7000000000000001,
+  "yes_votes": 3,
+  "no_votes": 0,
+  "agreement_ratio": 1.0,
+  "predictions": [
+    {
+      "model_provider": "openrouter",
+      "model_name": "anthropic/claude-sonnet-4",
+      "prediction": "YES",
+      "probability_estimate": 0.85,
+      "confidence": 0.9,
+      "reasoning": "ETH is currently at ~$2,100, which is exactly at the lower bound of the target range ($2,100-$2,200). With only 3.1 hours remaining, the price needs minimal movement to stay within this range, making ",
+      "response_time": 3.2224197387695312
+    },
+    {
+      "model_provider": "deepseek",
+      "model_name": "deepseek-chat",
+      "prediction": "YES",
+      "probability_estimate": 0.15,
+      "confidence": 0.6,
+      "reasoning": "ETH is exactly at the lower bound of $2,100 with 3 hours remaining, giving some chance it stays within the range, but market is pricing only 5.5% probability which seems too low given current price po",
+      "response_time": 5.261371374130249
+    },
+    {
+      "model_provider": "openrouter",
+      "model_name": "x-ai/grok-4-fast",
+      "prediction": "YES",
+      "probability_estimate": 0.15,
+      "confidence": 0.6,
+      "reasoning": "ETH is currently at $2,100, exactly at the lower bound of the range, with only 3.1 hours left until resolution. The short timeframe limits significant volatility, making it probable that the price sta",
+      "response_time": 5.2614171504974365
+    }
+  ],
+  "market_question": "Will the price of Ethereum be between $2,100 and $2,200 on March 14?",
+  "market_symbol": "ETH"
+}

@@ -1,0 +1,70 @@
+{
+  "mission": "Measure and improve Polymarket ETH/BTC edge with honest replay, live inventory awareness, and risk-first deployment gates.",
+  "active_thesis": "ETH-first, short-horizon markets are the only measured positive lane today; BTC expansion must earn its way back in.",
+  "roles": [
+    {
+      "role_id": "universe_scout",
+      "title": "Universe Scout",
+      "mandate": "Own ETH/BTC market discovery, symbol hygiene, and expiry/volume policy so the bot scans the markets that actually exist.",
+      "primary_metrics": [
+        "strict_tradeable_markets",
+        "broad_tradeable_markets",
+        "low_volume_24h_exclusions"
+      ],
+      "deliverable": "A daily inventory snapshot with tradeable counts, filter failures, and search-surface drift notes."
+    },
+    {
+      "role_id": "swarm_calibration_lead",
+      "title": "Swarm Calibration Lead",
+      "mandate": "Own model availability, prompt calibration, abstain behavior, and price-anchored probability estimates.",
+      "primary_metrics": [
+        "successful_model_count",
+        "abstain_rate",
+        "consensus_accuracy",
+        "brier_score"
+      ],
+      "deliverable": "A calibration brief showing when the swarm should trade, abstain, or fail fast."
+    },
+    {
+      "role_id": "structural_arb_researcher",
+      "title": "Structural Arb Researcher",
+      "mandate": "Focus only on clean complementary, ladder, and range coherence edges instead of broad low-quality arbitrage.",
+      "primary_metrics": [
+        "arb_holdout_score",
+        "arb_win_rate",
+        "arb_total_pnl"
+      ],
+      "deliverable": "A ranked set of structural arbitrage setups with replay evidence and rejection criteria."
+    },
+    {
+      "role_id": "replay_guardian",
+      "title": "Replay Guardian",
+      "mandate": "Own the truthful measurement stack so parameter changes only ship when holdout and trade-count gates pass.",
+      "primary_metrics": [
+        "replay_accepted",
+        "holdout_score",
+        "filtered_trades",
+        "generalization_gap"
+      ],
+      "deliverable": "A go or no-go verdict for every proposed alpha change."
+    },
+    {
+      "role_id": "execution_risk_lead",
+      "title": "Execution Risk Lead",
+      "mandate": "Translate measured edge into attended deployment rules, bankroll sizing, and kill-switch thresholds.",
+      "primary_metrics": [
+        "max_drawdown",
+        "profit_factor",
+        "daily_loss_limit",
+        "stale_order_halts"
+      ],
+      "deliverable": "The attended micro-cap deployment checklist and escalation rules."
+    }
+  ],
+  "workstreams": [
+    "Preserve and verify ETH-only edge before broadening symbol coverage.",
+    "Split market-universe policy between short-horizon ETH up/down inventory and longer-dated ladder/range inventory.",
+    "Keep arbitrage strict and structural; do not rely on weak generic price discrepancies.",
+    "Use replay holdout and trade-count gates as the acceptance bar for every change."
+  ]
+}

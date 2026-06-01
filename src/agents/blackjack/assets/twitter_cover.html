@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack God - Twitter Cover</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1a1a1a;
+            padding: 2rem;
+            font-family: system-ui, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .label {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .instructions {
+            color: #888;
+            font-size: 14px;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="label">Cover Photo (1500x500) - Right click → Save as PNG</div>
+        <svg width="1500" height="500" viewBox="0 0 1500 500" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <!-- Gold gradients -->
+                <linearGradient id="goldShine" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#f4d03f"/>
+                    <stop offset="25%" style="stop-color:#d4af37"/>
+                    <stop offset="50%" style="stop-color:#c9a227"/>
+                    <stop offset="75%" style="stop-color:#d4af37"/>
+                    <stop offset="100%" style="stop-color:#f4d03f"/>
+                </linearGradient>
+
+                <linearGradient id="goldText" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#fff8dc"/>
+                    <stop offset="20%" style="stop-color:#f4d03f"/>
+                    <stop offset="50%" style="stop-color:#d4af37"/>
+                    <stop offset="80%" style="stop-color:#b8941f"/>
+                    <stop offset="100%" style="stop-color:#8b7016"/>
+                </linearGradient>
+
+                <linearGradient id="darkFade" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#0a0a0a"/>
+                    <stop offset="30%" style="stop-color:#0f0f0f"/>
+                    <stop offset="70%" style="stop-color:#0f0f0f"/>
+                    <stop offset="100%" style="stop-color:#0a0a0a"/>
+                </linearGradient>
+
+                <!-- Glow filters -->
+                <filter id="goldGlow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                    <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+
+                <filter id="textGlow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                    <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+
+                <filter id="bigGlow" x="-100%" y="-100%" width="300%" height="300%">
+                    <feGaussianBlur stdDeviation="30" result="coloredBlur"/>
+                    <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+
+                <!-- Noise texture -->
+                <filter id="noise">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4"/>
+                    <feColorMatrix type="saturate" values="0"/>
+                    <feBlend in="SourceGraphic" mode="overlay"/>
+                    <feComponentTransfer>
+                        <feFuncA type="linear" slope="0.05"/>
+                    </feComponentTransfer>
+                </filter>
+
+                <!-- Spade symbol -->
+                <symbol id="spade" viewBox="0 0 100 120">
+                    <path d="
+                        M 50 5
+                        C 50 5, 95 40, 95 70
+                        C 95 90, 75 100, 50 80
+                        C 25 100, 5 90, 5 70
+                        C 5 40, 50 5, 50 5
+                        Z
+                    "/>
+                    <path d="
+                        M 40 78
+                        L 40 110
+                        C 40 115, 35 118, 30 118
+                        L 70 118
+                        C 65 118, 60 115, 60 110
+                        L 60 78
+                        C 55 85, 45 85, 40 78
+                        Z
+                    "/>
+                </symbol>
+
+                <!-- Heart symbol -->
+                <symbol id="heart" viewBox="0 0 100 100">
+                    <path d="
+                        M 50 90
+                        C 20 60, 5 40, 5 25
+                        C 5 10, 20 5, 35 5
+                        C 45 5, 50 15, 50 15
+                        C 50 15, 55 5, 65 5
+                        C 80 5, 95 10, 95 25
+                        C 95 40, 80 60, 50 90
+                        Z
+                    "/>
+                </symbol>
+
+                <!-- Diamond symbol -->
+                <symbol id="diamond" viewBox="0 0 80 100">
+                    <path d="
+                        M 40 5
+                        L 75 50
+                        L 40 95
+                        L 5 50
+                        Z
+                    "/>
+                </symbol>
+
+                <!-- Club symbol -->
+                <symbol id="club" viewBox="0 0 100 120">
+                    <circle cx="50" cy="35" r="22"/>
+                    <circle cx="28" cy="60" r="22"/>
+                    <circle cx="72" cy="60" r="22"/>
+                    <path d="
+                        M 40 70
+                        L 40 110
+                        C 40 115, 35 118, 30 118
+                        L 70 118
+                        C 65 118, 60 115, 60 110
+                        L 60 70
+                        C 55 75, 45 75, 40 70
+                        Z
+                    "/>
+                </symbol>
+            </defs>
+
+            <!-- Base background -->
+            <rect width="1500" height="500" fill="#0a0a0a"/>
+
+            <!-- Subtle gradient overlay -->
+            <rect width="1500" height="500" fill="url(#darkFade)"/>
+
+            <!-- Ambient glow in center -->
+            <ellipse cx="750" cy="250" rx="400" ry="200" fill="#d4af37" opacity="0.03" filter="url(#bigGlow)"/>
+
+            <!-- Decorative lines -->
+            <line x1="100" y1="250" x2="500" y2="250" stroke="url(#goldShine)" stroke-width="0.5" opacity="0.3"/>
+            <line x1="1000" y1="250" x2="1400" y2="250" stroke="url(#goldShine)" stroke-width="0.5" opacity="0.3"/>
+
+            <!-- Left side decorative elements -->
+            <g opacity="0.08">
+                <use href="#spade" x="50" y="50" width="60" height="72" fill="#d4af37"/>
+                <use href="#heart" x="80" y="320" width="50" height="62" fill="#d4af37"/>
+                <use href="#diamond" x="180" y="120" width="40" height="50" fill="#d4af37"/>
+                <use href="#club" x="140" y="380" width="45" height="54" fill="#d4af37"/>
+            </g>
+
+            <!-- Right side decorative elements -->
+            <g opacity="0.08">
+                <use href="#spade" x="1380" y="60" width="55" height="66" fill="#d4af37"/>
+                <use href="#heart" x="1320" y="350" width="45" height="56" fill="#d4af37"/>
+                <use href="#diamond" x="1280" y="140" width="35" height="44" fill="#d4af37"/>
+                <use href="#club" x="1350" y="400" width="40" height="48" fill="#d4af37"/>
+            </g>
+
+            <!-- Scattered card symbols in background -->
+            <g opacity="0.04">
+                <use href="#spade" x="250" y="80" width="35" height="42" fill="#d4af37"/>
+                <use href="#spade" x="400" y="400" width="30" height="36" fill="#d4af37"/>
+                <use href="#heart" x="350" y="180" width="25" height="31" fill="#d4af37"/>
+                <use href="#diamond" x="1100" y="90" width="28" height="35" fill="#d4af37"/>
+                <use href="#club" x="1200" y="380" width="32" height="38" fill="#d4af37"/>
+                <use href="#spade" x="1150" y="200" width="25" height="30" fill="#d4af37"/>
+            </g>
+
+            <!-- Main spade on left -->
+            <g filter="url(#goldGlow)" opacity="0.25">
+                <use href="#spade" x="280" y="160" width="120" height="144" fill="url(#goldShine)"/>
+            </g>
+
+            <!-- Main spade on right -->
+            <g filter="url(#goldGlow)" opacity="0.25">
+                <use href="#spade" x="1100" y="160" width="120" height="144" fill="url(#goldShine)"/>
+            </g>
+
+            <!-- Center content group -->
+            <g>
+                <!-- Main title: BLACKJACK GOD -->
+                <text x="750" y="215"
+                      font-family="Cinzel, serif"
+                      font-size="82"
+                      font-weight="700"
+                      fill="url(#goldText)"
+                      text-anchor="middle"
+                      letter-spacing="18"
+                      filter="url(#textGlow)">
+                    BLACKJACK GOD
+                </text>
+
+                <!-- Decorative line under title -->
+                <g filter="url(#goldGlow)">
+                    <line x1="480" y1="245" x2="580" y2="245" stroke="url(#goldShine)" stroke-width="1"/>
+                    <use href="#spade" x="720" y="230" width="24" height="29" fill="url(#goldShine)"/>
+                    <line x1="920" y1="245" x2="1020" y2="245" stroke="url(#goldShine)" stroke-width="1"/>
+                </g>
+
+                <!-- Tagline -->
+                <text x="750" y="310"
+                      font-family="Cormorant Garamond, serif"
+                      font-size="32"
+                      font-weight="400"
+                      fill="#d4af37"
+                      text-anchor="middle"
+                      letter-spacing="8"
+                      opacity="0.9">
+                    BEAT THE HOUSE. LEGALLY.
+                </text>
+
+                <!-- Subtle sub-tagline -->
+                <text x="750" y="360"
+                      font-family="Cormorant Garamond, serif"
+                      font-size="16"
+                      font-weight="300"
+                      fill="#d4af37"
+                      text-anchor="middle"
+                      letter-spacing="4"
+                      opacity="0.5">
+                    CARD COUNTING  ·  STRATEGY  ·  AI-POWERED PRACTICE
+                </text>
+            </g>
+
+            <!-- Corner accents -->
+            <g stroke="url(#goldShine)" stroke-width="1" fill="none" opacity="0.4">
+                <!-- Top left -->
+                <path d="M 30 30 L 30 70 M 30 30 L 70 30"/>
+                <path d="M 40 40 L 40 55 M 40 40 L 55 40" opacity="0.5"/>
+
+                <!-- Top right -->
+                <path d="M 1470 30 L 1470 70 M 1470 30 L 1430 30"/>
+                <path d="M 1460 40 L 1460 55 M 1460 40 L 1445 40" opacity="0.5"/>
+
+                <!-- Bottom left -->
+                <path d="M 30 470 L 30 430 M 30 470 L 70 470"/>
+                <path d="M 40 460 L 40 445 M 40 460 L 55 460" opacity="0.5"/>
+
+                <!-- Bottom right -->
+                <path d="M 1470 470 L 1470 430 M 1470 470 L 1430 470"/>
+                <path d="M 1460 460 L 1460 445 M 1460 460 L 1445 460" opacity="0.5"/>
+            </g>
+
+            <!-- Border frame -->
+            <rect x="15" y="15" width="1470" height="470" fill="none" stroke="url(#goldShine)" stroke-width="0.5" opacity="0.2"/>
+
+            <!-- Noise overlay for texture -->
+            <rect width="1500" height="500" filter="url(#noise)" opacity="0.3"/>
+        </svg>
+
+        <p class="instructions">Right-click the image and "Save image as..." or take a screenshot</p>
+    </div>
+</body>
+</html>

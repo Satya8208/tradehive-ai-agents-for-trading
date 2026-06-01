@@ -1,0 +1,43 @@
+{
+  "session_id": "20251231_215428",
+  "start_time": "2025-12-31T21:54:28.902906",
+  "end_time": "2025-12-31T21:54:28.914442",
+  "duration_minutes": 0.0001923044522603353,
+  "game_format": "cash",
+  "variant": "holdem",
+  "starting_stack": 100.0,
+  "stats": {
+    "hands_played": 3,
+    "hands_won": 2,
+    "total_profit": 38.0,
+    "vpip": 0,
+    "pfr": 0,
+    "three_bet": 0,
+    "showdowns": 0,
+    "showdown_wins": 0,
+    "biggest_pot_won": 25.0,
+    "biggest_pot_lost": 2.5,
+    "win_rate": 0.6666666666666666,
+    "bb_per_100": 1266.6666666666665
+  },
+  "hand_history": [
+    {
+      "hole_cards": "A\u2665 K\u2665",
+      "board": "",
+      "won": true,
+      "amount": 15.5
+    },
+    {
+      "hole_cards": "7\u2665 2\u2663",
+      "board": "",
+      "won": false,
+      "amount": 2.5
+    },
+    {
+      "hole_cards": "Q\u2665 Q\u2666",
+      "board": "",
+      "won": true,
+      "amount": 25.0
+    }
+  ]
+}

@@ -1,0 +1,3319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blackjack Pro Trainer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-dark: #060b06;
+  --bg-card: #0d1a0d;
+  --felt: #0d4d2b;
+  --felt-dark: #093820;
+  --gold: #d4af37;
+  --gold-light: #e8c547;
+  --gold-dim: #a08520;
+  --red: #c0392b;
+  --red-light: #e74c3c;
+  --black-suit: #1a1a1a;
+  --white: #f0f0f0;
+  --muted: #6b8068;
+  --success: #27ae60;
+  --success-light: #2ecc71;
+  --warning: #f39c12;
+  --border: rgba(212, 175, 55, 0.2);
+  --border-bright: rgba(212, 175, 55, 0.5);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-dark);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════ */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 260px;
+  background: linear-gradient(180deg, #0a1a0a 0%, #061006 100%);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0;
+  height: 100vh;
+  z-index: 100;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-logo {
+  padding: 28px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-logo h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+
+.sidebar-logo span {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 16px 12px;
+  overflow-y: auto;
+}
+
+.nav-section {
+  margin-bottom: 24px;
+}
+
+.nav-section-title {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 12px;
+  margin-bottom: 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.nav-item:hover {
+  background: rgba(212, 175, 55, 0.08);
+  color: var(--gold-light);
+}
+
+.nav-item.active {
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--gold);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.nav-item .icon {
+  font-size: 18px;
+  width: 24px;
+  text-align: center;
+}
+
+.nav-item .count {
+  margin-left: auto;
+  font-size: 10px;
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--gold);
+  padding: 2px 7px;
+  border-radius: 20px;
+}
+
+.sidebar-footer {
+  padding: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.system-selector {
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.system-selector label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.system-selector select {
+  width: 100%;
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--gold);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  flex: 1;
+  margin-left: 260px;
+  min-height: 100vh;
+  background: radial-gradient(ellipse at top, #0d1a0d 0%, #060b06 60%);
+}
+
+.page {
+  display: none;
+  padding: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+  animation: fadeIn 0.3s ease;
+}
+
+.page.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════
+   TYPOGRAPHY & COMMON
+═══════════════════════════════════════════ */
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 36px;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+  color: var(--bg-dark);
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(212, 175, 55, 0.4);
+}
+
+.btn-secondary {
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid var(--border-bright);
+  color: var(--gold);
+}
+
+.btn-secondary:hover {
+  background: rgba(212, 175, 55, 0.2);
+}
+
+.btn-danger {
+  background: rgba(231, 76, 60, 0.15);
+  border: 1px solid rgba(231, 76, 60, 0.3);
+  color: var(--red-light);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.05);
+  color: var(--white);
+}
+
+.btn-sm {
+  padding: 8px 16px;
+  font-size: 12px;
+}
+
+.btn-lg {
+  padding: 16px 36px;
+  font-size: 16px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+}
+
+.card-gold {
+  border-color: var(--border-bright);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, var(--bg-card) 100%);
+}
+
+/* ═══════════════════════════════════════════
+   HOME PAGE
+═══════════════════════════════════════════ */
+.home-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.readiness-card {
+  text-align: center;
+  padding: 40px;
+}
+
+.gauge-container {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  margin: 0 auto 24px;
+}
+
+.gauge-svg {
+  transform: rotate(-90deg);
+}
+
+.gauge-bg {
+  fill: none;
+  stroke: rgba(212, 175, 55, 0.1);
+  stroke-width: 12;
+}
+
+.gauge-fill {
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gauge-center {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.gauge-score {
+  font-family: 'Playfair Display', serif;
+  font-size: 56px;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.gauge-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.cert-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-top: 16px;
+}
+
+.cert-certified {
+  background: rgba(39, 174, 96, 0.15);
+  border: 1px solid rgba(39, 174, 96, 0.4);
+  color: var(--success-light);
+}
+
+.cert-near {
+  background: rgba(243, 156, 18, 0.15);
+  border: 1px solid rgba(243, 156, 18, 0.4);
+  color: var(--warning);
+}
+
+.cert-training {
+  background: rgba(192, 57, 43, 0.15);
+  border: 1px solid rgba(192, 57, 43, 0.4);
+  color: var(--red-light);
+}
+
+.cert-icon { font-size: 16px; }
+
+.quick-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.stat-box {
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.stat-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.stat-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+.home-drills-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.drill-preview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.drill-preview-item {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.drill-preview-item:hover {
+  border-color: var(--border-bright);
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.drill-preview-item .dri-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+
+.drill-preview-item .dri-score {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.drill-preview-item .dri-label {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.drill-preview-item .dri-accuracy {
+  font-size: 11px;
+  color: var(--success-light);
+  margin-top: 4px;
+}
+
+/* ═══════════════════════════════════════════
+   DRILL HUB
+═══════════════════════════════════════════ */
+.drill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.drill-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.drill-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.drill-card:hover {
+  border-color: var(--border-bright);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+
+.drill-card:hover::before {
+  opacity: 1;
+}
+
+.drill-card-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.drill-card-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.drill-card-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.drill-card-stats {
+  display: flex;
+  gap: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.drill-card-stat {
+  text-align: center;
+}
+
+.drill-card-stat .dcs-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.drill-card-stat .dcs-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.drill-card-play {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: var(--gold);
+  transition: all 0.2s;
+}
+
+.drill-card:hover .drill-card-play {
+  background: var(--gold);
+  color: var(--bg-dark);
+}
+
+/* ═══════════════════════════════════════════
+   DEVIATION DRILL
+═══════════════════════════════════════════ */
+.drill-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  padding: 20px 28px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.drill-progress {
+  flex: 1;
+  max-width: 400px;
+}
+
+.drill-progress-text {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.drill-progress-bar {
+  height: 6px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.drill-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.drill-score-display {
+  text-align: right;
+}
+
+.drill-score-display .dsd-score {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.drill-score-display .dsd-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.question-area {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.dealer-section {
+  text-align: center;
+}
+
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.dealer-upcard {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 140px;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  font-family: 'Playfair Display', serif;
+  font-size: 56px;
+  font-weight: 900;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.dealer-upcard.hearts, .dealer-upcard.diamonds {
+  color: var(--red-light);
+}
+
+.dealer-upcard.spades, .dealer-upcard.clubs {
+  color: var(--white);
+}
+
+.tc-display {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.tc-display .tc-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.tc-display .tc-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.hand-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-hand {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.playing-card {
+  width: 90px;
+  height: 130px;
+  background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+  position: relative;
+}
+
+.playing-card .card-rank {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.playing-card .card-suit {
+  font-size: 28px;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.playing-card.hearts, .playing-card.diamonds {
+  color: var(--red);
+}
+
+.playing-card.spades, .playing-card.clubs {
+  color: var(--black-suit);
+}
+
+.playing-card .card-corner {
+  position: absolute;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.playing-card .card-corner.top-left {
+  top: 6px; left: 8px;
+}
+
+.playing-card .card-corner.bottom-right {
+  bottom: 6px; right: 8px;
+  transform: rotate(180deg);
+}
+
+.hand-total-badge {
+  padding: 8px 24px;
+  background: rgba(39, 174, 96, 0.15);
+  border: 1px solid rgba(39, 174, 96, 0.3);
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--success-light);
+}
+
+.hand-total-badge.soft {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: rgba(212, 175, 55, 0.3);
+  color: var(--gold-light);
+}
+
+.hand-question {
+  margin-top: 16px;
+  font-size: 18px;
+  color: var(--white);
+  font-weight: 600;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+.action-btn {
+  min-width: 90px;
+  padding: 16px 28px;
+  border-radius: 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2px solid;
+  transition: all 0.15s;
+  background: transparent;
+}
+
+.action-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.action-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.action-btn.hit {
+  border-color: #3498db;
+  color: #3498db;
+}
+
+.action-btn.hit:hover:not(:disabled) {
+  background: rgba(52, 152, 219, 0.15);
+}
+
+.action-btn.stand {
+  border-color: var(--warning);
+  color: var(--warning);
+}
+
+.action-btn.stand:hover:not(:disabled) {
+  background: rgba(243, 156, 18, 0.15);
+}
+
+.action-btn.double {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.action-btn.double:hover:not(:disabled) {
+  background: rgba(39, 174, 96, 0.15);
+}
+
+.action-btn.split {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.action-btn.split:hover:not(:disabled) {
+  background: rgba(212, 175, 55, 0.15);
+}
+
+.action-btn.surrender {
+  border-color: var(--red);
+  color: var(--red-light);
+}
+
+.action-btn.surrender:hover:not(:disabled) {
+  background: rgba(231, 76, 60, 0.15);
+}
+
+.action-btn.yes {
+  border-color: var(--success-light);
+  color: var(--success-light);
+}
+
+.action-btn.no {
+  border-color: var(--red-light);
+  color: var(--red-light);
+}
+
+/* Insurance question special layout */
+.insurance-question {
+  text-align: center;
+  padding: 60px 40px;
+}
+
+.insurance-question .big-question {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.insurance-question .tc-subtitle {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+
+/* Feedback overlay */
+.feedback-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.feedback-overlay.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.feedback-overlay.correct {
+  background: rgba(39, 174, 96, 0.2);
+}
+
+.feedback-overlay.wrong {
+  background: rgba(231, 76, 60, 0.2);
+}
+
+.feedback-content {
+  text-align: center;
+  padding: 48px 64px;
+  background: var(--bg-card);
+  border-radius: 24px;
+  border: 2px solid;
+}
+
+.feedback-overlay.correct .feedback-content {
+  border-color: var(--success);
+}
+
+.feedback-overlay.wrong .feedback-content {
+  border-color: var(--red);
+}
+
+.feedback-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.feedback-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.feedback-overlay.correct .feedback-title {
+  color: var(--success-light);
+}
+
+.feedback-overlay.wrong .feedback-title {
+  color: var(--red-light);
+}
+
+.feedback-detail {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+/* Drill config */
+.drill-config {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 32px;
+  padding: 20px 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.drill-config label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-right: 8px;
+}
+
+.drill-config select, .drill-config input {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--white);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  padding: 8px 14px;
+}
+
+.drill-config select option {
+  background: var(--bg-dark);
+}
+
+/* ═══════════════════════════════════════════
+   SPEED COUNTING DRILL
+═══════════════════════════════════════════ */
+.counting-table {
+  background: linear-gradient(135deg, #0d4d2b 0%, #093820 50%, #0d4d2b 100%);
+  border: 3px solid var(--gold-dim);
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 32px;
+  position: relative;
+  box-shadow: inset 0 0 60px rgba(0,0,0,0.4);
+}
+
+.table-label {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--gold);
+  color: var(--bg-dark);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 16px;
+  border-radius: 20px;
+}
+
+.seats-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.seat {
+  text-align: center;
+}
+
+.seat-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.seat-cards {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+
+.seat-cards .mini-card {
+  width: 44px;
+  height: 62px;
+  background: white;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 900;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+
+.seat-cards .mini-card.red { color: var(--red); }
+.seat-cards .mini-card.black { color: var(--black-suit); }
+
+.dealer-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.dealer-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 2px;
+}
+
+.count-input-area {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.count-input-area label {
+  font-size: 14px;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 12px;
+}
+
+.count-input {
+  width: 200px;
+  padding: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 32px;
+  font-weight: 600;
+  text-align: center;
+  background: var(--bg-dark);
+  border: 2px solid var(--border-bright);
+  border-radius: 14px;
+  color: var(--gold);
+  outline: none;
+}
+
+.count-input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+}
+
+.speed-selector {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.speed-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  transition: all 0.2s;
+}
+
+.speed-btn:hover, .speed-btn.active {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* ═══════════════════════════════════════════
+   BET SIZING DRILL
+═══════════════════════════════════════════ */
+.bet-scenario {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.scenario-params {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 36px;
+}
+
+.scenario-param {
+  background: rgba(0,0,0,0.3);
+  border-radius: 14px;
+  padding: 24px;
+}
+
+.scenario-param .sp-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.scenario-param .sp-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.bet-input-area {
+  margin-bottom: 24px;
+}
+
+.bet-input {
+  width: 240px;
+  padding: 18px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 36px;
+  font-weight: 600;
+  text-align: center;
+  background: var(--bg-dark);
+  border: 2px solid var(--border-bright);
+  border-radius: 14px;
+  color: var(--gold);
+  outline: none;
+}
+
+.bet-input:focus {
+  border-color: var(--gold);
+}
+
+/* ═══════════════════════════════════════════
+   SESSION PLANNER
+═══════════════════════════════════════════ */
+.session-plan-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 32px;
+}
+
+.profile-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-option {
+  padding: 16px 20px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.profile-option:hover, .profile-option.selected {
+  border-color: var(--border-bright);
+  background: rgba(212, 175, 55, 0.05);
+}
+
+.profile-option .po-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.profile-option .po-desc {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.strategy-card {
+  border: 2px solid var(--gold-dim);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.sc-header {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 100%);
+  padding: 24px 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sc-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+
+.sc-header p {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.sc-body {
+  padding: 28px;
+}
+
+.sc-section {
+  margin-bottom: 24px;
+}
+
+.sc-section-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.sc-rules-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.sc-rule {
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+}
+
+.sc-rule .sr-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.sc-rule .sr-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.sc-params-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.sc-param {
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.sc-param .sp-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.sc-param .sp-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.no-optimization {
+  text-align: center;
+  padding: 40px;
+  color: var(--muted);
+}
+
+.no-optimization p {
+  margin-bottom: 12px;
+}
+
+.no-optimization code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  background: rgba(0,0,0,0.4);
+  padding: 4px 10px;
+  border-radius: 4px;
+  color: var(--gold);
+}
+
+/* ═══════════════════════════════════════════
+   POST-SESSION REVIEW
+═══════════════════════════════════════════ */
+.session-form {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.form-group input {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  color: var(--white);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  border-color: var(--gold);
+}
+
+.analysis-result {
+  margin-top: 32px;
+}
+
+.ar-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.ar-metric {
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+
+.ar-metric .arm-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+
+.ar-metric .arm-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.ar-metric .arm-value.positive { color: var(--success-light); }
+.ar-metric .arm-value.negative { color: var(--red-light); }
+
+.leaks-list, .strengths-list {
+  margin-bottom: 24px;
+}
+
+.leaks-list h4 { color: var(--red-light); margin-bottom: 12px; }
+.strengths-list h4 { color: var(--success-light); margin-bottom: 12px; }
+
+.leak-item, .strength-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 16px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.leak-item { border-left: 3px solid var(--red); }
+.strength-item { border-left: 3px solid var(--success); }
+
+/* ═══════════════════════════════════════════
+   PROGRESS PAGE
+═══════════════════════════════════════════ */
+.progress-header-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.cert-checklist {
+  margin-bottom: 32px;
+}
+
+.cert-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.cert-check-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.cert-check-icon.pass {
+  background: rgba(39, 174, 96, 0.2);
+  color: var(--success-light);
+}
+
+.cert-check-icon.fail {
+  background: rgba(231, 76, 60, 0.2);
+  color: var(--red-light);
+}
+
+.cert-item-info {
+  flex: 1;
+}
+
+.cert-item-info .cii-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 2px;
+}
+
+.cert-item-info .cii-detail {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.cert-item-stat {
+  text-align: right;
+}
+
+.cert-item-stat .cis-pct {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.cert-item-stat .cis-target {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.drill-history-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.drill-history-table th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.drill-history-table td {
+  padding: 14px 16px;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.drill-history-table tr:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+.pct-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.pct-badge.green {
+  background: rgba(39, 174, 96, 0.15);
+  color: var(--success-light);
+}
+
+.pct-badge.yellow {
+  background: rgba(243, 156, 18, 0.15);
+  color: var(--warning);
+}
+
+.pct-badge.red {
+  background: rgba(231, 76, 60, 0.15);
+  color: var(--red-light);
+}
+
+/* ═══════════════════════════════════════════
+   SETTINGS PAGE
+═══════════════════════════════════════════ */
+.settings-grid {
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.settings-group {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.settings-group-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.setting-row:last-child { border-bottom: none; }
+
+.setting-row label {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.setting-row select {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--gold);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════════
+   RESULTS SCREEN
+═══════════════════════════════════════════ */
+.results-screen {
+  text-align: center;
+  padding: 60px 40px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.results-score {
+  font-family: 'Playfair Display', serif;
+  font-size: 80px;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.results-score.green { color: var(--success-light); }
+.results-score.yellow { color: var(--warning); }
+.results-score.red { color: var(--red-light); }
+
+.results-label {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+
+.results-feedback {
+  font-size: 18px;
+  color: var(--white);
+  margin-bottom: 32px;
+  padding: 20px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+}
+
+.mistakes-review {
+  text-align: left;
+  margin-top: 24px;
+}
+
+.mistakes-review h4 {
+  color: var(--red-light);
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.mistake-item {
+  font-size: 12px;
+  color: var(--muted);
+  padding: 8px 12px;
+  background: rgba(231, 76, 60, 0.08);
+  border-radius: 6px;
+  margin-bottom: 6px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ═══════════════════════════════════════════
+   UTILITY
+═══════════════════════════════════════════ */
+.hidden { display: none !important; }
+
+.text-gold { color: var(--gold); }
+.text-muted { color: var(--muted); }
+.text-success { color: var(--success-light); }
+.text-danger { color: var(--red-light); }
+
+.mb-16 { margin-bottom: 16px; }
+.mb-24 { margin-bottom: 24px; }
+.mb-32 { margin-bottom: 32px; }
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* Mobile sidebar toggle */
+.mobile-nav-toggle {
+  display: none;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 200;
+  width: 44px;
+  height: 44px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--gold);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  .mobile-nav-toggle {
+    display: flex;
+  }
+
+  .home-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .question-area {
+    grid-template-columns: 1fr;
+  }
+
+  .session-plan-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .drill-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ar-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .progress-header-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Loading spinner */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(212, 175, 55, 0.1);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+</style>
+</head>
+<body>
+
+<!-- Mobile nav toggle -->
+<button class="mobile-nav-toggle" onclick="toggleSidebar()">☰</button>
+
+<div class="app-container">
+  <!-- ═══ SIDEBAR ═══ -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <h1>BLACKJACK<br>PRO TRAINER</h1>
+      <span>Real Casino Readiness</span>
+    </div>
+
+    <div class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-title">Overview</div>
+        <div class="nav-item active" data-page="home" onclick="showPage('home')">
+          <span class="icon">🏠</span> Home
+          <span class="count" id="readiness-mini">--</span>
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Training Drills</div>
+        <div class="nav-item" data-page="hub" onclick="showPage('hub')">
+          <span class="icon">🎯</span> Drill Hub
+        </div>
+        <div class="nav-item" data-page="deviation" onclick="showPage('deviation')">
+          <span class="icon">📍</span> Deviation Drill
+        </div>
+        <div class="nav-item" data-page="counting" onclick="showPage('counting')">
+          <span class="icon">🃏</span> Speed Counting
+        </div>
+        <div class="nav-item" data-page="betsizing" onclick="showPage('betsizing')">
+          <span class="icon">💰</span> Bet Sizing
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Planning</div>
+        <div class="nav-item" data-page="planner" onclick="showPage('planner')">
+          <span class="icon">📋</span> Session Planner
+        </div>
+        <div class="nav-item" data-page="review" onclick="showPage('review')">
+          <span class="icon">📊</span> Post-Session Review
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-title">Account</div>
+        <div class="nav-item" data-page="progress" onclick="showPage('progress')">
+          <span class="icon">📈</span> Progress & Stats
+        </div>
+        <div class="nav-item" data-page="settings" onclick="showPage('settings')">
+          <span class="icon">⚙️</span> Settings
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="system-selector">
+        <label>Counting System</label>
+        <select id="system-select" onchange="changeSystem(this.value)">
+          <option value="hi_lo">Hi-Lo</option>
+          <option value="omega_ii">Omega II</option>
+          <option value="wong_halves">Wong Halves</option>
+        </select>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══ MAIN CONTENT ═══ -->
+  <main class="main-content">
+
+    <!-- ─── HOME ─── -->
+    <div class="page active" id="page-home">
+      <h1 class="page-title">Welcome Back</h1>
+      <p class="page-subtitle">Your casino readiness at a glance</p>
+
+      <div class="home-hero">
+        <div class="card card-gold readiness-card">
+          <div class="gauge-container">
+            <svg class="gauge-svg" width="220" height="220" viewBox="0 0 220 220">
+              <circle class="gauge-bg" cx="110" cy="110" r="94"/>
+              <circle class="gauge-fill" id="gauge-fill" cx="110" cy="110" r="94"
+                stroke="var(--gold)" stroke-dasharray="590" stroke-dashoffset="590"/>
+            </svg>
+            <div class="gauge-center">
+              <div class="gauge-score" id="gauge-score">--</div>
+              <div class="gauge-label">Readiness</div>
+            </div>
+          </div>
+
+          <div class="cert-badge cert-training" id="cert-badge">
+            <span class="cert-icon">⏳</span>
+            <span id="cert-text">Loading...</span>
+          </div>
+
+          <div class="quick-stats">
+            <div class="stat-box">
+              <div class="stat-value" id="stat-sessions">0</div>
+              <div class="stat-label">Sessions</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="stat-hours">0</div>
+              <div class="stat-label">Hours</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="stat-pnl">$0</div>
+              <div class="stat-label">Total P&L</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card home-drills-card">
+          <h3 class="section-title">Quick Drill Access</h3>
+          <div class="drill-preview-grid">
+            <div class="drill-preview-item" onclick="showPage('deviation')">
+              <div class="dri-name">Deviation Drill</div>
+              <div class="dri-score" id="preview-dev-score">--%</div>
+              <div class="dri-label">Illustrious 18</div>
+              <div class="dri-accuracy" id="preview-dev-acc">No data yet</div>
+            </div>
+            <div class="drill-preview-item" onclick="showPage('counting')">
+              <div class="dri-name">Speed Counting</div>
+              <div class="dri-score" id="preview-count-score">--%</div>
+              <div class="dri-label">Full-Table RC</div>
+              <div class="dri-accuracy" id="preview-count-acc">No data yet</div>
+            </div>
+            <div class="drill-preview-item" onclick="showPage('betsizing')">
+              <div class="dri-name">Bet Sizing</div>
+              <div class="dri-score" id="preview-bet-score">--%</div>
+              <div class="dri-label">TC → Bet Calc</div>
+              <div class="dri-accuracy" id="preview-bet-acc">No data yet</div>
+            </div>
+            <div class="drill-preview-item" onclick="showPage('review')">
+              <div class="dri-name">Session Review</div>
+              <div class="dri-score" id="preview-sessions">0</div>
+              <div class="dri-label">Sessions Logged</div>
+              <div class="dri-accuracy" id="preview-sessions-pnl">Log your play</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── DRILL HUB ─── -->
+    <div class="page" id="page-hub">
+      <h1 class="page-title">Drill Hub</h1>
+      <p class="page-subtitle">Master the Illustrious 18 and beyond</p>
+
+      <div class="drill-grid">
+        <div class="drill-card" onclick="showPage('deviation')">
+          <div class="drill-card-icon">📍</div>
+          <div class="drill-card-name">Deviation Drill</div>
+          <div class="drill-card-desc">Master the Illustrious 18 count-based deviations. Practice saying the right play at the right count.</div>
+          <div class="drill-card-stats">
+            <div class="drill-card-stat">
+              <div class="dcs-value" id="hub-dev-score">--%</div>
+              <div class="dcs-label">Accuracy</div>
+            </div>
+            <div class="drill-card-stat">
+              <div class="dcs-value" id="hub-dev-sessions">0</div>
+              <div class="dcs-label">Sessions</div>
+            </div>
+          </div>
+          <div class="drill-card-play">▶</div>
+        </div>
+
+        <div class="drill-card" onclick="showPage('counting')">
+          <div class="drill-card-icon">🃏</div>
+          <div class="drill-card-name">Full-Table Speed Counting</div>
+          <div class="drill-card-desc">Count entire rounds at a 5-6 player table. Build speed and accuracy for live play.</div>
+          <div class="drill-card-stats">
+            <div class="drill-card-stat">
+              <div class="dcs-value" id="hub-count-score">--%</div>
+              <div class="dcs-label">Accuracy</div>
+            </div>
+            <div class="drill-card-stat">
+              <div class="dcs-value" id="hub-count-sessions">0</div>
+              <div class="dcs-label">Sessions</div>
+            </div>
+          </div>
+          <div class="drill-card-play">▶</div>
+        </div>
+
+        <div class="drill-card" onclick="showPage('betsizing')">
+          <div class="drill-card-icon">💰</div>
+          <div class="drill-card-name">Bet Sizing Drill</div>
+          <div class="drill-card-desc">Instant bet calculation given TC, bankroll, and table limits. Hit the right number fast.</div>
+          <div class="drill-card-stats">
+            <div class="drill-card-stat">
+              <div class="dcs-value" id="hub-bet-score">--%</div>
+              <div class="dcs-label">Accuracy</div>
+            </div>
+            <div class="drill-card-stat">
+              <div class="dcs-value" id="hub-bet-sessions">0</div>
+              <div class="dcs-label">Sessions</div>
+            </div>
+          </div>
+          <div class="drill-card-play">▶</div>
+        </div>
+
+        <div class="drill-card" onclick="showPage('planner')">
+          <div class="drill-card-icon">📋</div>
+          <div class="drill-card-name">Session Planner</div>
+          <div class="drill-card-desc">Generate your personalized strategy card for any casino. Know the rules, bet right.</div>
+          <div class="drill-card-stats">
+            <div class="drill-card-stat">
+              <div class="dcs-value" id="hub-profiles">5</div>
+              <div class="dcs-label">Profiles</div>
+            </div>
+          </div>
+          <div class="drill-card-play">▶</div>
+        </div>
+
+        <div class="drill-card" onclick="showPage('review')">
+          <div class="drill-card-icon">📊</div>
+          <div class="drill-card-name">Post-Session Review</div>
+          <div class="drill-card-desc">Analyze your casino results. Find leaks, measure discipline, and track edge.</div>
+          <div class="drill-card-stats">
+            <div class="drill-card-stat">
+              <div class="dcs-value" id="hub-sessions">0</div>
+              <div class="dcs-label">Logged</div>
+            </div>
+          </div>
+          <div class="drill-card-play">▶</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── DEVIATION DRILL ─── -->
+    <div class="page" id="page-deviation">
+      <h1 class="page-title">Deviation Drill</h1>
+      <p class="page-subtitle">Illustrious 18 — count-based departures from basic strategy</p>
+
+      <div id="deviation-start">
+        <div class="drill-config">
+          <label>Questions:</label>
+          <select id="dev-count">
+            <option value="10">10</option>
+            <option value="20" selected>20</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+          </select>
+          <button class="btn btn-primary" onclick="startDeviation()">Start Drill</button>
+        </div>
+
+        <div class="card">
+          <h3 class="section-title mb-16">What is the Illustrious 18?</h3>
+          <p style="color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
+            The Illustrious 18 are the most profitable count-based deviations from perfect basic strategy.
+            When the True Count reaches certain thresholds, the mathematically correct play changes.
+            This drill trains you to recognize these situations instantly and make the right call.
+          </p>
+          <div id="illustrious-preview" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px;"></div>
+        </div>
+      </div>
+
+      <div id="deviation-active" class="hidden">
+        <div class="drill-header-bar">
+          <div class="drill-progress">
+            <div class="drill-progress-text" id="dev-progress-text">Question 1 of 20</div>
+            <div class="drill-progress-bar">
+              <div class="drill-progress-fill" id="dev-progress-fill" style="width: 5%"></div>
+            </div>
+          </div>
+          <div class="drill-score-display">
+            <div class="dsd-score" id="dev-score">0/0</div>
+            <div class="dsd-label">Score</div>
+          </div>
+        </div>
+
+        <!-- Insurance Question -->
+        <div id="dev-insurance-q" class="hidden">
+          <div class="insurance-question card">
+            <div class="section-label">Insurance Question</div>
+            <div class="big-question">Dealer shows Ace — Take Insurance?</div>
+            <div class="tc-subtitle">True Count: <span id="ins-tc" class="text-gold">+3.0</span></div>
+            <div class="tc-subtitle" style="margin-top: -8px; font-size: 11px;">Threshold: TC ≥ <span id="ins-threshold">3</span></div>
+            <div class="action-buttons" style="margin-top: 28px;">
+              <button class="action-btn yes" onclick="answerDeviation('Y')">YES</button>
+              <button class="action-btn no" onclick="answerDeviation('N')">NO</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Standard Deviation Question -->
+        <div id="dev-standard-q" class="hidden">
+          <div class="question-area">
+            <div class="dealer-section">
+              <div class="section-label">Dealer Upcard</div>
+              <div class="dealer-upcard" id="dev-dealer-card">10</div>
+              <div class="tc-display">
+                <div class="tc-label">True Count</div>
+                <div class="tc-value" id="dev-tc">+3.0</div>
+              </div>
+            </div>
+            <div class="hand-section">
+              <div class="section-label">Your Hand</div>
+              <div class="player-hand" id="dev-player-hand"></div>
+              <div class="hand-total-badge" id="dev-total-badge">16</div>
+              <div class="hand-question" id="dev-question-text">Hard 16 vs 10 (PAIR)</div>
+            </div>
+          </div>
+
+          <div class="action-buttons" id="dev-action-buttons">
+            <button class="action-btn hit" onclick="answerDeviation('H')">HIT</button>
+            <button class="action-btn stand" onclick="answerDeviation('S')">STAND</button>
+            <button class="action-btn double" onclick="answerDeviation('D')">DOUBLE</button>
+            <button class="action-btn split" onclick="answerDeviation('P')">SPLIT</button>
+            <button class="action-btn surrender" onclick="answerDeviation('R')">SURRENDER</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div id="deviation-results" class="hidden">
+        <div class="results-screen card">
+          <div class="results-score green" id="dev-result-score">90%</div>
+          <div class="results-label" id="dev-result-label">20 Questions</div>
+          <div class="results-feedback" id="dev-result-feedback">Good progress — drill daily until 95%+</div>
+          <div class="mistakes-review" id="dev-mistakes-review"></div>
+          <div class="flex-center" style="margin-top: 28px; gap: 16px;">
+            <button class="btn btn-secondary" onclick="showPage('hub')">Back to Hub</button>
+            <button class="btn btn-primary" onclick="startDeviation()">Drill Again</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SPEED COUNTING ─── -->
+    <div class="page" id="page-counting">
+      <h1 class="page-title">Speed Counting</h1>
+      <p class="page-subtitle">Full-table running count — build speed and accuracy</p>
+
+      <div id="counting-start">
+        <div class="drill-config">
+          <label>Rounds:</label>
+          <select id="count-rounds">
+            <option value="6">6</option>
+            <option value="8" selected>8</option>
+            <option value="10">10</option>
+            <option value="12">12</option>
+          </select>
+          <label>Speed:</label>
+          <div class="speed-selector">
+            <button class="speed-btn" data-speed="3.0">Slow 3s</button>
+            <button class="speed-btn active" data-speed="2.0">Normal 2s</button>
+            <button class="speed-btn" data-speed="1.0">Fast 1s</button>
+            <button class="speed-btn" data-speed="0.5">Expert 0.5s</button>
+          </div>
+          <button class="btn btn-primary" onclick="startCounting()">Start Drill</button>
+        </div>
+
+        <div class="card">
+          <h3 class="section-title mb-16">How It Works</h3>
+          <p style="color: var(--muted); font-size: 14px; line-height: 1.7;">
+            Cards are dealt to 5-6 players plus the dealer. Your job is to maintain the running count
+            as each card appears. The drill shows all cards for the configured speed, then asks for your count.
+            <strong class="text-gold"> Hi-Lo system:</strong> Low cards (2-6) = +1, High cards (10-A) = -1, 7-9 = 0.
+          </p>
+        </div>
+      </div>
+
+      <div id="counting-active" class="hidden">
+        <div class="drill-header-bar">
+          <div class="drill-progress">
+            <div class="drill-progress-text" id="count-progress-text">Round 1 of 8</div>
+            <div class="drill-progress-bar">
+              <div class="drill-progress-fill" id="count-progress-fill" style="width: 12.5%"></div>
+            </div>
+          </div>
+          <div class="drill-score-display">
+            <div class="dsd-score" id="count-score">0/0</div>
+            <div class="dsd-label">Score</div>
+          </div>
+        </div>
+
+        <div class="counting-table">
+          <div class="table-label">BLACKJACK TABLE</div>
+          <div class="seats-grid" id="counting-seats"></div>
+          <div class="dealer-area">
+            <span class="dealer-label">DEALER</span>
+            <div style="display:flex; gap:8px;" id="dealer-cards"></div>
+          </div>
+        </div>
+
+        <div class="count-input-area" id="count-input-area">
+          <label>Running Count:</label>
+          <input type="number" class="count-input" id="count-user-input" placeholder="+3" onkeydown="if(event.key==='Enter')submitCount()">
+          <div style="margin-top: 16px;">
+            <button class="btn btn-primary btn-lg" onclick="submitCount()">Submit Count</button>
+          </div>
+        </div>
+
+        <div id="count-card-reveal" class="hidden" style="text-align:center;">
+          <div class="spinner"></div>
+          <p style="color: var(--muted);">Cards dealt...</p>
+        </div>
+      </div>
+
+      <div id="counting-results" class="hidden">
+        <div class="results-screen card">
+          <div class="results-score" id="count-result-score">85%</div>
+          <div class="results-label" id="count-result-label">8 Rounds</div>
+          <div class="results-feedback" id="count-result-feedback">Accuracy good — work on speed</div>
+          <div class="flex-center" style="margin-top: 28px; gap: 16px;">
+            <button class="btn btn-secondary" onclick="showPage('hub')">Back to Hub</button>
+            <button class="btn btn-primary" onclick="startCounting()">Drill Again</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── BET SIZING ─── -->
+    <div class="page" id="page-betsizing">
+      <h1 class="page-title">Bet Sizing</h1>
+      <p class="page-subtitle">Calculate the right bet given True Count and conditions</p>
+
+      <div id="betsizing-start">
+        <div class="drill-config">
+          <label>Questions:</label>
+          <select id="bet-questions">
+            <option value="10" selected>10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
+          <button class="btn btn-primary" onclick="startBetSizing()">Start Drill</button>
+        </div>
+
+        <div class="card">
+          <h3 class="section-title mb-16">Bet Sizing Fundamentals</h3>
+          <p style="color: var(--muted); font-size: 14px; line-height: 1.7;">
+            When the True Count is high, you have an edge and should bet big. When TC is negative or low,
+            bet the minimum. The spread ratio (max bet / min bet) determines how aggressively you press your advantage.
+            Typical spreads range from 8:1 to 16:1 depending on penetration.
+          </p>
+        </div>
+      </div>
+
+      <div id="betsizing-active" class="hidden">
+        <div class="drill-header-bar">
+          <div class="drill-progress">
+            <div class="drill-progress-text" id="bet-progress-text">Question 1 of 10</div>
+            <div class="drill-progress-bar">
+              <div class="drill-progress-fill" id="bet-progress-fill" style="width: 10%"></div>
+            </div>
+          </div>
+          <div class="drill-score-display">
+            <div class="dsd-score" id="bet-score">0/0</div>
+            <div class="dsd-label">Score</div>
+          </div>
+        </div>
+
+        <div class="bet-scenario card">
+          <div class="scenario-params">
+            <div class="scenario-param">
+              <div class="sp-label">True Count</div>
+              <div class="sp-value" id="bet-tc">+2.5</div>
+            </div>
+            <div class="scenario-param">
+              <div class="sp-label">Bankroll</div>
+              <div class="sp-value" id="bet-bankroll">$10,000</div>
+            </div>
+            <div class="scenario-param">
+              <div class="sp-label">Table Limits</div>
+              <div class="sp-value" id="bet-limits">$10-$200</div>
+            </div>
+          </div>
+          <div style="margin-bottom: 12px;">
+            <span class="scenario-param" style="display: inline-block; width: auto;">
+              <div class="sp-label">Method</div>
+              <div class="sp-value" id="bet-method" style="font-size: 18px;">Spread</div>
+            </span>
+          </div>
+
+          <div class="bet-input-area">
+            <label>Your Bet ($):</label>
+            <input type="number" class="bet-input" id="bet-user-input" placeholder="40" onkeydown="if(event.key==='Enter')submitBet()">
+          </div>
+          <button class="btn btn-primary btn-lg" onclick="submitBet()">Submit</button>
+        </div>
+      </div>
+
+      <div id="betsizing-results" class="hidden">
+        <div class="results-screen card">
+          <div class="results-score" id="bet-result-score">80%</div>
+          <div class="results-label">10 Questions</div>
+          <div class="results-feedback" id="bet-result-feedback">Good accuracy — keep practicing</div>
+          <div class="flex-center" style="margin-top: 28px; gap: 16px;">
+            <button class="btn btn-secondary" onclick="showPage('hub')">Back to Hub</button>
+            <button class="btn btn-primary" onclick="startBetSizing()">Drill Again</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SESSION PLANNER ─── -->
+    <div class="page" id="page-planner">
+      <h1 class="page-title">Session Planner</h1>
+      <p class="page-subtitle">Your strategy card for the casino</p>
+
+      <div class="session-plan-layout">
+        <div class="profile-selector" id="profile-list"></div>
+
+        <div class="strategy-card card" id="strategy-card">
+          <div class="sc-header">
+            <h2 id="sc-title">Evolution Live</h2>
+            <p id="sc-desc">Loading...</p>
+          </div>
+          <div class="sc-body">
+            <div class="sc-section">
+              <div class="sc-section-title">Game Conditions</div>
+              <div class="sc-rules-grid" id="sc-rules"></div>
+            </div>
+            <div class="sc-section" id="sc-params-section">
+              <div class="sc-section-title">Optimal Strategy</div>
+              <div class="sc-params-grid" id="sc-params"></div>
+            </div>
+            <div class="no-optimization" id="sc-no-opt">
+              <p>No optimization results found.</p>
+              <p>Run <code>python -m src.agents.blackjack.auto_optimize</code> to generate optimal parameters.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── POST-SESSION REVIEW ─── -->
+    <div class="page" id="page-review">
+      <h1 class="page-title">Post-Session Review</h1>
+      <p class="page-subtitle">Analyze your casino results and find leaks</p>
+
+      <div class="session-form">
+        <div class="card">
+          <h3 class="section-title mb-24">Enter Session Results</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Hands Played</label>
+              <input type="number" id="sr-hands" placeholder="250">
+            </div>
+            <div class="form-group">
+              <label>Hours Played</label>
+              <input type="number" id="sr-hours" placeholder="3.5" step="0.5">
+            </div>
+            <div class="form-group">
+              <label>Total Wagered ($)</label>
+              <input type="number" id="sr-wagered" placeholder="12500">
+            </div>
+            <div class="form-group">
+              <label>Net P&L ($)</label>
+              <input type="number" id="sr-pnl" placeholder="350" step="0.01">
+            </div>
+            <div class="form-group">
+              <label>Min Bet ($)</label>
+              <input type="number" id="sr-minbet" placeholder="10">
+            </div>
+            <div class="form-group">
+              <label>Max Bet ($)</label>
+              <input type="number" id="sr-maxbet" placeholder="200">
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="analyzeSession()" style="width: 100%;">Analyze Session</button>
+        </div>
+
+        <div class="analysis-result hidden" id="analysis-result">
+          <div class="card">
+            <h3 class="section-title mb-24">Session Analysis</h3>
+            <div class="ar-metrics" id="ar-metrics"></div>
+            <div class="leaks-list" id="leaks-list"></div>
+            <div class="strengths-list" id="strengths-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── PROGRESS ─── -->
+    <div class="page" id="page-progress">
+      <h1 class="page-title">Progress & Stats</h1>
+      <p class="page-subtitle">Your long-term training trajectory</p>
+
+      <div class="progress-header-row">
+        <div class="card">
+          <div class="section-title mb-16">Readiness Score</div>
+          <div style="text-align: center;">
+            <div class="gauge-score" id="prog-readiness" style="font-size: 48px;">--</div>
+            <div class="cert-badge cert-training" id="prog-cert" style="margin-top: 12px;">
+              <span id="prog-cert-text">Loading...</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="section-title mb-16">Certification</div>
+          <div class="cert-checklist" id="cert-checklist"></div>
+        </div>
+        <div class="card">
+          <div class="section-title mb-16">Session Summary</div>
+          <div class="stat-box mb-16">
+            <div class="stat-value" id="prog-sessions">0</div>
+            <div class="stat-label">Casino Sessions</div>
+          </div>
+          <div class="stat-box mb-16">
+            <div class="stat-value" id="prog-total-hours">0h</div>
+            <div class="stat-label">Total Hours</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-value" id="prog-total-pnl">$0</div>
+            <div class="stat-label">Total P&L</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="section-title mb-16">Drill History</h3>
+        <div style="overflow-x: auto;">
+          <table class="drill-history-table" id="drill-history-table">
+            <thead>
+              <tr>
+                <th>Drill</th>
+                <th>Sessions</th>
+                <th>All-Time</th>
+                <th>Recent</th>
+                <th>Avg Time</th>
+              </tr>
+            </thead>
+            <tbody id="drill-history-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SETTINGS ─── -->
+    <div class="page" id="page-settings">
+      <h1 class="page-title">Settings</h1>
+      <p class="page-subtitle">Customize your training experience</p>
+
+      <div class="settings-grid">
+        <div class="settings-group">
+          <div class="settings-group-title">Counting System</div>
+          <div class="setting-row">
+            <label>Default System</label>
+            <select id="setting-system" onchange="changeSystem(this.value)">
+              <option value="hi_lo">Hi-Lo</option>
+              <option value="omega_ii">Omega II</option>
+              <option value="wong_halves">Wong Halves</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group-title">Deviation Drill</div>
+          <div class="setting-row">
+            <label>Default Questions</label>
+            <select id="setting-dev-q">
+              <option value="10">10</option>
+              <option value="20" selected>20</option>
+              <option value="30">30</option>
+              <option value="50">50</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group-title">Speed Counting</div>
+          <div class="setting-row">
+            <label>Default Rounds</label>
+            <select id="setting-count-rounds">
+              <option value="6">6</option>
+              <option value="8" selected>8</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <label>Default Speed</label>
+            <select id="setting-count-speed">
+              <option value="3.0">Slow (3s)</option>
+              <option value="2.0" selected>Normal (2s)</option>
+              <option value="1.0">Fast (1s)</option>
+              <option value="0.5">Expert (0.5s)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="settings-group-title">Illustrious 18 Reference</div>
+          <div id="settings-i18-list" style="max-height: 300px; overflow-y: auto;"></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Feedback overlay -->
+<div class="feedback-overlay" id="feedback-overlay">
+  <div class="feedback-content">
+    <div class="feedback-icon" id="feedback-icon">✓</div>
+    <div class="feedback-title" id="feedback-title">Correct!</div>
+    <div class="feedback-detail" id="feedback-detail">Answer: STAND (TC ≥ 0)</div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+const API = '/api/protrainer';
+let currentSystem = 'hi_lo';
+let currentSessionId = 'default-' + Math.random().toString(36).substr(2, 6);
+
+// State for active drills
+let deviationState = { session_id: null, question: null };
+let countingState = { session_id: null, currentRound: null };
+let betSizingState = { session_id: null, scenario: null };
+
+// ═══════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+  const pageEl = document.getElementById('page-' + page);
+  if (pageEl) pageEl.classList.add('active');
+
+  document.querySelectorAll('.nav-item[data-page]').forEach(n => {
+    if (n.dataset.page === page) n.classList.add('active');
+  });
+
+  // Close mobile sidebar
+  document.getElementById('sidebar').classList.remove('open');
+
+  // Load page data
+  if (page === 'home') loadHomeData();
+  if (page === 'hub') loadHubData();
+  if (page === 'planner') loadPlanner();
+  if (page === 'progress') loadProgress();
+  if (page === 'settings') loadSettings();
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// ═══════════════════════════════════════════════════════════
+// API HELPERS
+// ═══════════════════════════════════════════════════════════
+async function apiPOST(url, body) {
+  const params = new URLSearchParams({ system: currentSystem, session_id: currentSessionId });
+  Object.entries(body || {}).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      params.set(key, String(value));
+    }
+  });
+  const fullUrl = API + url + (url.includes('?') ? '&' : '?') + params.toString();
+  const res = await fetch(fullUrl, {
+    method: 'POST',
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Request failed' }));
+    throw new Error(err.detail || `HTTP ${res.status}`);
+  }
+  return res.json();
+}
+
+async function apiGET(url) {
+  const res = await fetch(API + url + (url.includes('?') ? '&' : '?') + `system=${currentSystem}`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+// ═══════════════════════════════════════════════════════════
+// HOME PAGE
+// ═══════════════════════════════════════════════════════════
+async function loadHomeData() {
+  try {
+    const [progress, readiness] = await Promise.all([
+      apiGET('/progress'),
+      apiGET('/readiness'),
+    ]);
+
+    // Readiness gauge
+    const score = readiness.score || 0;
+    const gauge = document.getElementById('gauge-fill');
+    const circumference = 2 * Math.PI * 94; // ~590
+    const offset = circumference * (1 - score / 100);
+    gauge.style.strokeDashoffset = offset;
+    gauge.style.stroke = score >= 90 ? 'var(--success-light)' : score >= 70 ? 'var(--warning)' : 'var(--red-light)';
+
+    document.getElementById('gauge-score').textContent = score.toFixed(0) + '%';
+    document.getElementById('readiness-mini').textContent = score.toFixed(0) + '%';
+
+    // Cert badge
+    const badge = document.getElementById('cert-badge');
+    const cert = readiness.certification;
+    if (cert && cert.status === 'certified') {
+      badge.className = 'cert-badge cert-certified';
+      badge.innerHTML = '<span class="cert-icon">🏆</span><span id="cert-text">TABLE READY</span>';
+    } else if (score >= 80) {
+      badge.className = 'cert-badge cert-near';
+      badge.innerHTML = '<span class="cert-icon">⭐</span><span id="cert-text">NEAR READY</span>';
+    } else {
+      badge.className = 'cert-badge cert-training';
+      badge.innerHTML = '<span class="cert-icon">⏳</span><span id="cert-text">IN TRAINING</span>';
+    }
+
+    // Stats
+    const sessions = progress.sessions || {};
+    document.getElementById('stat-sessions').textContent = sessions.count || 0;
+    document.getElementById('stat-hours').textContent = (sessions.total_hours || 0).toFixed(1);
+    const pnl = sessions.total_pnl || 0;
+    document.getElementById('stat-pnl').textContent = (pnl >= 0 ? '+$' : '-$') + Math.abs(pnl).toFixed(0);
+    document.getElementById('stat-pnl').className = 'stat-value ' + (pnl >= 0 ? 'text-success' : 'text-danger');
+
+    // Drill previews
+    const drills = progress.drills || {};
+    updateDrillPreview('dev', drills.deviation);
+    updateDrillPreview('count', drills.full_table_counting);
+    updateDrillPreview('bet', drills.bet_sizing);
+
+    // Sessions preview
+    document.getElementById('preview-sessions').textContent = sessions.count || 0;
+    document.getElementById('preview-sessions-pnl').textContent = pnl === 0 ? 'Log your play' : (pnl >= 0 ? '+$' : '-$') + Math.abs(pnl).toFixed(0) + ' P&L';
+
+  } catch (e) {
+    console.error('Failed to load home data:', e);
+  }
+}
+
+function updateDrillPreview(prefix, drill) {
+  if (!drill) {
+    document.getElementById(`preview-${prefix}-score`).textContent = '--%';
+    document.getElementById(`preview-${prefix}-acc`).textContent = 'No data yet';
+    return;
+  }
+  const pct = drill.recent_pct || 0;
+  document.getElementById(`preview-${prefix}-score`).textContent = pct.toFixed(0) + '%';
+  const sessions = drill.sessions || 0;
+  document.getElementById(`preview-${prefix}-acc`).textContent = sessions + ' session' + (sessions !== 1 ? 's' : '') + ' logged';
+}
+
+// ═══════════════════════════════════════════════════════════
+// HUB PAGE
+// ═══════════════════════════════════════════════════════════
+async function loadHubData() {
+  try {
+    const progress = await apiGET('/progress');
+    const drills = progress.drills || {};
+
+    updateHubDrill('dev', drills.deviation);
+    updateHubDrill('count', drills.full_table_counting);
+    updateHubDrill('bet', drills.bet_sizing);
+
+    const sessions = progress.sessions || {};
+    document.getElementById('hub-sessions').textContent = sessions.count || 0;
+
+    // Get profiles count
+    const profiles = await apiGET('/casino_profiles');
+    document.getElementById('hub-profiles').textContent = Object.keys(profiles.profiles || {}).length;
+
+  } catch (e) {
+    console.error('Failed to load hub data:', e);
+  }
+}
+
+function updateHubDrill(name, drill) {
+  if (!drill) {
+    document.getElementById(`hub-${name}-score`).textContent = '--%';
+    document.getElementById(`hub-${name}-sessions`).textContent = '0';
+    return;
+  }
+  const pct = drill.recent_pct || 0;
+  document.getElementById(`hub-${name}-score`).textContent = pct.toFixed(0) + '%';
+  document.getElementById(`hub-${name}-sessions`).textContent = drill.sessions || 0;
+}
+
+// ═══════════════════════════════════════════════════════════
+// DEVIATION DRILL
+// ═══════════════════════════════════════════════════════════
+async function startDeviation() {
+  const numQ = parseInt(document.getElementById('dev-count').value);
+
+  document.getElementById('deviation-start').classList.add('hidden');
+  document.getElementById('deviation-results').classList.add('hidden');
+  document.getElementById('deviation-active').classList.remove('hidden');
+
+  try {
+    const data = await apiPOST('/drill/deviation/start', { num_questions: numQ });
+    deviationState.session_id = data.session_id;
+    showDeviationQuestion(data.question, data.question_num, data.total_questions, data.running_score);
+  } catch (e) {
+    alert('Failed to start drill: ' + e.message);
+    showPage('hub');
+  }
+}
+
+function showDeviationQuestion(question, qNum, total, score) {
+  document.getElementById('dev-progress-text').textContent = `Question ${qNum} of ${total}`;
+  document.getElementById('dev-progress-fill').style.width = ((qNum / total) * 100) + '%';
+  document.getElementById('dev-score').textContent = score;
+
+  if (question.type === 'insurance') {
+    document.getElementById('dev-insurance-q').classList.remove('hidden');
+    document.getElementById('dev-standard-q').classList.add('hidden');
+    document.getElementById('ins-tc').textContent = (question.tc >= 0 ? '+' : '') + question.tc.toFixed(1);
+    document.getElementById('ins-threshold').textContent = question.threshold;
+    deviationState.question = question;
+    return;
+  }
+
+  document.getElementById('dev-insurance-q').classList.add('hidden');
+  document.getElementById('dev-standard-q').classList.remove('hidden');
+
+  // Dealer upcard
+  const dealer = question.dealer;
+  const suit = randomSuit();
+  const dealerEl = document.getElementById('dev-dealer-card');
+  dealerEl.textContent = dealer;
+  dealerEl.className = 'dealer-upcard ' + suit;
+
+  // Player cards
+  const handEl = document.getElementById('dev-player-hand');
+  handEl.innerHTML = '';
+  const cards = question.cards || [String(question.hand_total).charAt(0), String(question.hand_total).charAt(0)];
+  cards.forEach(card => {
+    const s = randomSuit();
+    const cardEl = document.createElement('div');
+    cardEl.className = 'playing-card ' + s;
+    cardEl.innerHTML = `
+      <div class="card-corner top-left">${card}<br>${getSuitSymbol(s)}</div>
+      <div class="card-rank">${card}</div>
+      <div class="card-suit">${getSuitSymbol(s)}</div>
+      <div class="card-corner bottom-right">${card}<br>${getSuitSymbol(s)}</div>
+    `;
+    handEl.appendChild(cardEl);
+  });
+
+  // TC display
+  document.getElementById('dev-tc').textContent = (question.tc >= 0 ? '+' : '') + question.tc.toFixed(1);
+
+  // Question text
+  document.getElementById('dev-question-text').textContent = question.name + (question.is_pair ? ' (PAIR)' : '');
+
+  // Hand total badge
+  const totalBadge = document.getElementById('dev-total-badge');
+  totalBadge.textContent = 'Total: ' + question.hand_total;
+
+  deviationState.question = question;
+}
+
+async function answerDeviation(answer) {
+  try {
+    const data = await apiPOST('/drill/deviation/answer', { answer });
+    showFeedback(data.correct, data.expected_name, deviationState.question);
+
+    if (data.is_complete) {
+      setTimeout(() => {
+        hideFeedback();
+        showDeviationResults(data);
+      }, 1200);
+    } else {
+      setTimeout(() => {
+        hideFeedback();
+        showDeviationQuestion(data.question, data.question_num, data.total_questions, data.running_score);
+      }, 1200);
+    }
+  } catch (e) {
+    alert('Error: ' + e.message);
+  }
+}
+
+function showDeviationResults(data) {
+  document.getElementById('deviation-active').classList.add('hidden');
+  document.getElementById('deviation-results').classList.remove('hidden');
+
+  const scoreEl = document.getElementById('dev-result-score');
+  scoreEl.textContent = data.final_score;
+  scoreEl.className = 'results-score ' + data.final_color;
+  document.getElementById('dev-result-label').textContent = 'Deviation Drill Complete';
+  document.getElementById('dev-result-feedback').textContent = data.feedback;
+
+  const mistakesEl = document.getElementById('dev-mistakes-review');
+  if (data.mistakes && data.mistakes.length > 0) {
+    mistakesEl.innerHTML = '<h4>Mistakes to review:</h4>' +
+      data.mistakes.map(m => `<div class="mistake-item">${m}</div>`).join('');
+  } else {
+    mistakesEl.innerHTML = '';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// SPEED COUNTING DRILL
+// ═══════════════════════════════════════════════════════════
+let selectedSpeed = 2.0;
+
+document.querySelectorAll('.speed-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedSpeed = parseFloat(btn.dataset.speed);
+  });
+});
+
+async function startCounting() {
+  const rounds = parseInt(document.getElementById('count-rounds').value);
+
+  document.getElementById('counting-start').classList.add('hidden');
+  document.getElementById('counting-results').classList.add('hidden');
+  document.getElementById('counting-active').classList.remove('hidden');
+
+  try {
+    const data = await apiPOST('/drill/counting/start', { num_rounds: rounds, speed: selectedSpeed });
+    countingState.session_id = data.session_id;
+    showCountingRound(data.round, data.round_num, data.total_rounds, '0/0');
+  } catch (e) {
+    alert('Failed to start drill: ' + e.message);
+    showPage('hub');
+  }
+}
+
+async function showCountingRound(round, roundNum, total, score) {
+  document.getElementById('count-progress-text').textContent = `Round ${roundNum} of ${total}`;
+  document.getElementById('count-progress-fill').style.width = ((roundNum / total) * 100) + '%';
+  document.getElementById('count-score').textContent = score;
+
+  // Build seats grid
+  const seatsEl = document.getElementById('counting-seats');
+  seatsEl.innerHTML = '';
+
+  const allCards = round.cards;
+  const numPlayers = round.num_players;
+
+  for (let i = 0; i < 6; i++) {
+    const seatDiv = document.createElement('div');
+    seatDiv.className = 'seat';
+
+    if (i < numPlayers) {
+      const pCards = [allCards[i * 2], allCards[i * 2 + 1]];
+      seatDiv.innerHTML = `
+        <div class="seat-label">P${i + 1}</div>
+        <div class="seat-cards">
+          ${pCards.map(c => {
+            const s = randomSuit();
+            const isRed = s === 'hearts' || s === 'diamonds';
+            return `<div class="mini-card ${isRed ? 'red' : 'black'}">${c}</div>`;
+          }).join('')}
+        </div>
+      `;
+    } else {
+      seatDiv.innerHTML = `<div class="seat-label" style="opacity: 0.2;">---</div>`;
+    }
+
+    seatsEl.appendChild(seatDiv);
+  }
+
+  // Dealer cards
+  const dealerEl = document.getElementById('dealer-cards');
+  dealerEl.innerHTML = '';
+  const dealerCards = allCards.slice(numPlayers * 2);
+  dealerCards.forEach((c, i) => {
+    const s = randomSuit();
+    const isRed = s === 'hearts' || s === 'diamonds';
+    const div = document.createElement('div');
+    div.className = 'mini-card ' + (isRed ? 'red' : 'black');
+    div.textContent = c;
+    div.style.boxShadow = '0 3px 10px rgba(0,0,0,0.5)';
+    dealerEl.appendChild(div);
+  });
+
+  // Show input
+  document.getElementById('count-input-area').classList.remove('hidden');
+  document.getElementById('count-card-reveal').classList.add('hidden');
+  document.getElementById('count-user-input').value = '';
+  document.getElementById('count-user-input').focus();
+
+  countingState.currentRound = round;
+}
+
+async function submitCount() {
+  const input = document.getElementById('count-user-input');
+  const userCount = parseFloat(input.value);
+  if (isNaN(userCount)) return;
+
+  document.getElementById('count-input-area').classList.add('hidden');
+
+  try {
+    const data = await apiPOST('/drill/counting/submit', { user_count: userCount });
+    showFeedback(data.correct, 'RC: ' + (data.expected_count >= 0 ? '+' : '') + data.expected_count.toFixed(1), {});
+
+    if (data.is_complete) {
+      setTimeout(() => {
+        hideFeedback();
+        showCountingResults(data);
+      }, 1200);
+    } else {
+      setTimeout(() => {
+        hideFeedback();
+        showCountingRound(data.round, data.round_num, data.total_rounds, data.running_score);
+      }, 1200);
+    }
+  } catch (e) {
+    alert('Error: ' + e.message);
+  }
+}
+
+function showCountingResults(data) {
+  document.getElementById('counting-active').classList.add('hidden');
+  document.getElementById('counting-results').classList.remove('hidden');
+
+  const scoreEl = document.getElementById('count-result-score');
+  scoreEl.textContent = data.final_score;
+  scoreEl.className = 'results-score ' + data.final_color;
+  document.getElementById('count-result-label').textContent = 'Speed Counting Complete';
+  document.getElementById('count-result-feedback').textContent = data.feedback + (data.avg_time ? ` (Avg: ${data.avg_time}s)` : '');
+}
+
+// ═══════════════════════════════════════════════════════════
+// BET SIZING DRILL
+// ═══════════════════════════════════════════════════════════
+async function startBetSizing() {
+  const numQ = parseInt(document.getElementById('bet-questions').value);
+
+  document.getElementById('betsizing-start').classList.add('hidden');
+  document.getElementById('betsizing-results').classList.add('hidden');
+  document.getElementById('betsizing-active').classList.remove('hidden');
+
+  try {
+    const data = await apiPOST('/drill/betsizing/start', { num_questions: numQ });
+    betSizingState.session_id = data.session_id;
+    showBetScenario(data.scenario, data.question_num, data.total_questions, data.running_score);
+  } catch (e) {
+    alert('Failed to start drill: ' + e.message);
+    showPage('hub');
+  }
+}
+
+function showBetScenario(scenario, qNum, total, score) {
+  document.getElementById('bet-progress-text').textContent = `Question ${qNum} of ${total}`;
+  document.getElementById('bet-progress-fill').style.width = ((qNum / total) * 100) + '%';
+  document.getElementById('bet-score').textContent = score;
+
+  document.getElementById('bet-tc').textContent = (scenario.tc >= 0 ? '+' : '') + scenario.tc.toFixed(1);
+  document.getElementById('bet-bankroll').textContent = '$' + scenario.bankroll.toLocaleString();
+  document.getElementById('bet-limits').textContent = '$' + scenario.min_bet + '-$' + scenario.max_bet;
+
+  const methodNames = { spread: 'Spread', spread_aggressive: 'Aggressive Spread', kelly: 'Kelly Criterion', flat: 'Flat Betting' };
+  document.getElementById('bet-method').textContent = methodNames[scenario.method] || scenario.method;
+
+  document.getElementById('bet-user-input').value = '';
+  document.getElementById('bet-user-input').focus();
+
+  betSizingState.scenario = scenario;
+}
+
+async function submitBet() {
+  const input = document.getElementById('bet-user-input');
+  const userBet = parseFloat(input.value);
+  if (isNaN(userBet)) return;
+
+  try {
+    const data = await apiPOST('/drill/betsizing/submit', { user_bet: userBet });
+    showFeedback(data.correct, 'Correct: $' + data.correct_bet, {});
+
+    if (data.is_complete) {
+      setTimeout(() => {
+        hideFeedback();
+        showBetSizingResults(data);
+      }, 1200);
+    } else {
+      setTimeout(() => {
+        hideFeedback();
+        showBetScenario(data.scenario, data.question_num, data.total_questions, data.running_score);
+      }, 1200);
+    }
+  } catch (e) {
+    alert('Error: ' + e.message);
+  }
+}
+
+function showBetSizingResults(data) {
+  document.getElementById('betsizing-active').classList.add('hidden');
+  document.getElementById('betsizing-results').classList.remove('hidden');
+
+  const scoreEl = document.getElementById('bet-result-score');
+  scoreEl.textContent = data.final_score;
+  scoreEl.className = 'results-score ' + data.final_color;
+
+  const feedback = data.final_color === 'green' ? 'Bet sizing accuracy is excellent!' :
+                   data.final_color === 'yellow' ? 'Good accuracy — keep practicing' : 'Need more practice on bet sizing';
+  document.getElementById('bet-result-feedback').textContent = feedback;
+}
+
+// ═══════════════════════════════════════════════════════════
+// SESSION PLANNER
+// ═══════════════════════════════════════════════════════════
+async function loadPlanner() {
+  try {
+    const data = await apiGET('/casino_profiles');
+    const profiles = data.profiles;
+
+    const listEl = document.getElementById('profile-list');
+    listEl.innerHTML = '';
+
+    const profileNames = Object.keys(profiles);
+    profileNames.forEach((name, i) => {
+      const p = profiles[name];
+      const div = document.createElement('div');
+      div.className = 'profile-option' + (i === 0 ? ' selected' : '');
+      div.innerHTML = `
+        <div class="po-name">${p.description.split('—')[0].trim()}</div>
+        <div class="po-desc">${p.description.split('—').slice(1).join('—').trim() || p.description}</div>
+      `;
+      div.onclick = () => {
+        listEl.querySelectorAll('.profile-option').forEach(el => el.classList.remove('selected'));
+        div.classList.add('selected');
+        loadPlan(name);
+      };
+      listEl.appendChild(div);
+    });
+
+    if (profileNames.length > 0) {
+      loadPlan(profileNames[0]);
+    }
+  } catch (e) {
+    console.error('Failed to load planner:', e);
+  }
+}
+
+async function loadPlan(profileName) {
+  try {
+    const data = await apiGET('/session_plan?profile_name=' + profileName);
+
+    document.getElementById('sc-title').textContent = data.profile_name.replace(/_/g, ' ').toUpperCase();
+    document.getElementById('sc-desc').textContent = data.profile.description;
+
+    // Rules
+    const rulesEl = document.getElementById('sc-rules');
+    const p = data.profile;
+    rulesEl.innerHTML = `
+      <div class="sc-rule"><div class="sr-label">Decks</div><div class="sr-value">${p.num_decks}</div></div>
+      <div class="sc-rule"><div class="sr-label">Penetration</div><div class="sr-value">${(p.penetration * 100).toFixed(0)}%</div></div>
+      <div class="sc-rule"><div class="sr-label">Dealer</div><div class="sr-value">${p.dealer_hits_soft_17 ? 'H17' : 'S17'}</div></div>
+      <div class="sc-rule"><div class="sr-label">BJ Pays</div><div class="sr-value">${p.blackjack_pays === 1.5 ? '3:2' : '6:5'}</div></div>
+      <div class="sc-rule"><div class="sr-label">Surrender</div><div class="sr-value">${p.late_surrender ? 'Late' : 'No'}</div></div>
+      <div class="sc-rule"><div class="sr-label">DAS</div><div class="sr-value">${p.double_after_split ? 'Yes' : 'No'}</div></div>
+    `;
+
+    // Optimization params
+    const paramsEl = document.getElementById('sc-params');
+    const noOpt = document.getElementById('sc-no-opt');
+
+    if (data.has_optimization) {
+      noOpt.classList.add('hidden');
+      paramsEl.parentElement.classList.remove('hidden');
+      paramsEl.innerHTML = `
+        <div class="sc-param"><div class="sp-label">Count System</div><div class="sp-value">${data.counting_system.toUpperCase()}</div></div>
+        <div class="sc-param"><div class="sp-label">Bet Method</div><div class="sp-value">${data.betting_method}</div></div>
+        <div class="sc-param"><div class="sp-label">Spread Ratio</div><div class="sp-value">${data.spread_ratio.toFixed(0)}x</div></div>
+        <div class="sc-param"><div class="sp-label">Bet Ramp TC</div><div class="sp-value">+${data.bet_ramp_tc}</div></div>
+        <div class="sc-param"><div class="sp-label">Wong In TC</div><div class="sp-value">+${data.wong_in_tc}</div></div>
+        <div class="sc-param"><div class="sp-label">Wong Out TC</div><div class="sp-value">${data.wong_out_tc}</div></div>
+        <div class="sc-param"><div class="sp-label">Kelly Fraction</div><div class="sp-value">${(data.kelly_fraction * 100).toFixed(0)}%</div></div>
+        <div class="sc-param"><div class="sp-label">Exp. Hourly</div><div class="sp-value">$${data.expected_hourly_rate.toFixed(2)}</div></div>
+      `;
+    } else {
+      noOpt.classList.remove('hidden');
+      paramsEl.parentElement.classList.add('hidden');
+    }
+  } catch (e) {
+    console.error('Failed to load plan:', e);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// POST-SESSION REVIEW
+// ═══════════════════════════════════════════════════════════
+async function analyzeSession() {
+  const hands = parseFloat(document.getElementById('sr-hands').value);
+  const hours = parseFloat(document.getElementById('sr-hours').value);
+  const wagered = parseFloat(document.getElementById('sr-wagered').value);
+  const pnl = parseFloat(document.getElementById('sr-pnl').value);
+  const min_bet = parseFloat(document.getElementById('sr-minbet').value);
+  const max_bet = parseFloat(document.getElementById('sr-maxbet').value);
+
+  if (!hands || !hours || !wagered || isNaN(pnl) || !min_bet || !max_bet) {
+    alert('Please fill in all fields');
+    return;
+  }
+
+  try {
+    const params = new URLSearchParams({
+      system: currentSystem,
+      hands, hours, wagered, pnl, min_bet, max_bet,
+      save: 'true',
+    });
+    const res = await fetch(API + '/analyze_session?' + params.toString(), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{}',
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+
+    const m = data.metrics;
+    const arEl = document.getElementById('analysis-result');
+    arEl.classList.remove('hidden');
+
+    // Metrics
+    const metricsEl = document.getElementById('ar-metrics');
+    metricsEl.innerHTML = `
+      <div class="ar-metric">
+        <div class="arm-value ${m.pnl >= 0 ? 'positive' : 'negative'}">$${m.pnl >= 0 ? '+' : ''}${m.pnl.toFixed(0)}</div>
+        <div class="arm-label">Net P&L</div>
+      </div>
+      <div class="ar-metric">
+        <div class="arm-value">${m.roi_pct >= 0 ? '+' : ''}${m.roi_pct.toFixed(2)}%</div>
+        <div class="arm-label">ROI</div>
+      </div>
+      <div class="ar-metric">
+        <div class="arm-value">$${m.hourly_rate >= 0 ? '+' : ''}${m.hourly_rate.toFixed(1)}</div>
+        <div class="arm-label">Hourly Rate</div>
+      </div>
+      <div class="ar-metric">
+        <div class="arm-value">${data.discipline_score.toFixed(0)}</div>
+        <div class="arm-label">Discipline Score</div>
+      </div>
+    `;
+
+    // Leaks
+    const leaksEl = document.getElementById('leaks-list');
+    if (data.leaks && data.leaks.length > 0) {
+      leaksEl.innerHTML = '<h4>Leaks Detected</h4>' +
+        data.leaks.map(l => `<div class="leak-item">${l}</div>`).join('');
+    } else {
+      leaksEl.innerHTML = '';
+    }
+
+    // Strengths
+    const strEl = document.getElementById('strengths-list');
+    if (data.strengths && data.strengths.length > 0) {
+      strEl.innerHTML = '<h4>Strengths</h4>' +
+        data.strengths.map(s => `<div class="strength-item">${s}</div>`).join('');
+    } else {
+      strEl.innerHTML = '';
+    }
+
+    // Scroll to results
+    arEl.scrollIntoView({ behavior: 'smooth' });
+
+  } catch (e) {
+    alert('Analysis failed: ' + e.message);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// PROGRESS PAGE
+// ═══════════════════════════════════════════════════════════
+async function loadProgress() {
+  try {
+    const [progress, readiness] = await Promise.all([
+      apiGET('/progress'),
+      apiGET('/readiness'),
+    ]);
+
+    // Readiness
+    const score = readiness.score || 0;
+    document.getElementById('prog-readiness').textContent = score.toFixed(0) + '%';
+
+    const badge = document.getElementById('prog-cert');
+    if (readiness.certification && readiness.certification.status === 'certified') {
+      badge.className = 'cert-badge cert-certified';
+      badge.innerHTML = '🏆 TABLE READY';
+    } else if (score >= 80) {
+      badge.className = 'cert-badge cert-near';
+      badge.innerHTML = '⭐ NEAR READY';
+    } else {
+      badge.className = 'cert-badge cert-training';
+      badge.innerHTML = '⏳ IN TRAINING';
+    }
+
+    // Sessions
+    const sessions = progress.sessions || {};
+    document.getElementById('prog-sessions').textContent = sessions.count || 0;
+    document.getElementById('prog-total-hours').textContent = (sessions.total_hours || 0).toFixed(1) + 'h';
+    const pnl = sessions.total_pnl || 0;
+    document.getElementById('prog-total-pnl').textContent = (pnl >= 0 ? '+$' : '-$') + Math.abs(pnl).toFixed(0);
+    document.getElementById('prog-total-pnl').className = 'stat-value ' + (pnl >= 0 ? 'text-success' : 'text-danger');
+
+    // Certification checklist
+    const checks = readiness.certification && readiness.certification.checks || [];
+    const checklistEl = document.getElementById('cert-checklist');
+    checklistEl.innerHTML = checks.map(check => `
+      <div class="cert-item">
+        <div class="cert-check-icon ${check.passed ? 'pass' : 'fail'}">${check.passed ? '✓' : '✗'}</div>
+        <div class="cert-item-info">
+          <div class="cii-name">${check.label}</div>
+          <div class="cii-detail">Target: ${check.target_pct}% | Min sessions: ${check.min_sessions}</div>
+        </div>
+        <div class="cert-item-stat">
+          <div class="cis-pct">${check.recent_pct.toFixed(0)}%</div>
+          <div class="cis-target">${check.sessions} sessions</div>
+        </div>
+      </div>
+    `).join('');
+
+    // Drill history table
+    const drills = progress.drills || {};
+    const tbody = document.getElementById('drill-history-body');
+    tbody.innerHTML = '';
+
+    const drillLabels = {
+      deviation: 'Deviation Drill',
+      full_table_counting: 'Speed Counting',
+      bet_sizing: 'Bet Sizing',
+      session_planning_review: 'Session Review',
+    };
+
+    for (const [name, data] of Object.entries(drills)) {
+      const label = drillLabels[name] || name;
+      const allTime = data.all_time_pct || 0;
+      const recent = data.recent_pct || 0;
+      const pctClass = recent >= 85 ? 'green' : recent >= 65 ? 'yellow' : 'red';
+
+      tbody.innerHTML += `
+        <tr>
+          <td>${label}</td>
+          <td>${data.sessions || 0}</td>
+          <td><span class="pct-badge ${pctClass}">${allTime.toFixed(0)}%</span></td>
+          <td><span class="pct-badge ${pctClass}">${recent.toFixed(0)}%</span></td>
+          <td>${data.recent_avg_time_sec ? data.recent_avg_time_sec.toFixed(1) + 's' : '-'}</td>
+        </tr>
+      `;
+    }
+
+  } catch (e) {
+    console.error('Failed to load progress:', e);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// SETTINGS PAGE
+// ═══════════════════════════════════════════════════════════
+async function loadSettings() {
+  // Populate Illustrious 18 reference
+  try {
+    const data = await apiGET('/illustrious_18');
+    const listEl = document.getElementById('settings-i18-list');
+    listEl.innerHTML = data.deviations.map(d => `
+      <div class="setting-row" style="border-bottom: 1px solid rgba(255,255,255,0.04); padding: 10px 0;">
+        <label style="flex: 1; font-size: 13px;">${d.hand} vs ${d.dealer}</label>
+        <span style="color: var(--gold); font-family: JetBrains Mono; font-size: 12px; margin-right: 12px;">${d.action}</span>
+        <span style="color: var(--muted); font-size: 11px;">${d.tc_condition}</span>
+      </div>
+    `).join('');
+  } catch (e) {
+    console.error('Failed to load I18:', e);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// FEEDBACK OVERLAY
+// ═══════════════════════════════════════════════════════════
+function showFeedback(correct, detail, question) {
+  const overlay = document.getElementById('feedback-overlay');
+  const icon = document.getElementById('feedback-icon');
+  const title = document.getElementById('feedback-title');
+  const detailEl = document.getElementById('feedback-detail');
+
+  overlay.className = 'feedback-overlay show ' + (correct ? 'correct' : 'wrong');
+  icon.textContent = correct ? '✓' : '✗';
+  title.textContent = correct ? 'Correct!' : 'Wrong!';
+
+  let detailText = detail;
+  if (question && !correct && question.threshold !== undefined) {
+    detailText += ` (TC threshold: ${question.threshold >= 0 ? '+' : ''}${question.threshold})`;
+  }
+  detailEl.textContent = detailText;
+}
+
+function hideFeedback() {
+  document.getElementById('feedback-overlay').className = 'feedback-overlay';
+}
+
+// ═══════════════════════════════════════════════════════════
+// UTILITY
+// ═══════════════════════════════════════════════════════════
+function changeSystem(system) {
+  currentSystem = system;
+  document.getElementById('system-select').value = system;
+  document.getElementById('setting-system').value = system;
+  loadHomeData();
+}
+
+function getSuitSymbol(suit) {
+  const symbols = { hearts: '♥', diamonds: '♦', clubs: '♣', spades: '♠' };
+  return symbols[suit] || '♠';
+}
+
+function randomSuit() {
+  return ['hearts', 'diamonds', 'clubs', 'spades'][Math.floor(Math.random() * 4)];
+}
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  loadHomeData();
+
+  // Speed button handlers
+  document.querySelectorAll('.speed-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedSpeed = parseFloat(btn.dataset.speed);
+    });
+  });
+});
+</script>
+</body>
+</html>

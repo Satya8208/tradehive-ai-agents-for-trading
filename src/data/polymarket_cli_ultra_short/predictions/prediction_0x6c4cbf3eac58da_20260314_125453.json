@@ -1,0 +1,41 @@
+{
+  "market_id": "0x6c4cbf3eac58da739fbdcf883fc5130c69be12adcc5dddea8f1dbff5cee6b100",
+  "timestamp": "2026-03-14T12:54:53.220219",
+  "consensus_prediction": "YES",
+  "consensus_probability": 0.9654054054054054,
+  "consensus_confidence": 0.6166666666666667,
+  "yes_votes": 2,
+  "no_votes": 1,
+  "agreement_ratio": 0.6666666666666666,
+  "predictions": [
+    {
+      "model_provider": "openrouter",
+      "model_name": "anthropic/claude-sonnet-4",
+      "prediction": "NO",
+      "probability_estimate": 0.25,
+      "confidence": 0.75,
+      "reasoning": "With only 0.1 hours (6 minutes) remaining and YES price at 95%, the market is extremely overpriced. The volatile price history shows this is likely a momentum-driven spike that's unsustainable at such",
+      "response_time": 3.9276230335235596
+    },
+    {
+      "model_provider": "deepseek",
+      "model_name": "deepseek-chat",
+      "prediction": "YES",
+      "probability_estimate": 0.98,
+      "confidence": 0.95,
+      "reasoning": "With only 6 minutes remaining and YES price at $0.9650 showing extremely bullish momentum (+70.8%), the market strongly expects SOL to finish above its starting price for the 60-minute window.",
+      "response_time": 4.293221950531006
+    },
+    {
+      "model_provider": "openrouter",
+      "model_name": "x-ai/grok-4-fast",
+      "prediction": "YES",
+      "probability_estimate": 0.95,
+      "confidence": 0.9,
+      "reasoning": "The YES token price has shown strong bullish momentum with a +70.8% increase, reflecting market expectation of SOL price stability or slight uptick in the final minutes; with only 0.1 hours remaining,",
+      "response_time": 5.555141925811768
+    }
+  ],
+  "market_question": "Solana Up or Down - March 14, 8AM ET",
+  "market_symbol": "SOL"
+}

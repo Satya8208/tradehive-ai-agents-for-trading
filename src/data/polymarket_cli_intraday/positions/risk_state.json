@@ -1,0 +1,30 @@
+{
+  "daily_pnl": 0.0,
+  "daily_trade_count": 1,
+  "halted": false,
+  "halt_reason": "",
+  "today": "2026-03-14",
+  "positions": [
+    {
+      "market_id": "0xd308326490382c8227d303968d7774101c535f21d85e532aaf10b868c124615d",
+      "token_id": "0x59c9bb2c69276429726986794d42d962a976a8b4d83f12afc198a83965df5f3a",
+      "side": "YES",
+      "size_usd": 46.76,
+      "entry_price": 0.055,
+      "current_price": 0.05,
+      "entry_time": "2026-03-14T12:55:29.975584",
+      "question": "Will the price of Ethereum be between $2,100 and $2,200 on March 14?",
+      "unrealized_pnl": -4.25,
+      "market_value": 42.51,
+      "is_resolved": false,
+      "resolved_outcome": "",
+      "end_date": "2026-03-14T16:00:00",
+      "duration_minutes": null,
+      "source": "swarm",
+      "symbol": "ETH"
+    }
+  ],
+  "expiry_stats": {},
+  "symbol_stats": {},
+  "source_stats": {}
+}

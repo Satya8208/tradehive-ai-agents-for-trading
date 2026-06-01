@@ -1,0 +1,2583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poker Advisor | TradeHive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Core palette - Casino Noir */
+            --void: #050505;
+            --felt: #0d1f12;
+            --felt-glow: #1a3d24;
+            --surface: #0f0f0f;
+            --surface-elevated: #1a1a1a;
+            --surface-hover: #252525;
+
+            /* Accent colors */
+            --gold: #d4a853;
+            --gold-dim: #a68a3f;
+            --gold-glow: rgba(212, 168, 83, 0.3);
+            --emerald: #2dd881;
+            --emerald-dim: #1a8f4e;
+
+            /* Card colors */
+            --card-white: #f5f5f0;
+            --card-shadow: rgba(0, 0, 0, 0.5);
+            --suit-red: #c41e3a;
+            --suit-black: #1a1a1a;
+
+            /* Action colors - Poker specific */
+            --action-raise: #d4a853;
+            --action-call: #22c55e;
+            --action-fold: #ef4444;
+            --action-check: #3b82f6;
+            --action-bet: #d4a853;
+            --action-3bet: #a855f7;
+
+            /* Text */
+            --text-primary: #f5f5f0;
+            --text-secondary: #888;
+            --text-dim: #555;
+
+            /* Metrics */
+            --positive: #22c55e;
+            --negative: #ef4444;
+            --neutral: #888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--void);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Felt table background texture */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 50% 0%, var(--felt-glow) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(212, 168, 83, 0.05) 0%, transparent 40%),
+                var(--void);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Noise overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .dashboard {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            grid-template-rows: auto 1fr;
+            gap: 16px;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, var(--surface) 0%, var(--surface-elevated) 100%);
+            border: 1px solid rgba(212, 168, 83, 0.15);
+            border-radius: 12px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 4px 20px var(--gold-glow);
+        }
+
+        .logo-text {
+            font-family: 'Cinzel', serif;
+            font-size: 22px;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--gold) 0%, #fff 50%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 10px 18px;
+            border: 1px solid var(--text-dim);
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(212, 168, 83, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+            border: none;
+            color: var(--void);
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px var(--gold-glow);
+        }
+
+        /* Main game area */
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        /* Card sections */
+        .card-section {
+            background: linear-gradient(180deg, var(--surface) 0%, rgba(15, 15, 15, 0.8) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 16px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 168, 83, 0.3), transparent);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .street-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            padding: 4px 10px;
+            background: rgba(212, 168, 83, 0.15);
+            border: 1px solid rgba(212, 168, 83, 0.3);
+            border-radius: 4px;
+            color: var(--gold);
+            letter-spacing: 1px;
+        }
+
+        .hand-strength {
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            color: var(--emerald);
+        }
+
+        /* Playing cards */
+        .cards-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            min-height: 90px;
+            align-items: flex-start;
+        }
+
+        .playing-card {
+            width: 62px;
+            height: 88px;
+            background: var(--card-white);
+            border-radius: 7px;
+            position: relative;
+            box-shadow:
+                0 2px 4px rgba(0, 0, 0, 0.2),
+                0 6px 12px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            animation: dealCard 0.3s ease-out;
+        }
+
+        @keyframes dealCard {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) rotateY(90deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateY(0);
+            }
+        }
+
+        .playing-card:hover {
+            transform: translateY(-4px);
+            box-shadow:
+                0 4px 8px rgba(0, 0, 0, 0.3),
+                0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .playing-card.red { color: var(--suit-red); }
+        .playing-card.black { color: var(--suit-black); }
+
+        .card-corner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1;
+        }
+
+        .card-rank {
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .card-suit { font-size: 12px; }
+
+        .card-corner.bottom {
+            align-self: flex-end;
+            transform: rotate(180deg);
+        }
+
+        .card-center-suit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            opacity: 0.9;
+        }
+
+        .playing-card .remove-btn {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 18px;
+            height: 18px;
+            background: var(--negative);
+            border: 2px solid var(--void);
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: white;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .playing-card:hover .remove-btn { display: flex; }
+
+        .add-card-placeholder {
+            width: 62px;
+            height: 88px;
+            border: 2px dashed var(--text-dim);
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .add-card-placeholder:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(212, 168, 83, 0.1);
+        }
+
+        /* Position & Facing selectors */
+        .selectors-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .selector-group {
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        .selector-label {
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .position-buttons, .facing-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .pos-btn, .facing-btn {
+            padding: 8px 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 600;
+            background: var(--surface-elevated);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .pos-btn.active, .facing-btn.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--void);
+        }
+
+        .pos-btn:hover:not(.active), .facing-btn:hover:not(.active) {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* Action recommendation */
+        .action-section {
+            background: linear-gradient(180deg, var(--surface-elevated) 0%, var(--surface) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 28px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            right: -50%;
+            bottom: -50%;
+            background: radial-gradient(circle at center, var(--action-glow, transparent) 0%, transparent 70%);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .action-label {
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .action-recommendation {
+            font-family: 'Cinzel', serif;
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .action-sizing {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .action-recommendation.raise, .action-recommendation.bet, .action-recommendation.3bet {
+            color: var(--action-raise);
+            --action-glow: var(--action-raise);
+            text-shadow: 0 0 40px rgba(212, 168, 83, 0.5);
+        }
+
+        .action-recommendation.call {
+            color: var(--action-call);
+            --action-glow: var(--action-call);
+            text-shadow: 0 0 40px rgba(34, 197, 94, 0.5);
+        }
+
+        .action-recommendation.fold {
+            color: var(--action-fold);
+            --action-glow: var(--action-fold);
+            text-shadow: 0 0 40px rgba(239, 68, 68, 0.5);
+        }
+
+        .action-recommendation.check {
+            color: var(--action-check);
+            --action-glow: var(--action-check);
+            text-shadow: 0 0 40px rgba(59, 130, 246, 0.5);
+        }
+
+        .action-recommendation.waiting {
+            color: var(--text-dim);
+            font-size: 28px;
+            letter-spacing: 3px;
+        }
+
+        .action-source {
+            font-size: 12px;
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        .action-status-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+
+        .confidence-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 5px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .confidence-badge.high {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--positive);
+            border-color: rgba(34, 197, 94, 0.25);
+        }
+
+        .confidence-badge.medium {
+            background: rgba(212, 168, 83, 0.15);
+            color: var(--gold);
+            border-color: rgba(212, 168, 83, 0.25);
+        }
+
+        .confidence-badge.low {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--negative);
+            border-color: rgba(239, 68, 68, 0.25);
+        }
+
+        .confidence-score {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .status-banner {
+            margin-top: 14px;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 14px;
+            text-align: left;
+        }
+
+        .insight-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 12px;
+            min-height: 88px;
+        }
+
+        .insight-card.wide {
+            grid-column: span 2;
+        }
+
+        .insight-label {
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .insight-value {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .screenshot-zone {
+            display: grid;
+            gap: 12px;
+            padding: 16px;
+            border: 1px dashed rgba(212, 168, 83, 0.24);
+            border-radius: 14px;
+            background: linear-gradient(180deg, rgba(212, 168, 83, 0.05) 0%, rgba(15, 15, 15, 0.45) 100%);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .screenshot-zone:hover,
+        .screenshot-zone:focus-visible {
+            border-color: rgba(212, 168, 83, 0.55);
+            box-shadow: 0 0 0 2px rgba(212, 168, 83, 0.12);
+        }
+
+        .screenshot-zone.is-loading {
+            border-color: rgba(212, 168, 83, 0.7);
+            box-shadow: 0 0 24px rgba(212, 168, 83, 0.08);
+        }
+
+        .screenshot-copy {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .screenshot-copy strong {
+            display: block;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .screenshot-hint {
+            color: var(--gold);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+        }
+
+        .screenshot-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .hidden-file-input {
+            display: none;
+        }
+
+        .screenshot-preview-wrap {
+            display: grid;
+            gap: 8px;
+        }
+
+        .screenshot-preview {
+            width: 100%;
+            max-height: 260px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.28);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .screenshot-meta {
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+
+        .text-area-input {
+            width: 100%;
+            min-height: 80px;
+            padding: 10px 12px;
+            resize: vertical;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            background: var(--surface-elevated);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border-radius: 8px;
+            line-height: 1.5;
+        }
+
+        .text-area-input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .context-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .context-item {
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            font-size: 12px;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+
+        .context-item strong {
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 4px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .assumptions-list {
+            display: grid;
+            gap: 8px;
+            margin: 0;
+            padding-left: 16px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* Card input section */
+        .card-input-section {
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 16px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .target-btn {
+            flex: 1;
+            padding: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            background: var(--surface-elevated);
+            border: 1px solid var(--text-dim);
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .target-btn.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--void);
+        }
+
+        .target-btn:hover:not(.active) {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .suit-selector {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .suit-btn {
+            flex: 1;
+            padding: 10px;
+            font-size: 20px;
+            background: var(--surface-elevated);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .suit-btn.spades, .suit-btn.clubs { color: #1a1a1a; background: #e8e8e8; }
+        .suit-btn.hearts, .suit-btn.diamonds { color: var(--suit-red); background: #ffe8ec; }
+
+        .suit-btn.active {
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 10px var(--gold-glow);
+            transform: scale(1.1);
+        }
+
+        /* Current suit indicator */
+        .current-suit-display {
+            text-align: center;
+            padding: 8px;
+            margin-bottom: 10px;
+            background: var(--surface-elevated);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .current-suit-display .suit-icon {
+            font-size: 24px;
+            margin-right: 8px;
+        }
+
+        .current-suit-display.spades { color: #1a1a1a; background: #e8e8e8; }
+        .current-suit-display.hearts { color: var(--suit-red); background: #ffe8ec; }
+        .current-suit-display.diamonds { color: var(--suit-red); background: #ffe8ec; }
+        .current-suit-display.clubs { color: #1a1a1a; background: #e8e8e8; }
+
+        .card-buttons {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+        }
+
+        .card-btn {
+            aspect-ratio: 1;
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            font-weight: 600;
+            background: var(--surface-elevated);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-btn:hover {
+            background: var(--gold);
+            color: var(--void);
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px var(--gold-glow);
+        }
+
+        .card-btn:active { transform: scale(0.95); }
+        .card-btn.ten { font-size: 13px; }
+
+        /* Pot/Stack inputs */
+        .inputs-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .input-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .num-input {
+            width: 100%;
+            padding: 10px 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            background: var(--surface-elevated);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .num-input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        /* Villain range */
+        .range-section {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .range-input-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .range-input {
+            flex: 1;
+            padding: 10px 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            background: var(--surface-elevated);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border-radius: 8px;
+        }
+
+        .range-input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .range-presets {
+            display: flex;
+            gap: 6px;
+        }
+
+        .preset-btn {
+            flex: 1;
+            padding: 8px;
+            font-size: 11px;
+            font-weight: 500;
+            background: var(--surface-elevated);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .preset-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* Control buttons */
+        .control-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .control-btn {
+            padding: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn.new-hand {
+            background: linear-gradient(135deg, var(--emerald) 0%, var(--emerald-dim) 100%);
+            color: white;
+        }
+
+        .control-btn.new-hand:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(45, 216, 129, 0.3);
+        }
+
+        .control-btn.clear {
+            background: var(--surface-elevated);
+            border: 1px solid var(--text-dim);
+            color: var(--text-secondary);
+        }
+
+        .control-btn.clear:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .control-btn.analyze {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+            color: var(--void);
+        }
+
+        .result-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .result-btn {
+            padding: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .result-btn.win {
+            border-color: var(--positive);
+            color: var(--positive);
+        }
+
+        .result-btn.win:hover {
+            background: var(--positive);
+            color: white;
+        }
+
+        .result-btn.lose {
+            border-color: var(--negative);
+            color: var(--negative);
+        }
+
+        .result-btn.lose:hover {
+            background: var(--negative);
+            color: white;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .stat-card {
+            background: linear-gradient(180deg, var(--surface) 0%, rgba(15, 15, 15, 0.8) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 168, 83, 0.2), transparent);
+        }
+
+        .stat-card-title {
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 14px;
+        }
+
+        /* Equity display */
+        .equity-display {
+            text-align: center;
+            padding: 16px 0;
+        }
+
+        .equity-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 42px;
+            font-weight: 700;
+        }
+
+        .equity-value::after {
+            content: '%';
+            font-size: 24px;
+            opacity: 0.7;
+        }
+
+        .equity-value.positive { color: var(--positive); }
+        .equity-value.negative { color: var(--negative); }
+        .equity-value.neutral { color: var(--text-primary); }
+
+        .equity-breakdown {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .equity-breakdown span {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Metrics grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .metric-item {
+            text-align: center;
+            padding: 12px 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+        }
+
+        .metric-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .metric-value::after {
+            content: '%';
+            font-size: 14px;
+            opacity: 0.6;
+        }
+
+        .metric-label {
+            font-size: 10px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* Session stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 10px 6px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .stat-value.wins { color: var(--positive); }
+        .stat-value.losses { color: var(--negative); }
+
+        .stat-label {
+            font-size: 9px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .pnl-display {
+            text-align: center;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .pnl-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .pnl-value.positive { color: var(--positive); }
+        .pnl-value.negative { color: var(--negative); }
+
+        .pnl-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .bb100-badge {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+        }
+
+        .bb100-badge.positive {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--positive);
+        }
+
+        .bb100-badge.negative {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--negative);
+        }
+
+        /* Settings */
+        .settings-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .settings-row:last-child { border-bottom: none; }
+
+        .settings-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        select {
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            padding: 6px 10px;
+            background: var(--surface-elevated);
+            border: 1px solid var(--text-dim);
+            color: var(--text-primary);
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            padding: 14px 20px;
+            background: var(--surface-elevated);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 13px;
+            color: var(--text-primary);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success { border-left: 4px solid var(--positive); }
+        .toast.error { border-left: 4px solid var(--negative); }
+
+        /* Keyboard hint */
+        .keyboard-hint {
+            font-size: 10px;
+            color: var(--text-dim);
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .keyboard-hint kbd {
+            padding: 2px 5px;
+            background: var(--surface-elevated);
+            border: 1px solid var(--text-dim);
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard { padding: 12px; }
+            .sidebar { grid-template-columns: 1fr; }
+            .action-recommendation { font-size: 32px; }
+            .card-buttons { grid-template-columns: repeat(5, 1fr); }
+            .selectors-row { grid-template-columns: 1fr; }
+            .inputs-row, .detail-grid, .insight-grid { grid-template-columns: 1fr; }
+            .insight-card.wide { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">♠♥</div>
+                <span class="logo-text">Poker Advisor</span>
+            </div>
+            <div class="header-actions">
+                <button class="btn" onclick="resetSession()">Reset Session</button>
+                <button class="btn btn-primary" onclick="newHand()">New Hand</button>
+            </div>
+        </header>
+
+        <!-- Main Game Area -->
+        <main class="game-area">
+            <!-- Hero Cards -->
+            <div class="card-section">
+                <div class="section-header">
+                    <span class="section-title">Your Hand</span>
+                    <span class="hand-strength" id="hand-strength">--</span>
+                </div>
+                <div class="cards-container" id="hero-cards">
+                    <div class="add-card-placeholder" onclick="setInputTarget('hero')">+</div>
+                </div>
+            </div>
+
+            <!-- Board Cards -->
+            <div class="card-section">
+                <div class="section-header">
+                    <span class="section-title">Board</span>
+                    <span class="street-badge" id="street-badge">PREFLOP</span>
+                </div>
+                <div class="cards-container" id="board-cards">
+                    <div class="add-card-placeholder" onclick="setInputTarget('board')">+</div>
+                </div>
+            </div>
+
+            <!-- Screenshot Mode -->
+            <div class="card-section">
+                <div class="section-header">
+                    <span class="section-title">Screenshot Mode</span>
+                    <span class="street-badge" id="layout-detected">GENERIC</span>
+                </div>
+                <div
+                    class="screenshot-zone"
+                    id="screenshot-zone"
+                    tabindex="0"
+                    onclick="handleScreenshotZoneClick(event)"
+                    onpaste="handleScreenshotPaste(event)"
+                    ondragover="handleScreenshotDragOver(event)"
+                    ondrop="handleScreenshotDrop(event)"
+                >
+                    <div class="screenshot-copy">
+                        <strong>Fast paste/drop parser for online tables</strong>
+                        One vision-model pass reads the visible state, then the deterministic engine gives the action.
+                    </div>
+                    <div class="screenshot-hint">Click, drop, or press Ctrl+V while this box is focused.</div>
+                    <div class="screenshot-actions">
+                        <button class="btn" type="button" onclick="openScreenshotPicker(event)">Upload Screenshot</button>
+                        <button class="btn" type="button" onclick="analyzeScreenshot(event)">Analyze Screenshot</button>
+                        <button class="btn" type="button" onclick="resetScreenshot(event)">Reset Screenshot</button>
+                        <input class="hidden-file-input" id="screenshot-input" type="file" accept="image/*" onchange="handleScreenshotFile(event)">
+                    </div>
+                    <div class="screenshot-preview-wrap" id="screenshot-preview-wrap" style="display: none;">
+                        <img class="screenshot-preview" id="screenshot-preview" alt="Poker screenshot preview">
+                        <div class="screenshot-meta" id="screenshot-meta">Clipboard image ready.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Position & Facing Selectors -->
+            <div class="selectors-row">
+                <div class="selector-group">
+                    <div class="selector-label">Position</div>
+                    <div class="position-buttons">
+                        <button class="pos-btn" data-pos="utg" onclick="setPosition('utg')">UTG</button>
+                        <button class="pos-btn" data-pos="mp" onclick="setPosition('mp')">MP</button>
+                        <button class="pos-btn" data-pos="hj" onclick="setPosition('hj')">HJ</button>
+                        <button class="pos-btn" data-pos="co" onclick="setPosition('co')">CO</button>
+                        <button class="pos-btn active" data-pos="btn" onclick="setPosition('btn')">BTN</button>
+                        <button class="pos-btn" data-pos="sb" onclick="setPosition('sb')">SB</button>
+                        <button class="pos-btn" data-pos="bb" onclick="setPosition('bb')">BB</button>
+                    </div>
+                </div>
+                <div class="selector-group">
+                    <div class="selector-label">Facing</div>
+                    <div class="facing-buttons">
+                        <button class="facing-btn active" data-facing="unopened" onclick="setFacing('unopened')">Unopened</button>
+                        <button class="facing-btn" data-facing="raised" onclick="setFacing('raised')">vs Raise</button>
+                        <button class="facing-btn" data-facing="3bet" onclick="setFacing('3bet')">vs 3-Bet</button>
+                        <button class="facing-btn" data-facing="4bet" onclick="setFacing('4bet')">vs 4-Bet</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reads & Line -->
+            <div class="card-section">
+                <div class="section-header">
+                    <span class="section-title">Reads & Line</span>
+                    <span class="hand-strength" id="parse-status">Manual spot</span>
+                </div>
+                <div class="detail-grid">
+                    <div class="input-group">
+                        <label class="input-label">Villain Position</label>
+                        <select class="num-input" id="villain-position" onchange="updateReads()">
+                            <option value="">Unknown</option>
+                            <option value="UTG">UTG</option>
+                            <option value="MP">MP</option>
+                            <option value="HJ">HJ</option>
+                            <option value="CO">CO</option>
+                            <option value="BTN">BTN</option>
+                            <option value="SB">SB</option>
+                            <option value="BB">BB</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Villain Type</label>
+                        <select class="num-input" id="villain-type" onchange="updateReads()">
+                            <option value="reg">Reg</option>
+                            <option value="fish">Fish</option>
+                            <option value="tag">TAG</option>
+                            <option value="lag">LAG</option>
+                            <option value="nit">Nit</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Players In Pot</label>
+                        <input type="number" class="num-input" id="player-count" value="2" min="2" step="1" onchange="updateReads()">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Preflop Aggressor</label>
+                        <select class="num-input" id="preflop-aggressor" onchange="updateReads()">
+                            <option value="hero">Hero</option>
+                            <option value="villain">Villain</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="range-section">
+                    <div class="input-group">
+                        <label class="input-label">Action History</label>
+                        <textarea class="text-area-input" id="action-history" onchange="updateReads()" placeholder="One action per line, e.g.&#10;CO open 2.5bb&#10;BTN call&#10;flop cbet 33%"></textarea>
+                    </div>
+                </div>
+
+                <div class="detail-grid">
+                    <div class="input-group">
+                        <label class="input-label">VPIP</label>
+                        <input type="number" class="num-input" id="hud-vpip" min="0" max="100" step="1" onchange="updateReads()" placeholder="24">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">PFR</label>
+                        <input type="number" class="num-input" id="hud-pfr" min="0" max="100" step="1" onchange="updateReads()" placeholder="19">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">3-Bet</label>
+                        <input type="number" class="num-input" id="hud-3bet" min="0" max="100" step="0.1" onchange="updateReads()" placeholder="8.5">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Fold vs C-Bet</label>
+                        <input type="number" class="num-input" id="hud-fold-to-cbet" min="0" max="100" step="1" onchange="updateReads()" placeholder="41">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Recommendation -->
+            <div class="action-section">
+                <div class="action-label">Recommended Action</div>
+                <div class="action-recommendation waiting" id="action-text">ENTER CARDS</div>
+                <div class="action-sizing" id="action-sizing"></div>
+                <div class="action-source" id="action-source"></div>
+                <div class="action-status-row">
+                    <span class="confidence-badge" id="confidence-badge">READY</span>
+                    <span class="confidence-score" id="confidence-score">Confidence --</span>
+                </div>
+                <div class="status-banner" id="status-banner">Build the spot manually or paste a screenshot to get a live decision.</div>
+                <div class="insight-grid">
+                    <div class="insight-card">
+                        <div class="insight-label">Baseline</div>
+                        <div class="insight-value" id="baseline-line">--</div>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-label">Exploit</div>
+                        <div class="insight-value" id="exploit-note">--</div>
+                    </div>
+                    <div class="insight-card wide">
+                        <div class="insight-label">Next Street</div>
+                        <div class="insight-value" id="next-street-plan">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Input -->
+            <div class="card-input-section">
+                <div class="input-row">
+                    <button class="target-btn active" id="target-hero" onclick="setInputTarget('hero')">Hero Hand</button>
+                    <button class="target-btn" id="target-board" onclick="setInputTarget('board')">Board</button>
+                </div>
+
+                <!-- Current suit indicator -->
+                <div class="current-suit-display spades" id="current-suit-display">
+                    <span class="suit-icon">♠</span>
+                    <span>Adding SPADES cards</span>
+                </div>
+
+                <div class="suit-selector">
+                    <button class="suit-btn spades active" data-suit="s" onclick="setSuit('s')">♠</button>
+                    <button class="suit-btn hearts" data-suit="h" onclick="setSuit('h')">♥</button>
+                    <button class="suit-btn diamonds" data-suit="d" onclick="setSuit('d')">♦</button>
+                    <button class="suit-btn clubs" data-suit="c" onclick="setSuit('c')">♣</button>
+                </div>
+
+                <div class="card-buttons">
+                    <button class="card-btn" onclick="addCard('A')">A</button>
+                    <button class="card-btn" onclick="addCard('K')">K</button>
+                    <button class="card-btn" onclick="addCard('Q')">Q</button>
+                    <button class="card-btn" onclick="addCard('J')">J</button>
+                    <button class="card-btn" onclick="addCard('T')">T</button>
+                    <button class="card-btn" onclick="addCard('9')">9</button>
+                    <button class="card-btn" onclick="addCard('8')">8</button>
+                    <button class="card-btn" onclick="addCard('7')">7</button>
+                    <button class="card-btn" onclick="addCard('6')">6</button>
+                    <button class="card-btn" onclick="addCard('5')">5</button>
+                    <button class="card-btn" onclick="addCard('4')">4</button>
+                    <button class="card-btn" onclick="addCard('3')">3</button>
+                    <button class="card-btn" onclick="addCard('2')">2</button>
+                    <button class="card-btn" style="visibility: hidden;"></button>
+                </div>
+
+                <!-- Pot/Stack Inputs -->
+                <div class="inputs-row">
+                    <div class="input-group">
+                        <label class="input-label">Pot Size (BB)</label>
+                        <input type="number" class="num-input" id="pot-size" value="1.5" min="0" step="0.5" onchange="updatePot()" placeholder="e.g. 10">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Bet to Call (BB)</label>
+                        <input type="number" class="num-input" id="bet-to-call" value="0" min="0" step="0.5" onchange="updatePot()" placeholder="e.g. 3">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Eff. Stack (BB)</label>
+                        <input type="number" class="num-input" id="eff-stack" value="100" min="0" step="1" onchange="updatePot()" placeholder="100">
+                    </div>
+                </div>
+
+                <!-- Villain Range -->
+                <div class="range-section">
+                    <div class="range-input-row">
+                        <input type="text" class="range-input" id="villain-range" placeholder="Villain range (e.g., 22+,AKs,AQo+)" onchange="updateRange()">
+                    </div>
+                    <div class="range-presets">
+                        <button class="preset-btn" onclick="setRangePreset('tight')">Tight 15%</button>
+                        <button class="preset-btn" onclick="setRangePreset('standard')">Standard 25%</button>
+                        <button class="preset-btn" onclick="setRangePreset('loose')">Loose 40%</button>
+                    </div>
+                </div>
+
+                <!-- Control Buttons -->
+                <div class="control-buttons">
+                    <button class="control-btn new-hand" onclick="newHand()">New Hand</button>
+                    <button class="control-btn clear" onclick="clearBoard()">Clear Board</button>
+                    <button class="control-btn analyze" onclick="analyze()">Analyze</button>
+                </div>
+
+                <div class="result-buttons">
+                    <button class="result-btn win" onclick="recordResult(true)">Record Win</button>
+                    <button class="result-btn lose" onclick="recordResult(false)">Record Loss</button>
+                </div>
+
+                <div class="keyboard-hint">
+                    <kbd>N</kbd> New Hand &nbsp; <kbd>A-K</kbd> Cards &nbsp; <kbd>S</kbd><kbd>H</kbd><kbd>D</kbd><kbd>C</kbd> Suits
+                </div>
+            </div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Equity -->
+            <div class="stat-card">
+                <div class="stat-card-title">Equity vs Range</div>
+                <div class="equity-display">
+                    <div class="equity-value neutral" id="equity-value">--</div>
+                    <div class="equity-breakdown">
+                        <span>Win: <span id="win-rate">--</span>%</span>
+                        <span>Tie: <span id="tie-rate">--</span>%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pot Odds -->
+            <div class="stat-card">
+                <div class="stat-card-title">Pot Odds</div>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-value" id="pot-odds">--</div>
+                        <div class="metric-label">Pot Odds</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value" id="break-even">--</div>
+                        <div class="metric-label">Break Even</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GTO Metrics -->
+            <div class="stat-card">
+                <div class="stat-card-title">GTO Metrics</div>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-value" id="mdf">--</div>
+                        <div class="metric-label">MDF</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value" id="alpha">--</div>
+                        <div class="metric-label">Alpha</div>
+                    </div>
+                    <div class="metric-item" style="grid-column: 1 / -1;">
+                        <div class="metric-value" id="bluff-freq">--</div>
+                        <div class="metric-label">Bluff Frequency</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-card-title">Decision Context</div>
+                <div class="context-list">
+                    <div class="context-item">
+                        <strong>Spot Summary</strong>
+                        <span id="spot-summary">Waiting for a complete spot.</span>
+                    </div>
+                    <div class="context-item">
+                        <strong>Range Summary</strong>
+                        <span id="range-summary">Population range context will appear here.</span>
+                    </div>
+                    <div class="context-item">
+                        <strong>Parse Summary</strong>
+                        <span id="parse-summary">No screenshot parsed yet.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-card-title">Assumptions</div>
+                <ul class="assumptions-list" id="assumptions-list">
+                    <li>No active assumptions.</li>
+                </ul>
+            </div>
+
+            <!-- Session Stats -->
+            <div class="stat-card">
+                <div class="stat-card-title">Session Stats</div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value" id="hands-played">0</div>
+                        <div class="stat-label">Hands</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value wins" id="hands-won">0</div>
+                        <div class="stat-label">Won</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="win-rate-stat">0%</div>
+                        <div class="stat-label">Win Rate</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value losses" id="hands-lost">0</div>
+                        <div class="stat-label">Lost</div>
+                    </div>
+                </div>
+                <div class="pnl-display">
+                    <div class="pnl-value neutral" id="pnl-value">$0</div>
+                    <div class="pnl-label">Session P&L</div>
+                    <div class="bb100-badge neutral" id="bb100-badge">0.0 BB/100</div>
+                </div>
+            </div>
+
+            <!-- Settings -->
+            <div class="stat-card">
+                <div class="stat-card-title">Settings</div>
+                <div class="settings-row">
+                    <span class="settings-label">Game Format</span>
+                    <select id="game-format">
+                        <option value="cash" selected>Cash Game</option>
+                        <option value="tournament">Tournament</option>
+                    </select>
+                </div>
+                <div class="settings-row">
+                    <span class="settings-label">Variant</span>
+                    <select id="variant">
+                        <option value="holdem" selected>Hold'em</option>
+                        <option value="omaha">Omaha</option>
+                    </select>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const SESSION_KEY = 'tradehive-poker-dashboard-session';
+
+        function getSessionId() {
+            let current = sessionStorage.getItem(SESSION_KEY);
+            if (!current) {
+                current = `poker-${Date.now()}-${Math.random().toString(16).slice(2, 10)}`;
+                sessionStorage.setItem(SESSION_KEY, current);
+            }
+            return current;
+        }
+
+        function readFileAsDataUrl(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = () => reject(new Error('Failed to read screenshot file'));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // ===== STATE =====
+        const state = {
+            sessionId: getSessionId(),
+            heroCards: [],      // ['Ah', 'Ks']
+            board: [],          // ['Kd', '7c', '2h']
+            position: 'btn',
+            facing: 'unopened',
+            inputTarget: 'hero',
+            selectedSuit: 's',
+
+            // Pot state - defaults for typical 6-max cash game
+            potSize: 2.5,           // SB + BB + typical open
+            betToCall: 0,
+            effectiveStack: 100,
+
+            // Villain
+            villainRange: '',
+            villainPosition: '',
+            villainType: 'reg',
+            playerCount: 2,
+            isPreflopAggressor: true,
+            actionHistory: '',
+            villainStats: {
+                vpip: '',
+                pfr: '',
+                three_bet: '',
+                fold_to_cbet: '',
+            },
+
+            // Screenshot
+            screenshot: {
+                imageData: '',
+                imageType: 'image/png',
+                fileName: '',
+                previewUrl: '',
+                parseSummary: null,
+            },
+            manualSnapshot: null,
+
+            // Session stats
+            handsPlayed: 0,
+            handsWon: 0,
+            totalProfit: 0,
+
+            // Last analysis
+            lastAnalysis: null
+        };
+
+        const SUIT_SYMBOLS = { 's': '♠', 'h': '♥', 'd': '♦', 'c': '♣' };
+        const RANGE_PRESETS = {
+            tight: 'AA-TT,AKs,AQs,AKo',
+            standard: 'AA-77,AKs-ATs,KQs-KTs,QJs,JTs,AKo-ATo,KQo',
+            loose: 'AA-22,AKs-A2s,KQs-K8s,QJs-Q9s,JTs-J8s,T9s-T8s,98s-97s,87s,76s,65s,AKo-A5o,KQo-KTo,QJo-QTo,JTo'
+        };
+
+        // ===== API FUNCTIONS =====
+        async function analyze() {
+            if (state.heroCards.length < 2) {
+                showToast('Need at least 2 hole cards', 'error');
+                return;
+            }
+
+            // Always update local calculations first
+            updateLocalCalculations();
+
+            try {
+                const response = await fetch('/api/poker/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        hole_cards: state.heroCards.join(''),
+                        board: state.board.join(''),
+                        hero_position: state.position.toUpperCase(),
+                        villain_position: state.villainPosition || null,
+                        pot_size: state.potSize,
+                        bet_to_call: state.betToCall,
+                        effective_stack: state.effectiveStack,
+                        action_history: state.actionHistory,
+                        is_preflop_aggressor: state.isPreflopAggressor,
+                        villain_type: state.villainType,
+                        villain_stats: {
+                            vpip: state.villainStats.vpip || null,
+                            pfr: state.villainStats.pfr || null,
+                            three_bet: state.villainStats.three_bet || null,
+                            fold_to_cbet: state.villainStats.fold_to_cbet || null,
+                        },
+                        player_count: state.playerCount,
+                        villain_range: state.villainRange,
+                        facing: state.facing,
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorBody = await response.json().catch(() => ({}));
+                    throw new Error(errorBody.detail || 'API error');
+                }
+
+                const data = await response.json();
+                state.lastAnalysis = data;
+                updateDisplay(data);
+            } catch (error) {
+                showUnavailableState(error.message || 'Engine unavailable');
+            }
+        }
+
+        function snapshotManualState() {
+            if (state.manualSnapshot) return;
+            state.manualSnapshot = JSON.parse(JSON.stringify({
+                heroCards: state.heroCards,
+                board: state.board,
+                position: state.position,
+                facing: state.facing,
+                potSize: state.potSize,
+                betToCall: state.betToCall,
+                effectiveStack: state.effectiveStack,
+                villainRange: state.villainRange,
+                villainPosition: state.villainPosition,
+                villainType: state.villainType,
+                playerCount: state.playerCount,
+                isPreflopAggressor: state.isPreflopAggressor,
+                actionHistory: state.actionHistory,
+                villainStats: state.villainStats,
+                lastAnalysis: state.lastAnalysis,
+            }));
+        }
+
+        function openScreenshotPicker(event) {
+            event?.stopPropagation();
+            document.getElementById('screenshot-input').click();
+        }
+
+        function handleScreenshotZoneClick(event) {
+            if (event.target.closest('button, input')) return;
+            openScreenshotPicker(event);
+        }
+
+        function handleScreenshotDragOver(event) {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'copy';
+        }
+
+        async function handleScreenshotDrop(event) {
+            event.preventDefault();
+            const [file] = Array.from(event.dataTransfer.files || []);
+            if (file) {
+                await loadScreenshotFile(file);
+            }
+        }
+
+        async function handleScreenshotPaste(event) {
+            const items = Array.from(event.clipboardData?.items || []);
+            const imageItem = items.find((item) => item.type.startsWith('image/'));
+            if (!imageItem) return;
+            event.preventDefault();
+            const file = imageItem.getAsFile();
+            if (file) {
+                await loadScreenshotFile(file);
+            }
+        }
+
+        async function handleScreenshotFile(event) {
+            const [file] = Array.from(event.target.files || []);
+            if (file) {
+                await loadScreenshotFile(file);
+            }
+            event.target.value = '';
+        }
+
+        async function loadScreenshotFile(file) {
+            if (!file.type.startsWith('image/')) {
+                showToast('Only image screenshots are supported', 'error');
+                return;
+            }
+            snapshotManualState();
+            const dataUrl = await readFileAsDataUrl(file);
+            state.screenshot = {
+                imageData: dataUrl,
+                imageType: file.type || 'image/png',
+                fileName: file.name || 'clipboard-image.png',
+                previewUrl: dataUrl,
+                parseSummary: null,
+            };
+            const zone = document.getElementById('screenshot-zone');
+            zone.classList.add('is-loading');
+            document.getElementById('screenshot-preview-wrap').style.display = 'grid';
+            document.getElementById('screenshot-preview').src = dataUrl;
+            document.getElementById('screenshot-meta').textContent = `${state.screenshot.fileName} ready for analysis.`;
+            await analyzeScreenshot();
+            zone.classList.remove('is-loading');
+        }
+
+        async function analyzeScreenshot(event) {
+            event?.stopPropagation();
+            if (!state.screenshot.imageData) {
+                showToast('Paste or upload a screenshot first', 'error');
+                return;
+            }
+            const zone = document.getElementById('screenshot-zone');
+            zone.classList.add('is-loading');
+            try {
+                const response = await fetch('/api/poker/analyze-screenshot', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        image_data: state.screenshot.imageData,
+                        image_type: state.screenshot.imageType,
+                    })
+                });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.detail || 'Screenshot analysis failed');
+                state.lastAnalysis = data;
+                state.screenshot.parseSummary = data;
+                applyParsedSpot(data.parsed_spot);
+                updateDisplay(data);
+                document.getElementById('parse-status').textContent = 'Screenshot-loaded spot';
+                document.getElementById('parse-summary').textContent = `${Math.round((data.parse_confidence || 0) * 100)}% parse confidence · ${data.layout_detected || 'generic layout'}`;
+                showToast('Screenshot parsed into a live spot', 'success');
+            } catch (error) {
+                showUnavailableState(error.message || 'Screenshot engine unavailable');
+            } finally {
+                zone.classList.remove('is-loading');
+            }
+        }
+
+        function applyParsedSpot(parsedSpot) {
+            if (!parsedSpot) return;
+            state.heroCards = parsedSpot.hole_cards ? parsedSpot.hole_cards.split(/\s+/).filter(Boolean) : [];
+            state.board = parsedSpot.board ? parsedSpot.board.split(/\s+/).filter(Boolean) : [];
+            state.position = (parsedSpot.hero_position || parsedSpot.position || 'BTN').toLowerCase();
+            state.villainPosition = (parsedSpot.villain_position || '').toUpperCase();
+            state.potSize = parsedSpot.pot_size ?? state.potSize;
+            state.betToCall = parsedSpot.bet_to_call ?? state.betToCall;
+            state.effectiveStack = parsedSpot.effective_stack ?? state.effectiveStack;
+            state.isPreflopAggressor = parsedSpot.is_preflop_aggressor ?? state.isPreflopAggressor;
+            state.actionHistory = (parsedSpot.action_history || []).join('\n');
+
+            document.getElementById('pot-size').value = state.potSize;
+            document.getElementById('bet-to-call').value = state.betToCall;
+            document.getElementById('eff-stack').value = state.effectiveStack;
+            document.getElementById('villain-position').value = state.villainPosition;
+            document.getElementById('preflop-aggressor').value = state.isPreflopAggressor ? 'hero' : 'villain';
+            document.getElementById('action-history').value = state.actionHistory;
+            setPosition(state.position);
+            renderCards();
+            updateLocalCalculations();
+        }
+
+        function clearScreenshotState(restoreSnapshot = false) {
+            state.screenshot = {
+                imageData: '',
+                imageType: 'image/png',
+                fileName: '',
+                previewUrl: '',
+                parseSummary: null,
+            };
+            document.getElementById('screenshot-preview-wrap').style.display = 'none';
+            document.getElementById('screenshot-preview').src = '';
+            document.getElementById('screenshot-meta').textContent = 'Clipboard image ready.';
+            document.getElementById('layout-detected').textContent = 'GENERIC';
+            document.getElementById('parse-summary').textContent = 'No screenshot parsed yet.';
+            document.getElementById('parse-status').textContent = 'Manual spot';
+
+            if (restoreSnapshot && state.manualSnapshot) {
+                Object.assign(state, JSON.parse(JSON.stringify(state.manualSnapshot)));
+                state.manualSnapshot = null;
+                document.getElementById('villain-position').value = state.villainPosition;
+                document.getElementById('villain-type').value = state.villainType;
+                document.getElementById('player-count').value = state.playerCount;
+                document.getElementById('preflop-aggressor').value = state.isPreflopAggressor ? 'hero' : 'villain';
+                document.getElementById('action-history').value = state.actionHistory;
+                document.getElementById('hud-vpip').value = state.villainStats.vpip;
+                document.getElementById('hud-pfr').value = state.villainStats.pfr;
+                document.getElementById('hud-3bet').value = state.villainStats.three_bet;
+                document.getElementById('hud-fold-to-cbet').value = state.villainStats.fold_to_cbet;
+                document.getElementById('pot-size').value = state.potSize;
+                document.getElementById('bet-to-call').value = state.betToCall;
+                document.getElementById('eff-stack').value = state.effectiveStack;
+                setPosition(state.position);
+                renderCards();
+                updateLocalCalculations();
+                if (state.lastAnalysis) {
+                    updateDisplay(state.lastAnalysis);
+                } else {
+                    resetActionDisplay();
+                }
+            }
+        }
+
+        function resetScreenshot(event) {
+            event?.stopPropagation();
+            clearScreenshotState(true);
+        }
+
+        async function recordResult(won) {
+            const input = prompt(`Enter ${won ? 'win' : 'loss'} amount (in BB):`, '10');
+            if (input === null) return; // User clicked Cancel
+
+            const amount = parseFloat(input) || 10; // Default to 10 if invalid
+
+            // Update local state immediately for better UX
+            if (won) {
+                state.handsWon++;
+                state.totalProfit += amount;
+            } else {
+                state.totalProfit -= amount;
+            }
+            state.handsPlayed++;
+
+            // Update display immediately
+            updateSessionStats();
+
+            // Show confirmation
+            if (won) {
+                showToast(`Win recorded! +${amount}BB`, 'success');
+            } else {
+                showToast(`Loss recorded: -${amount}BB`, 'error');
+            }
+
+            // Try to sync with backend (non-blocking)
+            fetch('/api/poker/record_result', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ won, amount, session_id: state.sessionId })
+            }).catch(() => {});
+
+            // Start new hand after short delay so user sees the stats update
+            setTimeout(() => newHand(), 500);
+        }
+
+        async function resetSession() {
+            try {
+                await fetch('/api/poker/reset_session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id: state.sessionId })
+                });
+                state.handsPlayed = 0;
+                state.handsWon = 0;
+                state.totalProfit = 0;
+                updateSessionStats();
+                newHand();
+                showToast('Session reset', 'success');
+            } catch (error) {
+                console.error('Error resetting session:', error);
+            }
+        }
+
+        // ===== UI FUNCTIONS =====
+        function createCardElement(cardStr, target) {
+            const rank = cardStr.slice(0, -1);
+            const suit = cardStr.slice(-1);
+            const suitSymbol = SUIT_SYMBOLS[suit] || suit;
+            const isRed = suit === 'h' || suit === 'd';
+
+            const cardEl = document.createElement('div');
+            cardEl.className = `playing-card ${isRed ? 'red' : 'black'}`;
+            cardEl.dataset.card = cardStr;
+            cardEl.dataset.target = target;
+
+            cardEl.innerHTML = `
+                <div class="card-corner">
+                    <span class="card-rank">${rank}</span>
+                    <span class="card-suit">${suitSymbol}</span>
+                </div>
+                <span class="card-center-suit">${suitSymbol}</span>
+                <div class="card-corner bottom">
+                    <span class="card-rank">${rank}</span>
+                    <span class="card-suit">${suitSymbol}</span>
+                </div>
+                <div class="remove-btn" onclick="removeCard(this)">×</div>
+            `;
+
+            return cardEl;
+        }
+
+        function renderCards() {
+            // Hero cards
+            const heroContainer = document.getElementById('hero-cards');
+            heroContainer.innerHTML = '';
+            for (const card of state.heroCards) {
+                heroContainer.appendChild(createCardElement(card, 'hero'));
+            }
+            if (state.heroCards.length < 2) {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'add-card-placeholder';
+                placeholder.textContent = '+';
+                placeholder.onclick = () => setInputTarget('hero');
+                heroContainer.appendChild(placeholder);
+            }
+
+            // Board cards
+            const boardContainer = document.getElementById('board-cards');
+            boardContainer.innerHTML = '';
+            for (const card of state.board) {
+                boardContainer.appendChild(createCardElement(card, 'board'));
+            }
+            if (state.board.length < 5) {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'add-card-placeholder';
+                placeholder.textContent = '+';
+                placeholder.onclick = () => setInputTarget('board');
+                boardContainer.appendChild(placeholder);
+            }
+
+            // Update street badge
+            const streetBadge = document.getElementById('street-badge');
+            if (state.board.length === 0) streetBadge.textContent = 'PREFLOP';
+            else if (state.board.length === 3) streetBadge.textContent = 'FLOP';
+            else if (state.board.length === 4) streetBadge.textContent = 'TURN';
+            else if (state.board.length === 5) streetBadge.textContent = 'RIVER';
+        }
+
+        function addCard(rank) {
+            const cardStr = rank + state.selectedSuit;
+
+            // Check if card already used
+            if (state.heroCards.includes(cardStr) || state.board.includes(cardStr)) {
+                showToast('Card already in use', 'error');
+                return;
+            }
+
+            if (state.inputTarget === 'hero' && state.heroCards.length < 2) {
+                state.heroCards.push(cardStr);
+            } else if (state.inputTarget === 'board' && state.board.length < 5) {
+                state.board.push(cardStr);
+            } else {
+                showToast('Max cards reached', 'error');
+                return;
+            }
+
+            renderCards();
+
+            // Auto-analyze if we have enough cards
+            if (state.heroCards.length === 2) {
+                analyze();
+            }
+        }
+
+        function removeCard(btn) {
+            const cardEl = btn.parentElement;
+            const card = cardEl.dataset.card;
+            const target = cardEl.dataset.target;
+
+            if (target === 'hero') {
+                const idx = state.heroCards.indexOf(card);
+                if (idx > -1) state.heroCards.splice(idx, 1);
+            } else {
+                const idx = state.board.indexOf(card);
+                if (idx > -1) state.board.splice(idx, 1);
+            }
+
+            renderCards();
+        }
+
+        function setInputTarget(target) {
+            state.inputTarget = target;
+            document.getElementById('target-hero').classList.toggle('active', target === 'hero');
+            document.getElementById('target-board').classList.toggle('active', target === 'board');
+        }
+
+        function setSuit(suit) {
+            state.selectedSuit = suit;
+            document.querySelectorAll('.suit-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.suit === suit);
+            });
+
+            // Update suit indicator display
+            const suitNames = { 's': 'SPADES', 'h': 'HEARTS', 'd': 'DIAMONDS', 'c': 'CLUBS' };
+            const suitClasses = { 's': 'spades', 'h': 'hearts', 'd': 'diamonds', 'c': 'clubs' };
+            const indicator = document.getElementById('current-suit-display');
+            indicator.className = `current-suit-display ${suitClasses[suit]}`;
+            indicator.innerHTML = `<span class="suit-icon">${SUIT_SYMBOLS[suit]}</span><span>Adding ${suitNames[suit]} cards</span>`;
+        }
+
+        function setPosition(pos) {
+            state.position = pos;
+            document.querySelectorAll('.pos-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.pos === pos);
+            });
+            // Re-analyze if we have cards
+            if (state.heroCards.length === 2) {
+                analyze();
+            }
+            // Update local calculations
+            updateLocalCalculations();
+        }
+
+        function setFacing(facing) {
+            state.facing = facing;
+            document.querySelectorAll('.facing-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.facing === facing);
+            });
+
+            // Auto-fill pot size and bet to call based on typical scenarios
+            const facingDefaults = {
+                'unopened': { pot: 1.5, bet: 0 },      // Just blinds
+                'raised': { pot: 4.5, bet: 2.5 },     // Blinds + 2.5bb open
+                '3bet': { pot: 12, bet: 9 },          // Typical 3-bet scenario
+                '4bet': { pot: 30, bet: 22 }          // Typical 4-bet scenario
+            };
+
+            if (facingDefaults[facing]) {
+                state.potSize = facingDefaults[facing].pot;
+                state.betToCall = facingDefaults[facing].bet;
+                document.getElementById('pot-size').value = state.potSize;
+                document.getElementById('bet-to-call').value = state.betToCall;
+            }
+            // Re-analyze if we have cards
+            if (state.heroCards.length === 2) {
+                analyze();
+            }
+            // Update local calculations
+            updateLocalCalculations();
+        }
+
+        function updatePot() {
+            state.potSize = parseFloat(document.getElementById('pot-size').value) || 0;
+            state.betToCall = parseFloat(document.getElementById('bet-to-call').value) || 0;
+            state.effectiveStack = parseFloat(document.getElementById('eff-stack').value) || 100;
+            // Update local calculations whenever pot changes
+            updateLocalCalculations();
+        }
+
+        function updateReads() {
+            state.villainPosition = document.getElementById('villain-position').value;
+            state.villainType = document.getElementById('villain-type').value;
+            state.playerCount = parseInt(document.getElementById('player-count').value, 10) || 2;
+            state.isPreflopAggressor = document.getElementById('preflop-aggressor').value === 'hero';
+            state.actionHistory = document.getElementById('action-history').value;
+            state.villainStats = {
+                vpip: document.getElementById('hud-vpip').value,
+                pfr: document.getElementById('hud-pfr').value,
+                three_bet: document.getElementById('hud-3bet').value,
+                fold_to_cbet: document.getElementById('hud-fold-to-cbet').value,
+            };
+        }
+
+        // Calculate pot odds, GTO metrics locally (no API needed)
+        function updateLocalCalculations() {
+            const pot = state.potSize;
+            const bet = state.betToCall;
+
+            // Pot Odds calculation
+            if (bet > 0 && pot > 0) {
+                const potOdds = (bet / (pot + bet)) * 100;
+                const breakEven = potOdds; // Break-even equity = pot odds
+                document.getElementById('pot-odds').textContent = potOdds.toFixed(1);
+                document.getElementById('break-even').textContent = breakEven.toFixed(1);
+            } else {
+                document.getElementById('pot-odds').textContent = '--';
+                document.getElementById('break-even').textContent = '--';
+            }
+
+            // GTO Metrics calculation
+            if (pot > 0) {
+                // Assume bet size = pot for GTO calculations if no bet specified
+                const betSize = bet > 0 ? bet : pot * 0.75; // Default 75% pot bet
+
+                // MDF (Minimum Defense Frequency) = pot / (pot + bet)
+                const mdf = (pot / (pot + betSize)) * 100;
+
+                // Alpha (bluff break-even) = bet / (pot + bet)
+                const alpha = (betSize / (pot + betSize)) * 100;
+
+                // Optimal bluff frequency = alpha / (1 + alpha)
+                // Or simplified: bet / (2*bet + pot)
+                const bluffFreq = (betSize / (2 * betSize + pot)) * 100;
+
+                document.getElementById('mdf').textContent = mdf.toFixed(1);
+                document.getElementById('alpha').textContent = alpha.toFixed(1);
+                document.getElementById('bluff-freq').textContent = bluffFreq.toFixed(1);
+            } else {
+                document.getElementById('mdf').textContent = '--';
+                document.getElementById('alpha').textContent = '--';
+                document.getElementById('bluff-freq').textContent = '--';
+            }
+        }
+
+        function updateRange() {
+            state.villainRange = document.getElementById('villain-range').value;
+        }
+
+        function setRangePreset(preset) {
+            state.villainRange = RANGE_PRESETS[preset];
+            document.getElementById('villain-range').value = state.villainRange;
+        }
+
+        function newHand() {
+            state.heroCards = [];
+            state.board = [];
+            state.lastAnalysis = null;
+            state.actionHistory = '';
+            state.manualSnapshot = null;
+            document.getElementById('action-history').value = '';
+            clearScreenshotState(false);
+
+            renderCards();
+            resetActionDisplay();
+            setInputTarget('hero');
+            showToast('New hand started', 'success');
+        }
+
+        function clearBoard() {
+            state.board = [];
+            renderCards();
+            showToast('Board cleared', 'success');
+        }
+
+        function resetActionDisplay() {
+            document.getElementById('action-text').textContent = 'ENTER CARDS';
+            document.getElementById('action-text').className = 'action-recommendation waiting';
+            document.getElementById('action-sizing').textContent = '';
+            document.getElementById('action-source').textContent = '';
+            document.getElementById('hand-strength').textContent = '--';
+
+            // Reset metrics
+            document.getElementById('equity-value').textContent = '--';
+            document.getElementById('equity-value').className = 'equity-value neutral';
+            document.getElementById('win-rate').textContent = '--';
+            document.getElementById('tie-rate').textContent = '--';
+            document.getElementById('pot-odds').textContent = '--';
+            document.getElementById('break-even').textContent = '--';
+            document.getElementById('mdf').textContent = '--';
+            document.getElementById('alpha').textContent = '--';
+            document.getElementById('bluff-freq').textContent = '--';
+            document.getElementById('confidence-badge').textContent = 'READY';
+            document.getElementById('confidence-badge').className = 'confidence-badge';
+            document.getElementById('confidence-score').textContent = 'Confidence --';
+            document.getElementById('status-banner').textContent = 'Build the spot manually or paste a screenshot to get a live decision.';
+            document.getElementById('baseline-line').textContent = '--';
+            document.getElementById('exploit-note').textContent = '--';
+            document.getElementById('next-street-plan').textContent = '--';
+            document.getElementById('spot-summary').textContent = 'Waiting for a complete spot.';
+            document.getElementById('range-summary').textContent = 'Population range context will appear here.';
+            document.getElementById('assumptions-list').innerHTML = '<li>No active assumptions.</li>';
+        }
+
+        function legacyUpdateDisplay(data) {
+            if (!data) return;
+
+            // Update action recommendation
+            const actionEl = document.getElementById('action-text');
+            const sizingEl = document.getElementById('action-sizing');
+            const sourceEl = document.getElementById('action-source');
+
+            if (data.decision) {
+                const action = data.decision.action.toUpperCase();
+                actionEl.textContent = action;
+                actionEl.className = `action-recommendation ${data.decision.action.toLowerCase()}`;
+
+                // Sizing
+                if (data.decision.sizing) {
+                    sizingEl.textContent = `${data.decision.sizing}bb`;
+                } else if (data.decision.sizing_percent) {
+                    sizingEl.textContent = `${data.decision.sizing_percent}% pot`;
+                } else {
+                    sizingEl.textContent = '';
+                }
+
+                // Reasoning - include position and facing info
+                let reasoning = data.decision.reasoning || '';
+                if (data.position) {
+                    const facingText = data.facing ? ` | ${data.facing.replace('_', ' ')}` : '';
+                    reasoning = `${data.position}${facingText} → ${reasoning}`;
+                }
+                sourceEl.textContent = reasoning;
+            }
+
+            // Hand strength - always update (reset if no description provided)
+            const handStrengthEl = document.getElementById('hand-strength');
+            handStrengthEl.textContent = data.hand_description || '--';
+
+            // Equity
+            if (data.equity) {
+                const eqVal = document.getElementById('equity-value');
+                eqVal.textContent = data.equity.equity;
+                eqVal.className = `equity-value ${data.equity.equity >= 50 ? 'positive' : 'negative'}`;
+                document.getElementById('win-rate').textContent = data.equity.win_rate;
+                document.getElementById('tie-rate').textContent = data.equity.tie_rate;
+            }
+
+            // Pot odds
+            if (data.pot_odds) {
+                document.getElementById('pot-odds').textContent = data.pot_odds.pot_odds;
+                document.getElementById('break-even').textContent = data.pot_odds.break_even;
+            }
+
+            // GTO metrics
+            if (data.gto_metrics) {
+                document.getElementById('mdf').textContent = data.gto_metrics.mdf;
+                document.getElementById('alpha').textContent = data.gto_metrics.alpha;
+                document.getElementById('bluff-freq').textContent = data.gto_metrics.bluff_freq;
+            }
+        }
+
+        function updateDisplay(data) {
+            if (!data) return;
+
+            const actionEl = document.getElementById('action-text');
+            const sizingEl = document.getElementById('action-sizing');
+            const sourceEl = document.getElementById('action-source');
+            const confidenceBadge = document.getElementById('confidence-badge');
+            const confidenceScore = document.getElementById('confidence-score');
+            const statusBanner = document.getElementById('status-banner');
+            const assumptionsList = document.getElementById('assumptions-list');
+            const layoutDetected = document.getElementById('layout-detected');
+            const decision = data.decision || {};
+
+            const action = (decision.action || 'check').toUpperCase();
+            actionEl.textContent = action;
+            actionEl.className = `action-recommendation ${(decision.action || 'check').toLowerCase()}`;
+
+            const sizingLabel = data.sizing?.label
+                || (decision.sizing != null ? `${decision.sizing}bb` : '')
+                || (decision.sizing_percent != null ? `${decision.sizing_percent}% pot` : '');
+            sizingEl.textContent = sizingLabel || '';
+
+            const sourceParts = [];
+            if (data.position) sourceParts.push(data.position);
+            if (data.facing) sourceParts.push(String(data.facing).replace(/_/g, ' '));
+            if (decision.reasoning) sourceParts.push(decision.reasoning);
+            sourceEl.textContent = sourceParts.length ? sourceParts.join(' -> ') : 'No reasoning returned.';
+
+            document.getElementById('hand-strength').textContent = data.hand_description || data.hand_category || '--';
+
+            const confidence = data.confidence || {};
+            confidenceBadge.textContent = (confidence.label || 'ready').toUpperCase();
+            confidenceBadge.className = `confidence-badge ${confidence.label || ''}`.trim();
+            confidenceScore.textContent = confidence.score != null
+                ? `Confidence ${Math.round(confidence.score * 100)}%`
+                : 'Confidence --';
+            statusBanner.textContent = confidence.reasons?.length
+                ? `Live decision with caveats: ${confidence.reasons.join(', ')}.`
+                : 'Live engine locked a decision with no active caveats.';
+
+            document.getElementById('baseline-line').textContent = data.baseline_line || '--';
+            document.getElementById('exploit-note').textContent = data.exploit_adjustment || decision.exploit_note || '--';
+            document.getElementById('next-street-plan').textContent = data.next_street_plan || decision.barrel_plan || '--';
+            document.getElementById('spot-summary').textContent = data.spot_summary?.summary || 'No structured spot summary.';
+            document.getElementById('range-summary').textContent = data.range_summary?.summary || 'No range summary available.';
+
+            if (data.parse_confidence != null || data.layout_detected) {
+                layoutDetected.textContent = (data.layout_detected || 'GENERIC').toUpperCase();
+                const parseSummaryParts = [];
+                if (data.parse_confidence != null) parseSummaryParts.push(`${Math.round(data.parse_confidence * 100)}% parse confidence`);
+                if (Array.isArray(data.visible_opponents) && data.visible_opponents.length) {
+                    parseSummaryParts.push(`${data.visible_opponents.length} visible opponent seat${data.visible_opponents.length === 1 ? '' : 's'}`);
+                }
+                if (data.parse_assumptions?.length) {
+                    parseSummaryParts.push(`${data.parse_assumptions.length} parse assumption${data.parse_assumptions.length === 1 ? '' : 's'}`);
+                }
+                document.getElementById('parse-summary').textContent = parseSummaryParts.join(' | ') || 'Screenshot parsed.';
+            }
+
+            const assumptions = Array.isArray(data.assumptions) ? data.assumptions : [];
+            assumptionsList.innerHTML = assumptions.length
+                ? assumptions.map((item) => `<li>${item}</li>`).join('')
+                : '<li>No active assumptions.</li>';
+
+            const equity = data.equity || {};
+            const eqVal = document.getElementById('equity-value');
+            eqVal.textContent = equity.equity != null ? equity.equity : '--';
+            eqVal.className = `equity-value ${equity.equity == null ? 'neutral' : (equity.equity >= 50 ? 'positive' : 'negative')}`;
+            document.getElementById('win-rate').textContent = equity.win_rate != null ? equity.win_rate : '--';
+            document.getElementById('tie-rate').textContent = equity.tie_rate != null ? equity.tie_rate : '--';
+
+            const potOdds = data.pot_odds || {};
+            document.getElementById('pot-odds').textContent = potOdds.pot_odds != null ? potOdds.pot_odds : '--';
+            document.getElementById('break-even').textContent = potOdds.break_even != null ? potOdds.break_even : '--';
+
+            const gtoMetrics = data.gto_metrics || {};
+            document.getElementById('mdf').textContent = gtoMetrics.mdf != null ? gtoMetrics.mdf : '--';
+            document.getElementById('alpha').textContent = gtoMetrics.alpha != null ? gtoMetrics.alpha : '--';
+            document.getElementById('bluff-freq').textContent = gtoMetrics.bluff_freq != null ? gtoMetrics.bluff_freq : '--';
+        }
+
+        function showUnavailableState(message) {
+            state.lastAnalysis = null;
+            resetActionDisplay();
+            const actionEl = document.getElementById('action-text');
+            actionEl.textContent = 'UNAVAILABLE';
+            actionEl.className = 'action-recommendation fold';
+            document.getElementById('action-sizing').textContent = '';
+            document.getElementById('action-source').textContent = message;
+            document.getElementById('confidence-badge').textContent = 'LOW';
+            document.getElementById('confidence-badge').className = 'confidence-badge low';
+            document.getElementById('confidence-score').textContent = 'Confidence 0%';
+            document.getElementById('status-banner').textContent = 'Live engine unavailable. No offline heuristic was used.';
+            showToast(message, 'error');
+        }
+
+        function updateSessionStats() {
+            document.getElementById('hands-played').textContent = state.handsPlayed;
+            document.getElementById('hands-won').textContent = state.handsWon;
+            document.getElementById('hands-lost').textContent = state.handsPlayed - state.handsWon;
+
+            const winRate = state.handsPlayed > 0 ? Math.round(state.handsWon / state.handsPlayed * 100) : 0;
+            document.getElementById('win-rate-stat').textContent = `${winRate}%`;
+
+            const pnlEl = document.getElementById('pnl-value');
+            pnlEl.textContent = `${state.totalProfit >= 0 ? '+' : ''}$${state.totalProfit.toFixed(2)}`;
+            pnlEl.className = `pnl-value ${state.totalProfit >= 0 ? 'positive' : 'negative'}`;
+
+            const bb100 = state.handsPlayed > 0 ? (state.totalProfit / state.handsPlayed * 100).toFixed(1) : 0;
+            const bb100El = document.getElementById('bb100-badge');
+            bb100El.textContent = `${bb100 >= 0 ? '+' : ''}${bb100} BB/100`;
+            bb100El.className = `bb100-badge ${bb100 >= 0 ? 'positive' : 'negative'}`;
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+
+            const key = e.key.toUpperCase();
+
+            // Card ranks
+            if (['A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2'].includes(key)) {
+                addCard(key);
+            }
+
+            // Suits
+            if (key === 'S') setSuit('s');
+            if (key === 'H') setSuit('h');
+            if (key === 'D') setSuit('d');
+            if (key === 'C') setSuit('c');
+
+            // Controls
+            if (key === 'N') newHand();
+            if (key === 'B') setInputTarget('board');
+            if (key === 'P') setInputTarget('hero');
+            if (key === 'ENTER') analyze();
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCards();
+            updateSessionStats();
+            // Sync state with initial input values
+            state.potSize = parseFloat(document.getElementById('pot-size').value) || 1.5;
+            state.betToCall = parseFloat(document.getElementById('bet-to-call').value) || 0;
+            state.effectiveStack = parseFloat(document.getElementById('eff-stack').value) || 100;
+            state.villainPosition = document.getElementById('villain-position').value;
+            state.villainType = document.getElementById('villain-type').value;
+            state.playerCount = parseInt(document.getElementById('player-count').value, 10) || 2;
+            state.isPreflopAggressor = document.getElementById('preflop-aggressor').value === 'hero';
+            state.actionHistory = document.getElementById('action-history').value;
+            state.villainStats = {
+                vpip: document.getElementById('hud-vpip').value,
+                pfr: document.getElementById('hud-pfr').value,
+                three_bet: document.getElementById('hud-3bet').value,
+                fold_to_cbet: document.getElementById('hud-fold-to-cbet').value,
+            };
+            // Calculate initial GTO metrics
+            updateReads();
+            updateLocalCalculations();
+            console.log('Poker Advisor Dashboard initialized');
+        });
+    </script>
+</body>
+</html>

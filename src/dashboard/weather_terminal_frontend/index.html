@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Polymarket Weather Terminal</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="terminal-shell">
+      <header class="top-bar">
+        <div class="brand-block">
+          <span class="eyebrow">TRADEHIVE / POLYMARKET</span>
+          <h1>Weather Trading Terminal</h1>
+        </div>
+        <div class="port-strip">
+          <span>Frontend 3020</span>
+          <span>API 8020</span>
+          <strong id="liveState">LIVE HARD BLOCKED</strong>
+        </div>
+      </header>
+
+      <section class="status-strip" id="statusStrip">
+        <div><span>Mode</span><strong id="modeValue">loading</strong></div>
+        <div><span>Live</span><strong class="danger" id="liveValue">hard_blocked</strong></div>
+        <div><span>Markets</span><strong id="marketsValue">--</strong></div>
+        <div><span>Routed</span><strong id="routedValue">--</strong></div>
+        <div><span>Replay</span><strong id="replayValue">--</strong></div>
+        <div><span>QA</span><strong id="qaValue">blocked</strong></div>
+      </section>
+
+      <section class="command-deck">
+        <div class="command-left" id="commandDeck"></div>
+        <button class="ghost-button" id="syncViewButton" type="button">Sync View</button>
+      </section>
+
+      <main class="terminal-grid">
+        <section class="panel lanes-panel">
+          <div class="panel-head">
+            <span>Lane Matrix</span>
+            <strong id="laneCount">0</strong>
+          </div>
+          <div class="lane-list" id="laneList"></div>
+        </section>
+
+        <section class="panel blotter-panel">
+          <div class="panel-head">
+            <span>Candidate Blotter</span>
+            <strong id="candidateCount">0</strong>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>Side</th>
+                  <th>Station</th>
+                  <th>Fill</th>
+                  <th>Edge</th>
+                  <th>Question</th>
+                </tr>
+              </thead>
+              <tbody id="candidateRows"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel ticket-panel">
+          <div class="panel-head">
+            <span>Evidence Ticket</span>
+            <strong id="ticketLane">QA</strong>
+          </div>
+          <div class="ticket-main">
+            <span id="ticketMarket">No selected market</span>
+            <p id="ticketQuestion">Waiting for candidate data.</p>
+          </div>
+          <div class="proof-grid">
+            <div>
+              <h2>Proof</h2>
+              <div id="proofLines"></div>
+            </div>
+            <div>
+              <h2>Disproof</h2>
+              <div id="disproofLines"></div>
+            </div>
+          </div>
+          <div class="blocker-list" id="blockerList"></div>
+        </section>
+
+        <section class="panel artifacts-panel">
+          <div class="panel-head">
+            <span>Freshness</span>
+            <strong id="artifactCount">0</strong>
+          </div>
+          <div class="artifact-list" id="artifactList"></div>
+        </section>
+
+        <section class="panel tape-panel">
+          <div class="panel-head">
+            <span>Run Tape</span>
+            <select id="streamSelect">
+              <option value="candidate_decisions">candidate_decisions</option>
+              <option value="market_tape">market_tape</option>
+              <option value="feature_snapshots">feature_snapshots</option>
+              <option value="resolution_labels">resolution_labels</option>
+              <option value="replay_records">replay_records</option>
+              <option value="run_audit">run_audit</option>
+            </select>
+          </div>
+          <div class="job-list" id="jobList"></div>
+          <div class="tape-list" id="tapeList"></div>
+        </section>
+
+        <section class="panel blind-panel">
+          <div class="panel-head">
+            <span>Release Gate</span>
+            <strong id="gateStatus">blocked</strong>
+          </div>
+          <div class="release-body" id="releaseBody"></div>
+        </section>
+      </main>
+
+      <div class="error-line" id="errorLine" hidden></div>
+    </div>
+    <script src="./app.js"></script>
+  </body>
+</html>

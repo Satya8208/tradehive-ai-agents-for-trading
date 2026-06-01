@@ -1,0 +1,40 @@
+{
+  "threads": [
+    {
+      "topic": "Why card counting works (the math)",
+      "tweets": []
+    },
+    {
+      "topic": "Biggest blackjack mistakes costing you money",
+      "tweets": []
+    }
+  ],
+  "standalone_tweets": [
+    "Wong Halves beats Hi-Lo by 0.08% edge. Here's the math:\n> Aces = -1 (not -1.5, easier)\n> 10s/faces = -1\n> 9s = -0.5\n> 8s = 0\n> 7s = +0.5\n> 3,4,6 = +1\n> 5s = +1.5\n> 2s = +0.5\nLearn the halves first. Fractions come after 100 decks.",
+    "The fraction mistake costing you $18/hour:\nRounding Wong Halves kills the advantage.\nTrue count calculation with fractions = 0.57% edge.\nRounded to whole numbers = 0.49% edge.\nThat's $18/hour at $50 average bet over 100 hands.\nKeep the decimals or stay home.",
+    "How to master Wong Halves in 5 practice sessions:\n> Day 1-2: Count pairs (5+K=-1, 9+3=+0.5)\n> Day 3-4: Single deck under 40 seconds\n> Day 5-7: Add true count conversion with 4 decks\n> Day 8-10: Speed drill at game pace\n> Day 11+: Casino conditions with distractions\nTest: 6 decks in 3 minutes = ready.",
+    "Wong Halves true count formula they don't teach:\nRunning count \u00f7 decks remaining = true count.\nExample: +7 running count, 3.5 decks left.",
+    "7 \u00f7 3.5 = +2 true count.\nBet 1 unit at +2, 4 units at +3, 8 units at +4.\nPractice this conversion 50 times before playing.",
+    "The 5-step Wong Halves conversion for live play:\n> Count cards to running count\n> Estimate decks in discard tray (practice this daily)\n> Subtract from starting decks\n> Divide running by remaining (round to nearest 0.5)\n> Bet accordingly (+2 = 2 units, +3 = 4 units)\nSlow at first. Speed comes after 20 hours of practice.",
+    "How to memorize basic strategy in 48 hours:\n> Print one chart (dealer up-card vs your hand)\n> Learn hard totals Saturday (30 decisions)\n> Learn soft totals Sunday morning (15 decisions)\n> Pairs Sunday afternoon (10 decisions)\nQuiz yourself every 2 hours until you hit 95%.",
+    "The flashcard method that cuts learning time by 70%:\n> Make cards for EXCEPTIONS only, not obvious plays\n> Always double 11 vs dealer 2-10? Skip it.\n> Hit 12 vs dealer 2-3 but stand vs 4-6? That's your card.\nFocus on the 12 weird plays, not the 200 obvious ones.",
+    "Most people study basic strategy wrong.\nThey memorize the whole chart like a poem.\n> Start with just 16 vs dealer 7-Ace (always hit)\n> Add one dealer column per hour\n> Test against free online trainers between sessions\nBuild it piece by piece, not all at once.",
+    "The 3-stack drill for weekend mastery:\n> Stack 1: Plays you nail every time\n> Stack 2: Hesitate but get right\n> Stack 3: Wrong or guessing\nOnly drill Stack 3.\nMove cards up when correct 5 times straight.\nDone when Stack 3 is empty.",
+    "How to lock basic strategy into permanent memory:\n> Friday night: Learn the chart patterns (30 min)\n> Saturday: 100 hands on a free blackjack app\n> Sunday: 100 more hands, track every mistake\n> Monday: Fix only your top 3 errors\nReal cards beat staring at charts every time.",
+    "The 1-8 spread is your training wheels.\nUse it when you're learning to count without getting caught.\nRisk of detection: 12%.\nRisk of ruin: 3% with proper bankroll.\nProfits are slow but this builds your skills for bigger spreads.",
+    "How to know which spread to use in under 5 seconds:\n> 1-8 = learning or heavy surveillance\n> 1-12 = standard play, balanced risk/reward\n> 1-16 = high count games only, accept the heat\nMatch spread to table conditions, not your ego.",
+    "The 1-16 spread mistake costing you $2,400 per year.\nUsing it on a shoe that rarely goes positive burns through bankroll.\nCheck deck penetration first.\nBelow 75% cut card? Drop to 1-8 spread.\nSave aggressive spreads for dealer cuts past 80%.",
+    "1-12 spread math that casinos don't want you to see:\nWin rate jumps 47% over 1-8.\nDetection risk only increases 8%.\nThis is the sweet spot for serious profit.\nUse it as your default until pit boss watches you for 3+ hands straight.",
+    "How to switch spreads mid-session without raising flags:\n> Start every shoe at 1-8 for first 20 minutes\n> Move to 1-12 after dealer change\n> Only use 1-16 if count hits +4 or higher\n> Never jump max bet cold\nGradual escalation = longer casino lifespan."
+  ],
+  "video_scripts": [
+    {
+      "topic": "Counting cards in 60 seconds tutorial",
+      "script": "[HOOK]\n(Screen shows: Dealer dealing cards rapidly, counter in corner showing +2, +3, +4)\nThe casino math that turns a 0.5% house edge into a 2% player advantage.\n\n[PROBLEM]\n(Screen shows: Complex card counting chart with dozens of numbers, then X's it out)\nMost tutorials make counting look impossible.\nMemorize 50 plays. Track 6 decks. Calculate true counts.\nThat's why 90% of people quit before they start.\n\n[SOLUTION]\n(Screen shows: Simple Hi-Lo system - Low cards highlighted in green \"+1\", High cards in red \"-1\")\nReal counting is just addition and subtraction.\nCards 2-6? Add one.\nCards 10-Ace? Subtract one.\n7-8-9? Do nothing.\n\n(Screen shows: Running count going +1, +2, +1, +3, +4 as cards appear)\n> Watch the cards\n> Keep a running number in your head\n> When it's positive, bet more\n> When it's negative, bet minimum\n\n(Screen shows: Count at +5, bet increases from $10 to $50)\nAt +5, the deck has more tens and aces left.\nThat's when the math flips in your favor.\n\n[PROOF]\n(Screen shows: Split screen - Left side count at -2 with \"BET $10\", Right side count at +6 with \"BET $60\")\nFlat betting: House wins 0.5% long term.\nCounting and spreading bets: Player wins 1-2% long term.\n\n[CTA]\n(Screen shows: Practice mode with cards flipping, running count displayed)\nStart with one deck.\nDeal cards face up.\nKeep the count.\nHit zero by the end or start over.\n60 minutes of practice beats 60 hours of theory."
+    },
+    {
+      "topic": "Why true count matters more than running count",
+      "script": "[HOOK]\n(Dashboard shows running count climbing to +8)\nRunning count hits +8 and most counters bet big.\nThat's how you lose money.\n\n[PROBLEM]\n(Split screen: 1 deck shoe vs 6 deck shoe, both showing +6 running count)\nA +6 count means nothing without context.\nSix decks left? You have no edge.\nOne deck left? The deck is loaded.\n\n[SOLUTION]\n(Animation showing running count \u00f7 decks remaining = true count)\nTrue count is running count divided by decks left.\n\n> Running count: +6\n> Decks remaining: 3\n> True count: +2\n\n(Visual highlights the true count calculation in real-time)\n+2 true count = 0.5% player edge.\nThat's when you increase your bet.\n\nBelow +2? Minimum bet only.\n\n[PROOF]\n(Side-by-side comparison on dashboard)\nSame running count of +8.\n\n> 4 decks left = +2 true count = min bet\n> 2 decks left = +4 true count = 4x bet\n> 1 deck left = +8 true count = max bet\n\n(Highlight the edge percentage changing: 0.5%, 1.5%, 3.5%)\nTrue count tells you your exact edge.\nRunning count just counts cards.\n\n[CTA]\n(Dashboard showing the true count calculator feature)\nStart dividing by decks remaining every hand.\nRound down to be conservative.\nThis one change separates counters from winners."
+    }
+  ]
+}

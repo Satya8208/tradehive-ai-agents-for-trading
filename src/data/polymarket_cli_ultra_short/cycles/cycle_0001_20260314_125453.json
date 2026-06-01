@@ -1,0 +1,22 @@
+{
+  "cycle_number": 1,
+  "timestamp": "2026-03-14T12:54:53.221730",
+  "markets_found": 1,
+  "arb_opportunities": 0,
+  "swarm_analyses": 1,
+  "trades_executed": 0,
+  "cycle_duration": 21.76,
+  "risk_status": {
+    "halted": false,
+    "halt_reason": "",
+    "positions": 0,
+    "max_positions": 8,
+    "total_exposure": 0,
+    "max_exposure": 600.0,
+    "exposure_pct": 0.0,
+    "daily_pnl": 0.0,
+    "daily_loss_limit": 100.0,
+    "daily_trades": 0,
+    "unrealized_pnl": 0
+  }
+}

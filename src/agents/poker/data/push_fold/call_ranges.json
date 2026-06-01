@@ -1,0 +1,40 @@
+{
+  "_comment": "Nash equilibrium calling ranges vs all-in shoves by villain BB count",
+  "_version": "1.0",
+  "_source": "Poker God Agent by TradeHive",
+  
+  "3bb": {
+    "range": "22+,A2s+,A2o+,K3s+,K8o+,Q6s+,QTo+,J8s+,JTo,T8s+",
+    "description": "Call very wide vs desperate shove"
+  },
+  "5bb": {
+    "range": "33+,A2s+,A5o+,K5s+,KTo+,Q8s+,QJo,J9s+,T9s",
+    "description": "Still wide - short stack is often shoving weak"
+  },
+  "8bb": {
+    "range": "55+,A4s+,ATo+,K8s+,KQo,Q9s+,JTs",
+    "description": "Tightening up as shove range gets stronger"
+  },
+  "10bb": {
+    "range": "66+,A6s+,AJo+,K9s+,QTs+",
+    "description": "Standard calling range"
+  },
+  "12bb": {
+    "range": "77+,A8s+,AQo+,KTs+,QJs",
+    "description": "Getting tighter vs more chips at risk"
+  },
+  "15bb": {
+    "range": "88+,ATs+,AKo,KQs",
+    "description": "Premium hands only"
+  },
+  "20bb": {
+    "range": "99+,AQs+,AKo",
+    "description": "Very tight - significant chips at risk"
+  },
+  
+  "_notes": {
+    "icm_adjustments": "On bubble, reduce calling range by 20-40%",
+    "final_table": "Consider pay jumps - may need even tighter calls",
+    "chip_leader": "Can call slightly wider to pressure short stacks"
+  }
+}

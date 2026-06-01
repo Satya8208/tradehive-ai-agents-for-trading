@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Counting Cheat Sheet | Blackjack God</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4;
+            margin: 0.5in;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0a0a0a;
+            color: #f5f5f0;
+            line-height: 1.5;
+            padding: 40px;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: #111;
+                padding: 0;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #d4a853;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .logo-icon {
+            font-size: 32px;
+        }
+
+        .logo-text {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            color: #d4a853;
+        }
+
+        @media print {
+            .logo-text { color: #8B7355; }
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .tagline {
+            color: #888;
+            font-size: 14px;
+        }
+
+        @media print {
+            .tagline { color: #666; }
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #d4a853;
+            border-bottom: 1px solid #333;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @media print {
+            .section-title {
+                color: #8B7355;
+                border-color: #ccc;
+            }
+        }
+
+        .section-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            background: #d4a853;
+            color: #0a0a0a;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        @media print {
+            .section-number {
+                background: #8B7355;
+                color: white;
+            }
+        }
+
+        /* Hi-Lo Card Values */
+        .card-values {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .value-group {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        @media print {
+            .value-group {
+                background: #f9f9f9;
+                border-color: #ddd;
+            }
+        }
+
+        .value-group.positive {
+            border-color: #2dd881;
+        }
+
+        .value-group.neutral {
+            border-color: #888;
+        }
+
+        .value-group.negative {
+            border-color: #e85454;
+        }
+
+        .value-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .positive .value-count { color: #2dd881; }
+        .neutral .value-count { color: #888; }
+        .negative .value-count { color: #e85454; }
+
+        @media print {
+            .positive .value-count { color: #228B22; }
+            .neutral .value-count { color: #666; }
+            .negative .value-count { color: #B22222; }
+        }
+
+        .value-cards {
+            font-size: 20px;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .value-label {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Strategy Table */
+        .strategy-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            margin-bottom: 10px;
+        }
+
+        .strategy-table th,
+        .strategy-table td {
+            border: 1px solid #333;
+            padding: 6px 4px;
+            text-align: center;
+        }
+
+        @media print {
+            .strategy-table th,
+            .strategy-table td {
+                border-color: #ccc;
+            }
+        }
+
+        .strategy-table th {
+            background: #1a1a1a;
+            font-weight: 600;
+            color: #d4a853;
+        }
+
+        @media print {
+            .strategy-table th {
+                background: #f0f0f0;
+                color: #333;
+            }
+        }
+
+        .strategy-table .row-header {
+            background: #1a1a1a;
+            font-weight: 600;
+            text-align: left;
+            padding-left: 8px;
+        }
+
+        @media print {
+            .strategy-table .row-header {
+                background: #f0f0f0;
+            }
+        }
+
+        .strategy-table .hit { background: #1a3d24; color: #2dd881; }
+        .strategy-table .stand { background: #3d2e1a; color: #d4a853; }
+        .strategy-table .double { background: #1a2d3d; color: #5bc0de; }
+        .strategy-table .split { background: #3d1a3d; color: #d45bd4; }
+        .strategy-table .surrender { background: #3d1a1a; color: #e85454; }
+
+        @media print {
+            .strategy-table .hit { background: #d4edda; color: #155724; }
+            .strategy-table .stand { background: #fff3cd; color: #856404; }
+            .strategy-table .double { background: #cce5ff; color: #004085; }
+            .strategy-table .split { background: #e2d5f1; color: #4a235a; }
+            .strategy-table .surrender { background: #f8d7da; color: #721c24; }
+        }
+
+        .legend {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            font-size: 11px;
+            margin-top: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+
+        /* True Count */
+        .true-count-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .tc-box {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        @media print {
+            .tc-box {
+                background: #f9f9f9;
+                border-color: #ddd;
+            }
+        }
+
+        .tc-formula {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            background: #0a0a0a;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        @media print {
+            .tc-formula {
+                background: #eee;
+            }
+        }
+
+        .tc-formula .equals {
+            color: #d4a853;
+            margin: 0 8px;
+        }
+
+        @media print {
+            .tc-formula .equals { color: #8B7355; }
+        }
+
+        .tc-example {
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        @media print {
+            .tc-example { color: #555; }
+        }
+
+        /* Betting Spread */
+        .spread-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+        }
+
+        .spread-table th,
+        .spread-table td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: center;
+        }
+
+        @media print {
+            .spread-table th,
+            .spread-table td {
+                border-color: #ccc;
+            }
+        }
+
+        .spread-table th {
+            background: #1a1a1a;
+            color: #d4a853;
+        }
+
+        @media print {
+            .spread-table th {
+                background: #f0f0f0;
+                color: #333;
+            }
+        }
+
+        .spread-table .negative-count {
+            color: #e85454;
+        }
+
+        .spread-table .neutral-count {
+            color: #888;
+        }
+
+        .spread-table .positive-count {
+            color: #2dd881;
+        }
+
+        @media print {
+            .spread-table .negative-count { color: #B22222; }
+            .spread-table .neutral-count { color: #666; }
+            .spread-table .positive-count { color: #228B22; }
+        }
+
+        /* Quick Start */
+        .steps {
+            counter-reset: step;
+        }
+
+        .step {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding: 16px;
+            background: #1a1a1a;
+            border-radius: 8px;
+            border-left: 3px solid #d4a853;
+        }
+
+        @media print {
+            .step {
+                background: #f9f9f9;
+                border-left-color: #8B7355;
+            }
+        }
+
+        .step-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            font-weight: 700;
+            color: #d4a853;
+            line-height: 1;
+        }
+
+        @media print {
+            .step-number { color: #8B7355; }
+        }
+
+        .step-content h4 {
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .step-content p {
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        @media print {
+            .step-content p { color: #555; }
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+
+        @media print {
+            .footer { border-color: #ccc; }
+        }
+
+        .footer-cta {
+            background: linear-gradient(135deg, #d4a853 0%, #a68a3f 100%);
+            color: #0a0a0a;
+            padding: 16px 24px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        @media print {
+            .footer-cta {
+                background: #f0f0f0;
+                color: #333;
+                border: 2px solid #8B7355;
+            }
+        }
+
+        .footer-cta a {
+            color: inherit;
+            text-decoration: underline;
+        }
+
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #d4a853;
+            color: #0a0a0a;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(212, 168, 83, 0.3);
+        }
+
+        .print-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Two column layout for page 2 */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 700px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Print Button -->
+    <button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <span class="logo-icon">🃏</span>
+            <span class="logo-text">BLACKJACK GOD</span>
+        </div>
+        <h1>Card Counting Cheat Sheet</h1>
+        <p class="tagline">The Hi-Lo System | Quick Reference Guide</p>
+    </header>
+
+    <!-- Section 1: Hi-Lo Card Values -->
+    <section class="section">
+        <h2 class="section-title">
+            <span class="section-number">01</span>
+            Hi-Lo Card Values
+        </h2>
+        <div class="card-values">
+            <div class="value-group positive">
+                <div class="value-count">+1</div>
+                <div class="value-cards">2 3 4 5 6</div>
+                <div class="value-label">Low Cards</div>
+            </div>
+            <div class="value-group neutral">
+                <div class="value-count">0</div>
+                <div class="value-cards">7 8 9</div>
+                <div class="value-label">Neutral</div>
+            </div>
+            <div class="value-group negative">
+                <div class="value-count">-1</div>
+                <div class="value-cards">10 J Q K A</div>
+                <div class="value-label">High Cards</div>
+            </div>
+        </div>
+        <p style="margin-top: 16px; font-size: 13px; color: #888; text-align: center;">
+            <strong>Why it works:</strong> When more low cards are gone, more high cards remain = better for you (more blackjacks, better doubles)
+        </p>
+    </section>
+
+    <!-- Section 2: Basic Strategy Chart -->
+    <section class="section">
+        <h2 class="section-title">
+            <span class="section-number">02</span>
+            Basic Strategy Chart (Hard Totals)
+        </h2>
+        <table class="strategy-table">
+            <thead>
+                <tr>
+                    <th>Your Hand</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                    <th>6</th>
+                    <th>7</th>
+                    <th>8</th>
+                    <th>9</th>
+                    <th>10</th>
+                    <th>A</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="row-header">17+</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                </tr>
+                <tr>
+                    <td class="row-header">16</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="surrender">Su</td>
+                    <td class="surrender">Su</td>
+                    <td class="surrender">Su</td>
+                </tr>
+                <tr>
+                    <td class="row-header">15</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="surrender">Su</td>
+                    <td class="hit">H</td>
+                </tr>
+                <tr>
+                    <td class="row-header">13-14</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                </tr>
+                <tr>
+                    <td class="row-header">12</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="stand">S</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                </tr>
+                <tr>
+                    <td class="row-header">11</td>
+                    <td class="double">D</td>
+                    <td class="double">D</td>
+                    <td class="double">D</td>
+                    <td class="double">D</td>
+                    <td class="double">D</td>
+                    <td class="double">D</td>
+                    <td class="double">D</td>
+                    <td class="double">D</td>
+                    <td class="double">D</td>
+                    <td class="hit">H</td>
+                </tr>
+                <tr>
+                    <td class="row-header">10</td>
+                    <td class="double">D</td>
+                    <td class="double">D</td>
+                    <td class="double">D</td>
+                    <td class="double">D</td>
+                    <td class="double">D</td>
+                    <td class="double">D</td>
+                    <td class="double">D</td>
+                    <td class="double">D</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                </tr>
+                <tr>
+                    <td class="row-header">9</td>
+                    <td class="hit">H</td>
+                    <td class="double">D</td>
+                    <td class="double">D</td>
+                    <td class="double">D</td>
+                    <td class="double">D</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                </tr>
+                <tr>
+                    <td class="row-header">8 or less</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                    <td class="hit">H</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="legend">
+            <div class="legend-item"><div class="legend-color hit"></div> H = Hit</div>
+            <div class="legend-item"><div class="legend-color stand"></div> S = Stand</div>
+            <div class="legend-item"><div class="legend-color double"></div> D = Double</div>
+            <div class="legend-item"><div class="legend-color surrender"></div> Su = Surrender (or Hit)</div>
+        </div>
+    </section>
+
+    <!-- Section 3: Pair Splitting -->
+    <section class="section">
+        <h2 class="section-title">
+            <span class="section-number">03</span>
+            Pair Splitting Rules
+        </h2>
+        <table class="strategy-table">
+            <thead>
+                <tr>
+                    <th>Your Pair</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                    <th>6</th>
+                    <th>7</th>
+                    <th>8</th>
+                    <th>9</th>
+                    <th>10</th>
+                    <th>A</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="row-header">A-A</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                </tr>
+                <tr>
+                    <td class="row-header">10-10</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                </tr>
+                <tr>
+                    <td class="row-header">9-9</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="stand">N</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                </tr>
+                <tr>
+                    <td class="row-header">8-8</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                </tr>
+                <tr>
+                    <td class="row-header">7-7</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                </tr>
+                <tr>
+                    <td class="row-header">6-6</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                </tr>
+                <tr>
+                    <td class="row-header">5-5</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                </tr>
+                <tr>
+                    <td class="row-header">4-4</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                </tr>
+                <tr>
+                    <td class="row-header">3-3</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                </tr>
+                <tr>
+                    <td class="row-header">2-2</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="split">Y</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                    <td class="stand">N</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="legend">
+            <div class="legend-item"><div class="legend-color split"></div> Y = Split</div>
+            <div class="legend-item"><div class="legend-color stand"></div> N = Don't Split</div>
+        </div>
+        <p style="margin-top: 12px; font-size: 12px; color: #888;">
+            <strong>Remember:</strong> Always split Aces and 8s. Never split 10s or 5s.
+        </p>
+    </section>
+
+    <!-- Page Break for Print -->
+    <div class="page-break"></div>
+
+    <!-- Section 4: True Count -->
+    <section class="section">
+        <h2 class="section-title">
+            <span class="section-number">04</span>
+            True Count Conversion
+        </h2>
+        <div class="two-col">
+            <div class="tc-box">
+                <h4 style="margin-bottom: 12px; font-size: 14px;">The Formula</h4>
+                <div class="tc-formula">
+                    True Count <span class="equals">=</span> Running Count <span class="equals">÷</span> Decks Remaining
+                </div>
+                <p class="tc-example">
+                    <strong>Example:</strong> Running count is +6, about 2 decks left<br>
+                    True Count = 6 ÷ 2 = <strong>+3</strong>
+                </p>
+            </div>
+            <div class="tc-box">
+                <h4 style="margin-bottom: 12px; font-size: 14px;">Estimating Decks Remaining</h4>
+                <p class="tc-example" style="margin-bottom: 8px;">Look at the discard tray:</p>
+                <ul style="font-size: 13px; color: #aaa; padding-left: 20px;">
+                    <li>1 deck = about 1 inch of cards</li>
+                    <li>6-deck shoe starts with ~6 inches</li>
+                    <li>If 2 inches in discard, ~4 decks left</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Betting Spread -->
+    <section class="section">
+        <h2 class="section-title">
+            <span class="section-number">05</span>
+            Betting Spread (Based on True Count)
+        </h2>
+        <table class="spread-table">
+            <thead>
+                <tr>
+                    <th>True Count</th>
+                    <th>-1 or less</th>
+                    <th>0</th>
+                    <th>+1</th>
+                    <th>+2</th>
+                    <th>+3</th>
+                    <th>+4</th>
+                    <th>+5+</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Bet Units</strong></td>
+                    <td class="negative-count">1 (min)</td>
+                    <td class="neutral-count">1</td>
+                    <td class="positive-count">2</td>
+                    <td class="positive-count">4</td>
+                    <td class="positive-count">6</td>
+                    <td class="positive-count">8</td>
+                    <td class="positive-count">10</td>
+                </tr>
+                <tr>
+                    <td><strong>$25 Table</strong></td>
+                    <td class="negative-count">$25</td>
+                    <td class="neutral-count">$25</td>
+                    <td class="positive-count">$50</td>
+                    <td class="positive-count">$100</td>
+                    <td class="positive-count">$150</td>
+                    <td class="positive-count">$200</td>
+                    <td class="positive-count">$250</td>
+                </tr>
+                <tr>
+                    <td><strong>Your Edge</strong></td>
+                    <td class="negative-count">-0.5%</td>
+                    <td class="neutral-count">0%</td>
+                    <td class="positive-count">+0.5%</td>
+                    <td class="positive-count">+1%</td>
+                    <td class="positive-count">+1.5%</td>
+                    <td class="positive-count">+2%</td>
+                    <td class="positive-count">+2.5%</td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="margin-top: 12px; font-size: 12px; color: #888;">
+            <strong>Key insight:</strong> You only have an edge when True Count is +1 or higher. At negative counts, consider leaving or betting minimum.
+        </p>
+    </section>
+
+    <!-- Section 6: Quick Start -->
+    <section class="section">
+        <h2 class="section-title">
+            <span class="section-number">06</span>
+            5-Step Quick Start
+        </h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Master Basic Strategy First</h4>
+                    <p>Learn the chart above until decisions are automatic. This alone cuts house edge to ~0.5%.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Practice Counting at Home</h4>
+                    <p>Flip through a deck, keeping count. Target: under 30 seconds with zero errors.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Learn True Count Conversion</h4>
+                    <p>Running count ÷ decks remaining. Practice estimating decks from the discard tray.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>Practice with Distractions</h4>
+                    <p>Count while watching TV or with music. The casino will be noisy — train for it.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h4>Start Small at Real Tables</h4>
+                    <p>Begin at low-stakes tables. Focus on counting accurately before betting big.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-cta">
+            Want the complete system? Get the full e-book + AI practice tool at<br>
+            <strong>blackjackgod.com</strong>
+        </div>
+        <p>
+            © 2024 Blackjack God | Built on millions of simulated hands<br>
+            <em>Card counting is 100% legal. Use responsibly.</em>
+        </p>
+    </footer>
+</body>
+</html>

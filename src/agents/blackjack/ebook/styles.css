@@ -1,0 +1,619 @@
+/* ============================================
+   BLACKJACK GOD - Professional Ebook Styling
+   Matches SaaS dashboard design system
+   ============================================ */
+
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* Color System - Blackjack God Brand */
+:root {
+    --void: #050505;
+    --surface: #0f0f0f;
+    --surface-elevated: #1a1a1a;
+    --gold: #d4a853;
+    --gold-dim: #a68a3f;
+    --gold-bright: #f0d48a;
+    --emerald: #2dd881;
+    --ruby: #e85454;
+    --text-primary: #1a1a1a;
+    --text-secondary: #444;
+    --text-dim: #666;
+}
+
+/* Page Setup - Trade Paperback */
+@page {
+    size: 6in 9in;
+    margin: 0.6in 0.6in 0.7in 0.6in;
+
+    @top-center {
+        content: "BLACKJACK GOD";
+        font-family: 'Cinzel', serif;
+        font-size: 8pt;
+        letter-spacing: 2px;
+        color: #999;
+    }
+
+    @bottom-center {
+        content: counter(page);
+        font-family: 'Outfit', -apple-system, sans-serif;
+        font-size: 8pt;
+        color: #888;
+    }
+}
+
+/* Front matter pages - no headers or page numbers */
+@page frontmatter {
+    @top-center {
+        content: none;
+    }
+    @bottom-center {
+        content: none;
+    }
+}
+
+@page :first {
+    @top-center {
+        content: none;
+    }
+    @bottom-center {
+        content: none;
+    }
+}
+
+/* Base Typography - Clean & Compact */
+body {
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 9.5pt;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--text-primary);
+    text-align: justify;
+    hyphens: auto;
+    -webkit-font-smoothing: antialiased;
+    /* Graceful page breaks - prevent orphans/widows */
+    orphans: 3;
+    widows: 3;
+}
+
+/* Headings - Cinzel for elegance */
+h1 {
+    font-family: 'Cinzel', 'Palatino', serif;
+    font-size: 22pt;
+    font-weight: 600;
+    color: #000;
+    margin-top: 0.6in;
+    margin-bottom: 0.2in;
+    text-align: center;
+    page-break-before: always;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+h1:first-of-type {
+    page-break-before: avoid;
+}
+
+h2 {
+    font-family: 'Cinzel', 'Palatino', serif;
+    font-size: 13pt;
+    font-weight: 600;
+    color: #111;
+    margin-top: 1em;
+    margin-bottom: 0.4em;
+    padding-bottom: 0.2em;
+    border-bottom: 1.5px solid var(--gold);
+    letter-spacing: 1px;
+    /* Keep heading with following content */
+    page-break-after: avoid;
+    break-after: avoid;
+}
+
+h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #222;
+    margin-top: 0.9em;
+    margin-bottom: 0.3em;
+    /* Keep heading with following content */
+    page-break-after: avoid;
+    break-after: avoid;
+}
+
+h4 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 9.5pt;
+    font-weight: 600;
+    color: #333;
+    margin-top: 0.7em;
+    margin-bottom: 0.25em;
+    /* Keep heading with following content */
+    page-break-after: avoid;
+    break-after: avoid;
+}
+
+/* Paragraphs */
+p {
+    margin-bottom: 0.45em;
+    text-indent: 0;
+}
+
+p + p {
+    text-indent: 1em;
+}
+
+h1 + p, h2 + p, h3 + p, h4 + p,
+ul + p, ol + p, table + p, blockquote + p, hr + p {
+    text-indent: 0;
+}
+
+/* Strong & Emphasis */
+strong {
+    font-weight: 600;
+    color: #000;
+}
+
+em {
+    font-style: italic;
+}
+
+/* Lists - Tight spacing */
+ul, ol {
+    margin: 0.5em 0;
+    padding-left: 1.2em;
+    /* Keep short lists together */
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+li {
+    margin-bottom: 0.2em;
+    line-height: 1.4;
+}
+
+li > ul, li > ol {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+
+/* Allow breaks in very long lists */
+ul.long-list, ol.long-list {
+    page-break-inside: auto;
+}
+
+/* Tables - Strategy Charts with color coding */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.8em 0;
+    font-size: 8.5pt;
+    page-break-inside: avoid;
+}
+
+thead {
+    background: var(--surface);
+    color: #fff;
+}
+
+th {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    padding: 7px 5px;
+    text-align: center;
+    border: 1px solid #333;
+    font-size: 8pt;
+}
+
+td {
+    padding: 5px 4px;
+    text-align: center;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+    font-weight: 500;
+}
+
+tbody tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+/* Blockquotes - Gold accent */
+blockquote {
+    margin: 0.7em 0;
+    padding: 0.6em 0.9em;
+    background: linear-gradient(135deg, #fffbf0 0%, #fff8e6 100%);
+    border-left: 3px solid var(--gold);
+    font-style: italic;
+    color: #333;
+    font-size: 9pt;
+    /* Keep blockquotes together */
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+blockquote p {
+    margin: 0;
+    text-indent: 0;
+}
+
+blockquote p + p {
+    margin-top: 0.4em;
+    text-indent: 0;
+}
+
+/* Code - JetBrains Mono */
+code {
+    font-family: 'JetBrains Mono', 'Monaco', 'Consolas', monospace;
+    font-size: 8pt;
+    background: #f4f4f4;
+    padding: 1px 4px;
+    border-radius: 2px;
+}
+
+pre {
+    background: var(--surface);
+    color: #f5f5f0;
+    padding: 0.8em;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 8pt;
+    line-height: 1.4;
+    margin: 0.8em 0;
+    /* Keep code blocks together */
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+}
+
+/* Horizontal Rules */
+hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 0.8em auto;
+    width: 25%;
+}
+
+/* Links - Gold */
+a {
+    color: var(--gold-dim);
+    text-decoration: none;
+}
+
+/* ============================================
+   COVER PAGE
+   ============================================ */
+.cover-page {
+    page: frontmatter;
+    page-break-after: always;
+    text-align: center;
+    background: linear-gradient(180deg, #000 0%, #0a0a0a 50%, #111 100%);
+    color: #fff;
+    margin: -0.6in -0.6in -0.7in -0.6in;
+    padding: 0;
+    height: 9in;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.cover-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at 50% 30%, rgba(212, 168, 83, 0.15) 0%, transparent 60%);
+}
+
+.cover-suits {
+    font-size: 20pt;
+    letter-spacing: 15px;
+    color: var(--gold);
+    opacity: 0.6;
+    margin-bottom: 40px;
+}
+
+.cover-title {
+    font-family: 'Cinzel', serif;
+    font-size: 48pt;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin: 0;
+    text-shadow: 0 0 60px rgba(212, 168, 83, 0.4);
+    page-break-before: avoid;
+    border: none;
+}
+
+.cover-subtitle {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14pt;
+    font-weight: 300;
+    color: #ccc;
+    margin-top: 15px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.cover-tagline {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11pt;
+    color: #888;
+    margin-top: 50px;
+    font-style: italic;
+}
+
+.cover-decoration {
+    position: absolute;
+    bottom: 80px;
+    font-size: 14pt;
+    letter-spacing: 20px;
+    color: var(--gold);
+    opacity: 0.3;
+}
+
+/* ============================================
+   TITLE PAGE (inside)
+   ============================================ */
+.title-page {
+    page: frontmatter;
+    page-break-after: always;
+    text-align: center;
+    padding-top: 2.5in;
+}
+
+.title-page h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 28pt;
+    margin-top: 0;
+    page-break-before: avoid;
+    border: none;
+    color: #000;
+    letter-spacing: 3px;
+}
+
+.title-page .subtitle {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12pt;
+    font-weight: 300;
+    color: #666;
+    margin-top: 0.3in;
+    letter-spacing: 1px;
+}
+
+.title-page .copyright {
+    font-size: 9pt;
+    color: #888;
+    margin-top: 2in;
+    line-height: 1.8;
+}
+
+/* ============================================
+   TABLE OF CONTENTS
+   ============================================ */
+.toc {
+    page: frontmatter;
+    page-break-after: always;
+}
+
+.toc h2 {
+    font-family: 'Cinzel', serif;
+    text-align: center;
+    border: none;
+    margin-top: 0.8in;
+    font-size: 16pt;
+    letter-spacing: 3px;
+}
+
+.toc ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 0.6in;
+}
+
+.toc li {
+    margin-bottom: 0.6em;
+    padding: 0.4em 0;
+    border-bottom: 1px dotted #ccc;
+    font-size: 10pt;
+    display: flex;
+    justify-content: space-between;
+}
+
+.toc a {
+    color: #000;
+    text-decoration: none;
+}
+
+.toc .chapter-num {
+    font-weight: 600;
+    color: var(--gold-dim);
+}
+
+/* ============================================
+   SPECIAL BOXES
+   ============================================ */
+
+/* Key Concept */
+.key-concept {
+    background: linear-gradient(135deg, #fffbf0 0%, #fff8e6 100%);
+    border: 1px solid var(--gold);
+    border-radius: 6px;
+    padding: 0.8em 1em;
+    margin: 1.2em 0;
+    font-size: 9pt;
+}
+
+.key-concept h4 {
+    color: var(--gold-dim);
+    margin-top: 0;
+    font-size: 9pt;
+}
+
+/* Warning */
+.warning {
+    background: #fff5f5;
+    border: 1px solid var(--ruby);
+    border-radius: 6px;
+    padding: 0.8em 1em;
+    margin: 1.2em 0;
+    font-size: 9pt;
+}
+
+.warning h4 {
+    color: var(--ruby);
+    margin-top: 0;
+}
+
+/* Pro Tip - Emerald */
+.pro-tip {
+    background: #f0fff4;
+    border: 1px solid var(--emerald);
+    border-radius: 6px;
+    padding: 0.8em 1em;
+    margin: 1.2em 0;
+    font-size: 9pt;
+}
+
+.pro-tip h4 {
+    color: #1a9958;
+    margin-top: 0;
+}
+
+/* ============================================
+   UTILITIES
+   ============================================ */
+.page-break {
+    page-break-after: always;
+}
+
+.no-break {
+    page-break-inside: avoid;
+}
+
+/* Image styling */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.2em auto;
+}
+
+.caption {
+    font-size: 8pt;
+    color: #666;
+    text-align: center;
+    font-style: italic;
+    margin-top: -0.8em;
+    margin-bottom: 1.2em;
+}
+
+/* Print optimizations */
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    a {
+        color: #000;
+    }
+
+    a[href]::after {
+        content: none;
+    }
+}
+
+/* Chapter number styling */
+.chapter-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 10pt;
+    font-weight: 400;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    display: block;
+    margin-bottom: 0.3em;
+}
+
+/* ============================================
+   GRACEFUL PAGE BREAKS
+   Prevents awkward mid-content breaks
+   ============================================ */
+
+/* Keep paragraphs with at least 3 lines before/after break */
+p {
+    orphans: 3;
+    widows: 3;
+}
+
+/* Section wrapper - keeps related content together */
+section, .section, article {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+/* Prevent breaks right after a heading */
+h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    break-after: avoid;
+}
+
+/* Keep first paragraph with its heading */
+h1 + p, h2 + p, h3 + p, h4 + p {
+    page-break-before: avoid;
+    break-before: avoid;
+}
+
+/* Table rows should stay together when possible */
+tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+/* Keep figure with its caption */
+figure {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+/* Horizontal rules are good break points */
+hr {
+    page-break-after: auto;
+    break-after: auto;
+}
+
+/* Special boxes stay together */
+.key-concept,
+.warning,
+.pro-tip {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+/* Definition lists */
+dl {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+dt {
+    page-break-after: avoid;
+    break-after: avoid;
+}
+
+/* Keep glossary terms with definitions */
+dt + dd {
+    page-break-before: avoid;
+    break-before: avoid;
+}

@@ -1,0 +1,34 @@
+{
+  "timestamp": "20251230_113210",
+  "original_tweet": "I wake up at 5am every day. Discipline is everything.",
+  "analysis": {
+    "tone": "performative humble-brag with confident, self-congratulatory energy",
+    "assumptions": "that waking up at 5am is inherently virtuous, that discipline is universally defined by rigid routines, and that this lifestyle is superior or universally applicable",
+    "angle": "disagree and provoke by challenging the productivity cult and questioning the actual value of performative discipline",
+    "recommended_mode": "savage",
+    "why": "Calling out hustle porn and performative discipline taps into widespread fatigue with productivity culture, inviting strong reactions from both defenders and critics.",
+    "engagement_potential": "high"
+  },
+  "replies": [
+    {
+      "mode": "savage",
+      "reply": "The rooster crows at dawn too. He still ends up in the soup."
+    },
+    {
+      "mode": "funny",
+      "reply": "Discipline is also waking up at 10am and not hating the 5am people."
+    },
+    {
+      "mode": "philosophical",
+      "reply": "You've disciplined your body to rise at 5am. Have you disciplined your mind to question why?"
+    },
+    {
+      "mode": "controversial",
+      "reply": "Discipline is doing what matters, not what looks impressive. Most 5am risers are just running from themselves."
+    },
+    {
+      "mode": "nuclear",
+      "reply": "The sun rises when it's ready. You rise to prove something. One of these is natural."
+    }
+  ]
+}

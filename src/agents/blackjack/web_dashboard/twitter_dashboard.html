@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Engine | Blackjack God</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #050505;
+            --surface: #0f0f0f;
+            --surface-elevated: #1a1a1a;
+            --surface-hover: #242424;
+            --gold: #d4a853;
+            --gold-dim: #a68a3f;
+            --gold-bright: #f0d48a;
+            --gold-glow: rgba(212, 168, 83, 0.3);
+            --emerald: #2dd881;
+            --emerald-dim: #1a8a50;
+            --ruby: #e85454;
+            --text-primary: #f5f5f0;
+            --text-secondary: #999;
+            --text-dim: #555;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--void);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Ambient background effects */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 0%, rgba(212, 168, 83, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(45, 216, 129, 0.04) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Scanline effect */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.03) 2px,
+                rgba(0, 0, 0, 0.03) 4px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(180deg, var(--surface) 0%, var(--void) 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 20px var(--gold-glow);
+        }
+
+        .logo-text {
+            font-family: 'Cinzel', serif;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: var(--gold);
+        }
+
+        .header-title {
+            padding-left: 24px;
+            border-left: 1px solid var(--border);
+        }
+
+        .header-title h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .header-title p {
+            font-size: 12px;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 32px;
+        }
+
+        .stat-item {
+            text-align: right;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--gold);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Main Layout */
+        .main-container {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            min-height: calc(100vh - 89px);
+        }
+
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Control Panel (Left) */
+        .control-panel {
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .panel-section {
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .panel-section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel-section-title::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 2px;
+        }
+
+        /* Content Type Selector */
+        .type-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .type-btn {
+            background: var(--void);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .type-btn:hover {
+            background: var(--surface-hover);
+            border-color: var(--gold-dim);
+        }
+
+        .type-btn.active {
+            background: linear-gradient(135deg, rgba(212, 168, 83, 0.15) 0%, rgba(212, 168, 83, 0.05) 100%);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .type-btn .icon {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .form-select,
+        .form-input {
+            width: 100%;
+            background: var(--void);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            color: var(--text-primary);
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-select:focus,
+        .form-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px var(--gold-glow);
+        }
+
+        .form-select option {
+            background: var(--surface);
+        }
+
+        /* Count Selector */
+        .count-selector {
+            display: flex;
+            gap: 8px;
+        }
+
+        .count-btn {
+            flex: 1;
+            background: var(--void);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .count-btn:hover {
+            background: var(--surface-hover);
+        }
+
+        .count-btn.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--void);
+        }
+
+        /* Generate Button */
+        .generate-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 18px 24px;
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: var(--void);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px var(--gold-glow);
+        }
+
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .generate-btn .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--void);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 10px;
+        }
+
+        .generate-btn.loading .spinner {
+            display: inline-block;
+        }
+
+        .generate-btn.loading .btn-text {
+            opacity: 0.7;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Topic Bank */
+        .topic-bank {
+            margin-top: auto;
+        }
+
+        .topic-category {
+            margin-bottom: 12px;
+        }
+
+        .topic-category-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            background: var(--void);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .topic-category-header:hover {
+            border-color: var(--gold-dim);
+        }
+
+        .topic-category-header h4 {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .topic-category-header .arrow {
+            color: var(--gold);
+            transition: transform 0.2s ease;
+        }
+
+        .topic-category.open .topic-category-header .arrow {
+            transform: rotate(180deg);
+        }
+
+        .topic-list {
+            display: none;
+            padding: 12px;
+            background: var(--void);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            margin-top: -8px;
+            padding-top: 16px;
+        }
+
+        .topic-category.open .topic-list {
+            display: block;
+        }
+
+        .topic-chip {
+            display: inline-block;
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .topic-chip:hover {
+            background: var(--surface-hover);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* Output Panel (Right) */
+        .output-panel {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .output-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .output-title {
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            letter-spacing: 2px;
+            color: var(--text-secondary);
+        }
+
+        .output-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-btn {
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            background: var(--surface-hover);
+            border-color: var(--gold-dim);
+            color: var(--text-primary);
+        }
+
+        .action-btn.primary {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--void);
+        }
+
+        .action-btn.primary:hover {
+            background: var(--gold-bright);
+        }
+
+        /* Output Container */
+        .output-container {
+            flex: 1;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Terminal Header */
+        .terminal-header {
+            background: var(--surface-elevated);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-dot.red { background: var(--ruby); }
+        .terminal-dot.yellow { background: var(--gold); }
+        .terminal-dot.green { background: var(--emerald); }
+
+        .terminal-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        /* Tweet Cards Container */
+        .tweets-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 40px;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+            opacity: 0.3;
+        }
+
+        .empty-state h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            color: var(--text-dim);
+            max-width: 300px;
+        }
+
+        /* Tweet Card */
+        .tweet-card {
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        .tweet-card:hover {
+            border-color: var(--gold-dim);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tweet-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: var(--void);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tweet-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--gold);
+            background: rgba(212, 168, 83, 0.1);
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        .tweet-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .char-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+        }
+
+        .char-count.valid { color: var(--emerald); }
+        .char-count.invalid { color: var(--ruby); }
+
+        .quality-badge {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .quality-badge.pass {
+            background: rgba(45, 216, 129, 0.1);
+            color: var(--emerald);
+        }
+
+        .quality-badge.fail {
+            background: rgba(232, 84, 84, 0.1);
+            color: var(--ruby);
+        }
+
+        .tweet-content {
+            padding: 16px;
+            font-size: 15px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .tweet-content .step-marker {
+            color: var(--gold);
+        }
+
+        .tweet-card-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 12px 16px;
+            border-top: 1px solid var(--border);
+            gap: 8px;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .copy-btn:hover {
+            background: var(--surface-hover);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .copy-btn.copied {
+            background: var(--emerald);
+            border-color: var(--emerald);
+            color: var(--void);
+        }
+
+        /* Loading Skeleton */
+        .skeleton-card {
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .skeleton-line {
+            height: 16px;
+            background: var(--surface-hover);
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .skeleton-line:last-child {
+            width: 60%;
+            margin-bottom: 0;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Scrollbar */
+        .tweets-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .tweets-container::-webkit-scrollbar-track {
+            background: var(--void);
+        }
+
+        .tweets-container::-webkit-scrollbar-thumb {
+            background: var(--surface-hover);
+            border-radius: 4px;
+        }
+
+        .tweets-container::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-dim);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--surface-elevated);
+            border: 1px solid var(--gold);
+            border-radius: 12px;
+            padding: 16px 24px;
+            font-size: 14px;
+            color: var(--text-primary);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-icon {
+            color: var(--emerald);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .header {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+
+            .header-left {
+                flex-direction: column;
+            }
+
+            .header-title {
+                padding-left: 0;
+                border-left: none;
+            }
+
+            .header-stats {
+                justify-content: center;
+            }
+
+            .control-panel {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .type-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .output-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .output-actions {
+                width: 100%;
+            }
+
+            .action-btn {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <div class="logo-icon">🃏</div>
+                <span class="logo-text">BLACKJACK GOD</span>
+            </div>
+            <div class="header-title">
+                <h1>Twitter Content Engine</h1>
+                <p>Generate viral blackjack content</p>
+            </div>
+        </div>
+        <div class="header-stats">
+            <div class="stat-item">
+                <div class="stat-value" id="tweets-count">0</div>
+                <div class="stat-label">Tweets Generated</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="threads-count">0</div>
+                <div class="stat-label">Threads Created</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="quality-score">--</div>
+                <div class="stat-label">Quality Score</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Control Panel -->
+        <aside class="control-panel">
+            <!-- Content Type -->
+            <div class="panel-section">
+                <h3 class="panel-section-title">Content Type</h3>
+                <div class="type-selector">
+                    <button class="type-btn active" data-type="tweets">
+                        <span class="icon">📝</span>
+                        Tweets
+                    </button>
+                    <button class="type-btn" data-type="thread">
+                        <span class="icon">🧵</span>
+                        Thread
+                    </button>
+                    <button class="type-btn" data-type="video">
+                        <span class="icon">🎬</span>
+                        Video Script
+                    </button>
+                </div>
+            </div>
+
+            <!-- Topic Selection -->
+            <div class="panel-section">
+                <h3 class="panel-section-title">Topic</h3>
+                <div class="form-group">
+                    <label class="form-label">Select Category</label>
+                    <select class="form-select" id="category-select">
+                        <option value="">Random from all categories</option>
+                        <option value="counting_systems">Counting Systems</option>
+                        <option value="strategy_systems">Strategy Systems</option>
+                        <option value="money_systems">Money Systems</option>
+                        <option value="myth_busting">Myth Busting</option>
+                        <option value="casino_tactics">Casino Tactics</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Or Enter Custom Topic</label>
+                    <input type="text" class="form-input" id="custom-topic" placeholder="e.g., True count conversion tips">
+                </div>
+            </div>
+
+            <!-- Count Selection -->
+            <div class="panel-section" id="count-section">
+                <h3 class="panel-section-title">Count</h3>
+                <div class="count-selector" id="tweet-count-selector">
+                    <button class="count-btn" data-count="3">3</button>
+                    <button class="count-btn active" data-count="5">5</button>
+                    <button class="count-btn" data-count="10">10</button>
+                </div>
+                <div class="count-selector" id="thread-count-selector" style="display: none;">
+                    <button class="count-btn" data-count="5">5</button>
+                    <button class="count-btn active" data-count="7">7</button>
+                    <button class="count-btn" data-count="10">10</button>
+                </div>
+            </div>
+
+            <!-- Generate Button -->
+            <button class="generate-btn" id="generate-btn">
+                <span class="spinner"></span>
+                <span class="btn-text">GENERATE CONTENT</span>
+            </button>
+
+            <!-- Topic Bank -->
+            <div class="panel-section topic-bank">
+                <h3 class="panel-section-title">Topic Bank</h3>
+
+                <div class="topic-category" data-category="counting_systems">
+                    <div class="topic-category-header">
+                        <h4>Counting Systems</h4>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="topic-list">
+                        <span class="topic-chip">How to count a full deck in under 30 seconds</span>
+                        <span class="topic-chip">The 3-day Hi-Lo training system</span>
+                        <span class="topic-chip">True count conversion shortcuts</span>
+                        <span class="topic-chip">Wong Halves in 5 steps</span>
+                        <span class="topic-chip">Count thresholds for betting</span>
+                    </div>
+                </div>
+
+                <div class="topic-category" data-category="strategy_systems">
+                    <div class="topic-category-header">
+                        <h4>Strategy Systems</h4>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="topic-list">
+                        <span class="topic-chip">7 basic strategy rules for 90% of hands</span>
+                        <span class="topic-chip">Soft 18: pros vs amateurs</span>
+                        <span class="topic-chip">When to surrender</span>
+                        <span class="topic-chip">Split decision framework</span>
+                        <span class="topic-chip">Dealer bust probabilities</span>
+                    </div>
+                </div>
+
+                <div class="topic-category" data-category="money_systems">
+                    <div class="topic-category-header">
+                        <h4>Money Systems</h4>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="topic-list">
+                        <span class="topic-chip">Kelly Criterion formula</span>
+                        <span class="topic-chip">Risk of ruin calculation</span>
+                        <span class="topic-chip">Betting spreads comparison</span>
+                        <span class="topic-chip">$5,000 bankroll blueprint</span>
+                        <span class="topic-chip">Session management rules</span>
+                    </div>
+                </div>
+
+                <div class="topic-category" data-category="myth_busting">
+                    <div class="topic-category-header">
+                        <h4>Myth Busting</h4>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="topic-list">
+                        <span class="topic-chip">Gambler's fallacy costs</span>
+                        <span class="topic-chip">Insurance: the worst bet</span>
+                        <span class="topic-chip">Third baseman myth</span>
+                        <span class="topic-chip">Hot and cold streaks</span>
+                        <span class="topic-chip">Card counting legality</span>
+                    </div>
+                </div>
+
+                <div class="topic-category" data-category="casino_tactics">
+                    <div class="topic-category-header">
+                        <h4>Casino Tactics</h4>
+                        <span class="arrow">▼</span>
+                    </div>
+                    <div class="topic-list">
+                        <span class="topic-chip">How casinos spot counters</span>
+                        <span class="topic-chip">Cover betting systems</span>
+                        <span class="topic-chip">Heat management</span>
+                        <span class="topic-chip">Table selection factors</span>
+                        <span class="topic-chip">Legal rights of players</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Output Panel -->
+        <main class="output-panel">
+            <div class="output-header">
+                <span class="output-title">GENERATED CONTENT</span>
+                <div class="output-actions">
+                    <button class="action-btn" id="copy-all-btn" style="display: none;">
+                        <span>📋</span> Copy All
+                    </button>
+                    <button class="action-btn" id="regenerate-btn" style="display: none;">
+                        <span>🔄</span> Regenerate
+                    </button>
+                </div>
+            </div>
+
+            <div class="output-container">
+                <div class="terminal-header">
+                    <div class="terminal-dots">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                    </div>
+                    <span class="terminal-title">output.tweets</span>
+                </div>
+
+                <div class="tweets-container" id="output-content">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🃏</div>
+                        <h3>Ready to Generate</h3>
+                        <p>Select your options and click Generate to create viral blackjack content</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">✓</span>
+        <span class="toast-message">Copied to clipboard!</span>
+    </div>
+
+    <script>
+        // State
+        let state = {
+            contentType: 'tweets',
+            category: '',
+            customTopic: '',
+            tweetCount: 5,
+            threadLength: 7,
+            generatedContent: [],
+            stats: {
+                tweetsGenerated: 0,
+                threadsGenerated: 0,
+                passCount: 0,
+                totalCount: 0
+            }
+        };
+
+        // Load stats from localStorage
+        function loadStats() {
+            const saved = localStorage.getItem('blackjack_twitter_stats');
+            if (saved) {
+                state.stats = JSON.parse(saved);
+                updateStatsDisplay();
+            }
+        }
+
+        function saveStats() {
+            localStorage.setItem('blackjack_twitter_stats', JSON.stringify(state.stats));
+        }
+
+        function updateStatsDisplay() {
+            document.getElementById('tweets-count').textContent = state.stats.tweetsGenerated;
+            document.getElementById('threads-count').textContent = state.stats.threadsGenerated;
+
+            if (state.stats.totalCount > 0) {
+                const score = Math.round((state.stats.passCount / state.stats.totalCount) * 100);
+                document.getElementById('quality-score').textContent = score + '%';
+            }
+        }
+
+        // Content Type Selection
+        document.querySelectorAll('.type-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.contentType = btn.dataset.type;
+
+                // Show/hide appropriate count selector
+                if (state.contentType === 'tweets') {
+                    document.getElementById('tweet-count-selector').style.display = 'flex';
+                    document.getElementById('thread-count-selector').style.display = 'none';
+                } else if (state.contentType === 'thread') {
+                    document.getElementById('tweet-count-selector').style.display = 'none';
+                    document.getElementById('thread-count-selector').style.display = 'flex';
+                } else {
+                    document.getElementById('count-section').style.display = 'none';
+                }
+
+                if (state.contentType !== 'video') {
+                    document.getElementById('count-section').style.display = 'block';
+                }
+            });
+        });
+
+        // Count Selection
+        document.querySelectorAll('.count-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const parent = btn.parentElement;
+                parent.querySelectorAll('.count-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const count = parseInt(btn.dataset.count);
+                if (parent.id === 'tweet-count-selector') {
+                    state.tweetCount = count;
+                } else {
+                    state.threadLength = count;
+                }
+            });
+        });
+
+        // Category Selection
+        document.getElementById('category-select').addEventListener('change', (e) => {
+            state.category = e.target.value;
+        });
+
+        // Custom Topic
+        document.getElementById('custom-topic').addEventListener('input', (e) => {
+            state.customTopic = e.target.value;
+        });
+
+        // Topic Category Toggle
+        document.querySelectorAll('.topic-category-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.parentElement.classList.toggle('open');
+            });
+        });
+
+        // Topic Chip Click
+        document.querySelectorAll('.topic-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.getElementById('custom-topic').value = chip.textContent;
+                state.customTopic = chip.textContent;
+            });
+        });
+
+        // Generate Content
+        document.getElementById('generate-btn').addEventListener('click', generateContent);
+
+        async function generateContent() {
+            const btn = document.getElementById('generate-btn');
+            const outputContent = document.getElementById('output-content');
+
+            btn.classList.add('loading');
+            btn.disabled = true;
+
+            // Show loading skeletons
+            outputContent.innerHTML = `
+                <div class="skeleton-card">
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line"></div>
+                </div>
+                <div class="skeleton-card">
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line"></div>
+                </div>
+                <div class="skeleton-card">
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line"></div>
+                    <div class="skeleton-line"></div>
+                </div>
+            `;
+
+            try {
+                const topic = state.customTopic || null;
+                const count = state.contentType === 'tweets' ? state.tweetCount : state.threadLength;
+
+                const response = await fetch('/api/twitter/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: state.contentType,
+                        topic: topic,
+                        category: state.category || null,
+                        count: count
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Generation failed');
+                }
+
+                const data = await response.json();
+                state.generatedContent = data.content || [];
+
+                // Update stats
+                if (state.contentType === 'tweets') {
+                    state.stats.tweetsGenerated += state.generatedContent.length;
+                } else if (state.contentType === 'thread') {
+                    state.stats.threadsGenerated += 1;
+                    state.stats.tweetsGenerated += state.generatedContent.length;
+                }
+
+                // Count quality passes
+                state.generatedContent.forEach(item => {
+                    state.stats.totalCount++;
+                    if (item.valid) state.stats.passCount++;
+                });
+
+                saveStats();
+                updateStatsDisplay();
+                renderContent();
+
+                // Show action buttons
+                document.getElementById('copy-all-btn').style.display = 'flex';
+                document.getElementById('regenerate-btn').style.display = 'flex';
+
+            } catch (error) {
+                console.error('Error:', error);
+                outputContent.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚠️</div>
+                        <h3>Generation Failed</h3>
+                        <p>Make sure the API server is running and try again.</p>
+                    </div>
+                `;
+            } finally {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }
+        }
+
+        function renderContent() {
+            const outputContent = document.getElementById('output-content');
+
+            if (state.generatedContent.length === 0) {
+                outputContent.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🃏</div>
+                        <h3>No Content Generated</h3>
+                        <p>Try a different topic or category.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            outputContent.innerHTML = state.generatedContent.map((item, index) => {
+                const charCount = item.text.length;
+                const isValid = charCount <= 280;
+                const qualityPass = item.valid !== false;
+
+                // Highlight step markers
+                const formattedText = item.text.replace(/^>/gm, '<span class="step-marker">></span>');
+
+                return `
+                    <div class="tweet-card" style="animation-delay: ${index * 0.1}s">
+                        <div class="tweet-card-header">
+                            <span class="tweet-number">${state.contentType === 'thread' ? (index + 1) + '/' : 'Tweet ' + (index + 1)}</span>
+                            <div class="tweet-meta">
+                                <span class="char-count ${isValid ? 'valid' : 'invalid'}">${charCount}/280</span>
+                                <span class="quality-badge ${qualityPass ? 'pass' : 'fail'}">
+                                    ${qualityPass ? '✓ Pass' : '⚠ Issues'}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="tweet-content">${formattedText}</div>
+                        <div class="tweet-card-footer">
+                            <button class="copy-btn" onclick="copyTweet(${index})">
+                                <span>📋</span> Copy
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Copy Functions
+        function copyTweet(index) {
+            const text = state.generatedContent[index].text;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Tweet copied to clipboard!');
+
+                // Visual feedback
+                const btns = document.querySelectorAll('.copy-btn');
+                btns[index].classList.add('copied');
+                btns[index].innerHTML = '<span>✓</span> Copied';
+
+                setTimeout(() => {
+                    btns[index].classList.remove('copied');
+                    btns[index].innerHTML = '<span>📋</span> Copy';
+                }, 2000);
+            });
+        }
+
+        document.getElementById('copy-all-btn').addEventListener('click', () => {
+            const allText = state.generatedContent.map((item, i) => {
+                if (state.contentType === 'thread') {
+                    return `${i + 1}/ ${item.text}`;
+                }
+                return item.text;
+            }).join('\n\n');
+
+            navigator.clipboard.writeText(allText).then(() => {
+                showToast('All content copied to clipboard!');
+            });
+        });
+
+        document.getElementById('regenerate-btn').addEventListener('click', generateContent);
+
+        // Toast
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.querySelector('.toast-message').textContent = message;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize
+        loadStats();
+
+        // Demo mode - generate sample content if API not available
+        async function demoGenerate() {
+            const sampleContent = [
+                {
+                    text: "How to count cards in 3 steps:\n> Learn Hi-Lo values (2-6 = +1, 7-9 = 0, 10-A = -1)\n> Track the running count through the shoe\n> Divide by decks remaining for true count\n\nThat's it. Second grade math.",
+                    valid: true
+                },
+                {
+                    text: "The betting spread mistake costing you $500/session:\n\nMost counters bet too aggressively at low counts.\n\n> TC +1: 2 units max\n> TC +2: 4 units\n> TC +3+: Scale up\n\nPatience is the edge.",
+                    valid: true
+                },
+                {
+                    text: "Casinos don't ban card counters because it's illegal.\n\nThey ban you because you're winning their money legally.\n\nKnow your rights. Play smart. Stay under radar.",
+                    valid: true
+                }
+            ];
+
+            return { content: sampleContent };
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,2630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack Advisor | TradeHive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Core palette - Casino Noir */
+            --void: #050505;
+            --felt: #0d1f12;
+            --felt-glow: #1a3d24;
+            --surface: #0f0f0f;
+            --surface-elevated: #1a1a1a;
+            --surface-hover: #252525;
+
+            /* Accent colors */
+            --gold: #d4a853;
+            --gold-dim: #a68a3f;
+            --gold-glow: rgba(212, 168, 83, 0.3);
+            --emerald: #2dd881;
+            --emerald-dim: #1a8f4e;
+
+            /* Card colors */
+            --card-white: #f5f5f0;
+            --card-shadow: rgba(0, 0, 0, 0.5);
+            --suit-red: #c41e3a;
+            --suit-black: #1a1a1a;
+
+            /* Action colors */
+            --action-hit: #3b82f6;
+            --action-stand: #22c55e;
+            --action-double: #eab308;
+            --action-split: #a855f7;
+            --action-surrender: #ef4444;
+
+            /* Text */
+            --text-primary: #f5f5f0;
+            --text-secondary: #888;
+            --text-dim: #555;
+
+            /* Metrics */
+            --positive: #22c55e;
+            --negative: #ef4444;
+            --neutral: #888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--void);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Felt table background texture */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 50% 0%, var(--felt-glow) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(212, 168, 83, 0.05) 0%, transparent 40%),
+                var(--void);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Noise overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            grid-template-rows: auto auto 1fr;
+            gap: 20px;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, var(--surface) 0%, var(--surface-elevated) 100%);
+            border: 1px solid rgba(212, 168, 83, 0.15);
+            border-radius: 12px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 20px var(--gold-glow);
+        }
+
+        .logo-text {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--gold) 0%, #fff 50%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px 20px;
+            border: 1px solid var(--text-dim);
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(212, 168, 83, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+            border: none;
+            color: var(--void);
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px var(--gold-glow);
+        }
+
+        /* Main game area */
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Card sections */
+        .card-section {
+            background: linear-gradient(180deg, var(--surface) 0%, rgba(15, 15, 15, 0.8) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 168, 83, 0.3), transparent);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .hand-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .hand-value.soft::after {
+            content: ' SOFT';
+            font-size: 11px;
+            color: var(--emerald);
+            margin-left: 8px;
+        }
+
+        .hand-value.hard::after {
+            content: ' HARD';
+            font-size: 11px;
+            color: var(--text-dim);
+            margin-left: 8px;
+        }
+
+        .hand-value.blackjack {
+            color: var(--gold);
+            text-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        .hand-value.blackjack::after {
+            content: ' BLACKJACK!';
+            font-size: 11px;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .hand-value.bust {
+            color: var(--negative);
+        }
+
+        .hand-value.bust::after {
+            content: ' BUST';
+            font-size: 11px;
+        }
+
+        /* Playing cards */
+        .cards-container {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            min-height: 100px;
+            align-items: flex-start;
+        }
+
+        .playing-card {
+            width: 70px;
+            height: 100px;
+            background: var(--card-white);
+            border-radius: 8px;
+            position: relative;
+            box-shadow:
+                0 2px 4px rgba(0, 0, 0, 0.2),
+                0 8px 16px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            animation: dealCard 0.3s ease-out;
+        }
+
+        @keyframes dealCard {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) rotateY(90deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateY(0);
+            }
+        }
+
+        .playing-card:hover {
+            transform: translateY(-4px);
+            box-shadow:
+                0 4px 8px rgba(0, 0, 0, 0.3),
+                0 12px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .playing-card.red {
+            color: var(--suit-red);
+        }
+
+        .playing-card.black {
+            color: var(--suit-black);
+        }
+
+        .card-corner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1;
+        }
+
+        .card-rank {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .card-suit {
+            font-size: 14px;
+        }
+
+        .card-corner.bottom {
+            align-self: flex-end;
+            transform: rotate(180deg);
+        }
+
+        .card-center-suit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28px;
+            opacity: 0.9;
+        }
+
+        /* Hidden card (dealer) */
+        .playing-card.hidden {
+            background: linear-gradient(135deg, #1a3d6e 0%, #0d2444 100%);
+            color: transparent;
+        }
+
+        .playing-card.hidden::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 5px,
+                rgba(255, 255, 255, 0.03) 5px,
+                rgba(255, 255, 255, 0.03) 10px
+            );
+        }
+
+        .playing-card.hidden .card-corner,
+        .playing-card.hidden .card-center-suit {
+            display: none;
+        }
+
+        /* Remove card button */
+        .playing-card .remove-btn {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 20px;
+            height: 20px;
+            background: var(--negative);
+            border: 2px solid var(--void);
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: white;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .playing-card:hover .remove-btn {
+            display: flex;
+        }
+
+        /* Add card placeholder */
+        .add-card-placeholder {
+            width: 70px;
+            height: 100px;
+            border: 2px dashed var(--text-dim);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .add-card-placeholder:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(212, 168, 83, 0.1);
+        }
+
+        /* Action recommendation */
+        .action-section {
+            background: linear-gradient(180deg, var(--surface-elevated) 0%, var(--surface) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            right: -50%;
+            bottom: -50%;
+            background: radial-gradient(circle at center, var(--action-glow, transparent) 0%, transparent 70%);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .action-label {
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .action-recommendation {
+            font-family: 'Cinzel', serif;
+            font-size: 56px;
+            font-weight: 700;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .action-recommendation.hit {
+            color: var(--action-hit);
+            --action-glow: var(--action-hit);
+            text-shadow: 0 0 40px rgba(59, 130, 246, 0.5);
+        }
+
+        .action-recommendation.stand {
+            color: var(--action-stand);
+            --action-glow: var(--action-stand);
+            text-shadow: 0 0 40px rgba(34, 197, 94, 0.5);
+        }
+
+        .action-recommendation.double {
+            color: var(--action-double);
+            --action-glow: var(--action-double);
+            text-shadow: 0 0 40px rgba(234, 179, 8, 0.5);
+        }
+
+        .action-recommendation.split {
+            color: var(--action-split);
+            --action-glow: var(--action-split);
+            text-shadow: 0 0 40px rgba(168, 85, 247, 0.5);
+        }
+
+        .action-recommendation.surrender {
+            color: var(--action-surrender);
+            --action-glow: var(--action-surrender);
+            text-shadow: 0 0 40px rgba(239, 68, 68, 0.5);
+        }
+
+        .action-recommendation.waiting {
+            color: var(--text-dim);
+            font-size: 32px;
+            letter-spacing: 4px;
+        }
+
+        .action-source {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .action-source.deviation {
+            color: var(--gold);
+        }
+
+        /* Quick card input */
+        .card-input-section {
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .input-target-select {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .target-btn {
+            flex: 1;
+            padding: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            background: var(--surface-elevated);
+            border: 1px solid var(--text-dim);
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .target-btn.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--void);
+        }
+
+        .target-btn:hover:not(.active) {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .card-buttons {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .card-btn {
+            aspect-ratio: 1;
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            font-weight: 600;
+            background: var(--surface-elevated);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-btn:hover {
+            background: var(--gold);
+            color: var(--void);
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px var(--gold-glow);
+        }
+
+        .card-btn:active {
+            transform: scale(0.95);
+        }
+
+        .card-btn.ten {
+            font-size: 14px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: linear-gradient(180deg, var(--surface) 0%, rgba(15, 15, 15, 0.8) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 168, 83, 0.2), transparent);
+        }
+
+        .stat-card-title {
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+
+        /* Count display */
+        .count-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .count-item {
+            text-align: center;
+        }
+
+        .count-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .count-value.positive {
+            color: var(--positive);
+        }
+
+        .count-value.negative {
+            color: var(--negative);
+        }
+
+        .count-value.neutral {
+            color: var(--text-primary);
+        }
+
+        .count-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* True count highlight */
+        .true-count-highlight {
+            grid-column: 1 / -1;
+            background: rgba(212, 168, 83, 0.1);
+            border: 1px solid rgba(212, 168, 83, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .true-count-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 42px;
+            font-weight: 700;
+        }
+
+        .true-count-label {
+            font-size: 12px;
+            color: var(--gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Bet recommendation */
+        .bet-display {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .bet-amount {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--emerald);
+        }
+
+        .bet-amount::before {
+            content: '$';
+            font-size: 28px;
+            opacity: 0.7;
+        }
+
+        .bet-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .bet-edge {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+        }
+
+        .bet-edge.positive {
+            color: var(--positive);
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .bet-edge.negative {
+            color: var(--negative);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* Session stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 12px 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .stat-value.wins { color: var(--positive); }
+        .stat-value.losses { color: var(--negative); }
+        .stat-value.pushes { color: var(--neutral); }
+
+        .stat-label {
+            font-size: 10px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .pnl-display {
+            text-align: center;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .pnl-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .pnl-value.positive { color: var(--positive); }
+        .pnl-value.negative { color: var(--negative); }
+
+        .pnl-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .roi-badge {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+        }
+
+        .roi-badge.positive {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--positive);
+        }
+
+        .roi-badge.negative {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--negative);
+        }
+
+        /* Other players section */
+        .other-players {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .other-cards-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            min-height: 40px;
+            align-items: center;
+        }
+
+        .other-card-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            background: var(--surface-elevated);
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .other-card-chip .remove {
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(239, 68, 68, 0.2);
+            border-radius: 50%;
+            font-size: 10px;
+            color: var(--negative);
+            cursor: pointer;
+        }
+
+        .other-card-chip .remove:hover {
+            background: var(--negative);
+            color: white;
+        }
+
+        /* Control buttons */
+        .control-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .control-btn {
+            padding: 14px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn.new-hand {
+            background: linear-gradient(135deg, var(--emerald) 0%, var(--emerald-dim) 100%);
+            color: white;
+        }
+
+        .control-btn.new-hand:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(45, 216, 129, 0.3);
+        }
+
+        .control-btn.shuffle {
+            background: var(--surface-elevated);
+            border: 1px solid var(--text-dim);
+            color: var(--text-secondary);
+        }
+
+        .control-btn.shuffle:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* Result buttons */
+        .result-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .result-btn {
+            padding: 10px 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .result-btn.win {
+            border-color: var(--positive);
+            color: var(--positive);
+        }
+
+        .result-btn.win:hover {
+            background: var(--positive);
+            color: white;
+        }
+
+        .result-btn.lose {
+            border-color: var(--negative);
+            color: var(--negative);
+        }
+
+        .result-btn.lose:hover {
+            background: var(--negative);
+            color: white;
+        }
+
+        .result-btn.push {
+            border-color: var(--neutral);
+            color: var(--neutral);
+        }
+
+        .result-btn.push:hover {
+            background: var(--neutral);
+            color: white;
+        }
+
+        .result-btn.bj {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .result-btn.bj:hover {
+            background: var(--gold);
+            color: var(--void);
+        }
+
+        /* Settings panel */
+        .settings-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .settings-row:last-child {
+            border-bottom: none;
+        }
+
+        .settings-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .settings-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        select {
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            padding: 8px 12px;
+            background: var(--surface-elevated);
+            border: 1px solid var(--text-dim);
+            color: var(--text-primary);
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            padding: 16px 24px;
+            background: var(--surface-elevated);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 14px;
+            color: var(--text-primary);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--positive);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--negative);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                padding: 12px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 12px;
+                padding: 12px;
+            }
+
+            .header-actions {
+                width: 100%;
+                display: flex;
+                gap: 8px;
+            }
+
+            .header-actions .btn {
+                flex: 1;
+                padding: 10px 12px;
+                font-size: 12px;
+            }
+
+            .logo-text {
+                font-size: 20px;
+            }
+
+            .sidebar {
+                grid-template-columns: 1fr;
+            }
+
+            .game-area {
+                padding: 16px;
+            }
+
+            .action-recommendation {
+                font-size: 32px;
+                padding: 16px;
+            }
+
+            .action-label {
+                font-size: 10px;
+            }
+
+            .card-buttons {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 6px;
+            }
+
+            .card-btn {
+                padding: 12px 8px;
+                font-size: 14px;
+                min-height: 44px; /* Touch-friendly */
+            }
+
+            .result-buttons {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .result-btn {
+                padding: 14px;
+                font-size: 14px;
+                min-height: 48px;
+            }
+
+            .stat-card {
+                padding: 16px;
+            }
+
+            .count-display {
+                font-size: 42px;
+            }
+
+            .stats-grid {
+                gap: 12px;
+            }
+
+            .stat-value {
+                font-size: 20px;
+            }
+
+            .settings-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .settings-row select {
+                width: 100%;
+            }
+
+            /* Cards display */
+            .cards-section {
+                min-height: auto;
+            }
+
+            .visual-card {
+                min-width: 40px;
+                height: 56px;
+                font-size: 14px;
+            }
+
+            .visual-card .remove-btn {
+                width: 18px;
+                height: 18px;
+                font-size: 10px;
+            }
+
+            /* Input targets */
+            .input-targets {
+                flex-wrap: wrap;
+            }
+
+            .input-target {
+                flex: 1;
+                min-width: 80px;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard {
+                padding: 8px;
+            }
+
+            .card-buttons {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .action-recommendation {
+                font-size: 28px;
+            }
+
+            .count-display {
+                font-size: 36px;
+            }
+
+            .header-actions .btn {
+                padding: 8px 10px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">&#9824;</div>
+                <span class="logo-text">Blackjack Advisor</span>
+            </div>
+            <div class="header-actions">
+                <button class="btn" onclick="resetSession()" style="border-color: var(--negative); color: var(--negative);">Reset Session</button>
+                <button class="btn" onclick="showSettings()">Settings</button>
+                <button class="btn btn-primary" onclick="newHand()">New Hand</button>
+            </div>
+        </header>
+
+        <!-- Main Game Area -->
+        <main class="game-area">
+            <!-- Dealer Section -->
+            <div class="card-section" id="dealer-section">
+                <div class="section-header">
+                    <span class="section-title">Dealer</span>
+                    <span class="hand-value" id="dealer-value">--</span>
+                </div>
+                <div class="cards-container" id="dealer-cards">
+                    <div class="add-card-placeholder" onclick="setInputTarget('dealer')">+</div>
+                </div>
+            </div>
+
+            <!-- My Hand Section -->
+            <div class="card-section" id="player-section">
+                <div class="section-header">
+                    <span class="section-title">Your Hand</span>
+                    <span class="hand-value" id="player-value">--</span>
+                </div>
+                <div class="cards-container" id="player-cards">
+                    <div class="add-card-placeholder" onclick="setInputTarget('player')">+</div>
+                </div>
+            </div>
+
+            <!-- Action Recommendation -->
+            <div class="action-section" id="action-section">
+                <div class="action-label">Recommended Action</div>
+                <div class="action-recommendation waiting" id="action-text">ENTER CARDS</div>
+                <div class="action-source" id="action-source"></div>
+            </div>
+
+            <!-- Quick Card Input -->
+            <div class="card-input-section">
+                <div class="input-target-select">
+                    <button class="target-btn active" id="target-player" onclick="setInputTarget('player')">My Hand</button>
+                    <button class="target-btn" id="target-dealer" onclick="setInputTarget('dealer')">Dealer</button>
+                    <button class="target-btn" id="target-others" onclick="setInputTarget('others')">Others</button>
+                </div>
+                <div class="card-buttons">
+                    <button class="card-btn" onclick="addCard('A')">A</button>
+                    <button class="card-btn" onclick="addCard('2')">2</button>
+                    <button class="card-btn" onclick="addCard('3')">3</button>
+                    <button class="card-btn" onclick="addCard('4')">4</button>
+                    <button class="card-btn" onclick="addCard('5')">5</button>
+                    <button class="card-btn" onclick="addCard('6')">6</button>
+                    <button class="card-btn" onclick="addCard('7')">7</button>
+                    <button class="card-btn" onclick="addCard('8')">8</button>
+                    <button class="card-btn" onclick="addCard('9')">9</button>
+                    <button class="card-btn ten" onclick="addCard('10')">10</button>
+                    <button class="card-btn" onclick="addCard('J')">J</button>
+                    <button class="card-btn" onclick="addCard('Q')">Q</button>
+                    <button class="card-btn" onclick="addCard('K')">K</button>
+                    <button class="card-btn" style="visibility: hidden;"></button>
+                </div>
+
+                <!-- Other Players Cards Display -->
+                <div class="other-players" id="other-players-section" style="display: none; margin-top: 16px;">
+                    <div class="section-title" style="font-size: 11px; margin-bottom: 12px;">Other Players' Cards</div>
+                    <div class="other-cards-input" id="other-cards"></div>
+                </div>
+
+                <!-- Control & Result Buttons -->
+                <div class="control-buttons">
+                    <button class="control-btn new-hand" onclick="newHand()">New Hand</button>
+                    <button class="control-btn shuffle" onclick="shuffle()">Shuffle Deck</button>
+                </div>
+                <div class="result-buttons">
+                    <button class="result-btn win" onclick="recordResult('win')">Win</button>
+                    <button class="result-btn lose" onclick="recordResult('loss')">Lose</button>
+                    <button class="result-btn push" onclick="recordResult('push')">Push</button>
+                    <button class="result-btn bj" onclick="recordResult('blackjack')">BJ!</button>
+                </div>
+                <button class="control-btn" style="width: 100%; margin-top: 8px; background: var(--surface-elevated); border: 1px solid var(--text-dim); color: var(--text-secondary);" onclick="sitOut()">Sit Out (Keep Count)</button>
+            </div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Card Counter -->
+            <div class="stat-card">
+                <div class="stat-card-title">Card Count</div>
+                <div class="count-grid">
+                    <div class="count-item">
+                        <div class="count-value neutral" id="running-count">0</div>
+                        <div class="count-label">Running</div>
+                    </div>
+                    <div class="count-item">
+                        <div class="count-value neutral" id="decks-remaining">6.0</div>
+                        <div class="count-label">Decks Left</div>
+                    </div>
+                    <div class="true-count-highlight">
+                        <div class="true-count-value neutral" id="true-count">+0.0</div>
+                        <div class="true-count-label">True Count</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bet Recommendation -->
+            <div class="stat-card">
+                <div class="stat-card-title">Bet Recommendation</div>
+                <div class="bet-display">
+                    <div class="bet-amount" id="bet-amount">10</div>
+                    <div class="bet-label">Recommended Wager</div>
+                    <div class="bet-edge neutral" id="edge-display">Edge: -0.50%</div>
+                </div>
+            </div>
+
+            <!-- Session Stats -->
+            <div class="stat-card">
+                <div class="stat-card-title">Session Stats</div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value wins" id="stat-wins">0</div>
+                        <div class="stat-label">Wins</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value losses" id="stat-losses">0</div>
+                        <div class="stat-label">Losses</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value pushes" id="stat-pushes">0</div>
+                        <div class="stat-label">Pushes</div>
+                    </div>
+                </div>
+                <div class="pnl-display">
+                    <div class="pnl-value neutral" id="pnl-value">$0</div>
+                    <div class="pnl-label">Session P&L</div>
+                    <div class="roi-badge neutral" id="roi-badge">0.0% ROI</div>
+                </div>
+                <button class="btn" onclick="saveSessionToServer()" style="width: 100%; margin-top: 12px; background: var(--emerald-dim); border-color: var(--emerald); color: var(--text-primary);">
+                    End & Save Session
+                </button>
+            </div>
+
+            <!-- Session History (Pro Feature) -->
+            <div class="stat-card" id="session-history-card">
+                <div class="stat-card-title">Recent Sessions</div>
+                <div id="session-history" style="max-height: 150px; overflow-y: auto;">
+                    <div style="color: var(--text-dim); font-size: 12px;">Pro feature - save sessions to track history</div>
+                </div>
+            </div>
+
+            <!-- Progress Tracking -->
+            <div class="stat-card" id="progress-card">
+                <div class="stat-card-title">Your Progress</div>
+                <div id="progress-display">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+                        <div style="text-align: center;">
+                            <div id="streak-days" style="font-size: 24px; font-weight: 600; color: var(--gold);">0</div>
+                            <div style="font-size: 10px; color: var(--text-dim);">Day Streak</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div id="total-hands" style="font-size: 24px; font-weight: 600; color: var(--emerald);">0</div>
+                            <div style="font-size: 10px; color: var(--text-dim);">Total Hands</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid var(--surface-hover);">
+                        <span style="font-size: 12px; color: var(--text-secondary);">Lifetime P&L</span>
+                        <span id="lifetime-pnl" style="font-size: 12px; font-weight: 600;">$0</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid var(--surface-hover);">
+                        <span style="font-size: 12px; color: var(--text-secondary);">Sessions Played</span>
+                        <span id="total-sessions" style="font-size: 12px; font-weight: 600;">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings -->
+            <div class="stat-card">
+                <div class="stat-card-title">Settings</div>
+                <div class="settings-row">
+                    <span class="settings-label">Counting System</span>
+                    <select id="counting-system" onchange="updateSettings()">
+                        <option value="hi_lo">Hi-Lo</option>
+                        <option value="omega_ii">Omega II</option>
+                        <option value="wong_halves" selected>Wong Halves</option>
+                    </select>
+                </div>
+                <div class="settings-row">
+                    <span class="settings-label">Number of Decks</span>
+                    <select id="num-decks" onchange="updateSettings()">
+                        <option value="1">1 Deck</option>
+                        <option value="2">2 Decks</option>
+                        <option value="4">4 Decks</option>
+                        <option value="6" selected>6 Decks</option>
+                        <option value="8">8 Decks</option>
+                    </select>
+                </div>
+                <div class="settings-row">
+                    <span class="settings-label">Base Bet</span>
+                    <select id="base-bet" onchange="updateSettings()">
+                        <option value="5">$5</option>
+                        <option value="10" selected>$10</option>
+                        <option value="25">$25</option>
+                        <option value="50">$50</option>
+                        <option value="100">$100</option>
+                    </select>
+                </div>
+                <div class="settings-row">
+                    <span class="settings-label">Betting Strategy</span>
+                    <select id="betting-method" onchange="updateBettingMethod()">
+                        <option value="spread">Standard (1-12)</option>
+                        <option value="spread_aggressive">Aggressive (Poor Pen)</option>
+                        <option value="kelly">Kelly Criterion</option>
+                        <option value="flat">Flat Betting</option>
+                    </select>
+                </div>
+                <div id="betting-hint" style="font-size: 10px; color: var(--text-dim); padding: 8px 0;">
+                    Standard 1-12 spread for 75%+ penetration
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ===== STATE =====
+        const state = {
+            playerCards: [],
+            dealerCards: [],
+            otherCards: [],
+            inputTarget: 'player',
+
+            // Count state (from API)
+            runningCount: 0,
+            trueCount: 0,
+            decksRemaining: 6,
+            cardsSeen: 0,
+            edge: -0.5,
+
+            // Settings
+            numDecks: 6,
+            countingSystem: 'wong_halves',
+            baseBet: 10,
+            bettingMethod: 'spread',
+
+            // Session stats
+            wins: 0,
+            losses: 0,
+            pushes: 0,
+            blackjacks: 0,
+            totalPnL: 0,
+            totalWagered: 0,
+            currentBet: 10,
+            decisionsCorrect: 0,
+            decisionsTotal: 0,
+
+            // Last API response
+            lastAnalysis: null,
+
+            // User & Tier
+            user: null,
+            tier: 'free',
+            isDemo: true,
+            handsPlayedToday: 0
+        };
+
+        // ===== TIER LIMITS =====
+        const TIER_LIMITS = {
+            free: {
+                handsPerDay: 10,
+                countingSystems: ['hi_lo'],
+                features: ['basic_strategy', 'hilo_counting']
+            },
+            pro: {
+                handsPerDay: Infinity,
+                countingSystems: ['hi_lo', 'omega_ii', 'wong_halves'],
+                features: ['basic_strategy', 'hilo_counting', 'advisor_mode', 'session_tracking', 'deviations', 'unlimited_practice']
+            },
+            premium: {
+                handsPerDay: Infinity,
+                countingSystems: ['hi_lo', 'omega_ii', 'wong_halves'],
+                features: ['basic_strategy', 'hilo_counting', 'advisor_mode', 'session_tracking', 'deviations', 'unlimited_practice', 'advanced_systems', 'analytics', 'all_features']
+            }
+        };
+
+        // Daily hands tracking key
+        const HANDS_KEY = 'blackjack_god_hands_today';
+
+        function getHandsPlayedToday() {
+            try {
+                const data = JSON.parse(localStorage.getItem(HANDS_KEY) || '{}');
+                const today = new Date().toDateString();
+                if (data.date !== today) {
+                    return 0;
+                }
+                return data.count || 0;
+            } catch {
+                return 0;
+            }
+        }
+
+        function incrementHandsPlayed() {
+            const today = new Date().toDateString();
+            const current = getHandsPlayedToday();
+            localStorage.setItem(HANDS_KEY, JSON.stringify({ date: today, count: current + 1 }));
+            state.handsPlayedToday = current + 1;
+        }
+
+        function canPlayHand() {
+            if (state.tier === 'pro' || state.tier === 'premium' || state.isDemo) {
+                return true;
+            }
+            const limit = TIER_LIMITS[state.tier]?.handsPerDay || 10;
+            return state.handsPlayedToday < limit;
+        }
+
+        function canUseSystem(system) {
+            if (state.isDemo) return true;
+            const allowed = TIER_LIMITS[state.tier]?.countingSystems || ['hi_lo'];
+            return allowed.includes(system);
+        }
+
+        function canAccessFeature(feature) {
+            if (state.isDemo) return true;
+            const features = TIER_LIMITS[state.tier]?.features || [];
+            return features.includes(feature);
+        }
+
+        function showUpgradeModal(feature) {
+            const messages = {
+                'hands_limit': 'You\'ve reached your daily limit of 10 hands.',
+                'counting_system': 'Advanced counting systems require a Pro subscription.',
+                'advisor_mode': 'Advisor mode requires a Pro subscription.',
+                'session_tracking': 'Session tracking requires a Pro subscription.',
+                'analytics': 'Advanced analytics requires a Premium subscription.'
+            };
+            const message = messages[feature] || 'This feature requires an upgrade.';
+
+            if (confirm(`${message}\n\nWould you like to upgrade now?`)) {
+                window.location.href = '/pricing';
+            }
+        }
+
+        // ===== SESSION TRACKING =====
+        async function saveSessionToServer() {
+            // Check if user can save sessions (Pro feature)
+            if (!canAccessFeature('session_tracking')) {
+                showUpgradeModal('session_tracking');
+                return false;
+            }
+
+            const totalHands = state.wins + state.losses + state.pushes;
+            if (totalHands === 0) {
+                showToast('No hands played to save', 'error');
+                return false;
+            }
+
+            try {
+                const token = localStorage.getItem('sb-access-token');
+                if (!token) {
+                    showToast('Login required to save sessions', 'error');
+                    return false;
+                }
+
+                const response = await fetch('/api/sessions/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        hands_played: totalHands,
+                        decisions_correct: state.decisionsCorrect,
+                        counting_errors: 0,
+                        profit_loss: state.totalPnL,
+                        wins: state.wins,
+                        losses: state.losses,
+                        pushes: state.pushes,
+                        blackjacks: state.blackjacks
+                    })
+                });
+
+                if (response.ok) {
+                    showToast('Session saved!', 'success');
+
+                    // Reset session stats after saving
+                    state.wins = 0;
+                    state.losses = 0;
+                    state.pushes = 0;
+                    state.blackjacks = 0;
+                    state.totalPnL = 0;
+                    state.totalWagered = 0;
+                    state.decisionsCorrect = 0;
+                    state.decisionsTotal = 0;
+                    updateStats();
+                    saveState();
+
+                    // Refresh session history
+                    await fetchSessionHistory();
+                    return true;
+                } else if (response.status === 403) {
+                    showUpgradeModal('session_tracking');
+                    return false;
+                } else {
+                    showToast('Failed to save session', 'error');
+                    return false;
+                }
+            } catch (e) {
+                console.error('Save session error:', e);
+                showToast('Error saving session', 'error');
+                return false;
+            }
+        }
+
+        async function fetchSessionHistory() {
+            if (!canAccessFeature('session_tracking') || state.isDemo) {
+                return [];
+            }
+
+            try {
+                const token = localStorage.getItem('sb-access-token');
+                if (!token) return [];
+
+                const response = await fetch('/api/user/sessions?limit=5', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    const sessions = await response.json();
+                    renderSessionHistory(sessions);
+                    return sessions;
+                }
+            } catch (e) {
+                console.error('Fetch sessions error:', e);
+            }
+            return [];
+        }
+
+        function renderSessionHistory(sessions) {
+            const container = document.getElementById('session-history');
+            if (!container) return;
+
+            if (!sessions || sessions.length === 0) {
+                container.innerHTML = '<div style="color: var(--text-dim); font-size: 12px;">No sessions yet</div>';
+                return;
+            }
+
+            container.innerHTML = sessions.map(s => {
+                const date = new Date(s.started_at).toLocaleDateString();
+                const pnl = s.profit_loss || 0;
+                const pnlClass = pnl >= 0 ? 'positive' : 'negative';
+                const pnlSign = pnl >= 0 ? '+' : '';
+                return `
+                    <div class="history-item" style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--surface-hover);">
+                        <div>
+                            <div style="font-size: 12px;">${date}</div>
+                            <div style="font-size: 10px; color: var(--text-dim);">${s.hands_played || 0} hands</div>
+                        </div>
+                        <div class="${pnlClass}" style="font-weight: 600;">${pnlSign}$${pnl}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ===== PROGRESS TRACKING =====
+        async function fetchUserStats() {
+            if (state.isDemo) {
+                // Show demo stats
+                document.getElementById('streak-days').textContent = '0';
+                document.getElementById('total-hands').textContent = '0';
+                document.getElementById('lifetime-pnl').textContent = '$0';
+                document.getElementById('total-sessions').textContent = '0';
+                return null;
+            }
+
+            try {
+                const token = localStorage.getItem('sb-access-token');
+                if (!token) return null;
+
+                const response = await fetch('/api/user/stats', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    const stats = await response.json();
+                    renderUserStats(stats);
+                    return stats;
+                }
+            } catch (e) {
+                console.error('Fetch stats error:', e);
+            }
+            return null;
+        }
+
+        function renderUserStats(stats) {
+            if (!stats) return;
+
+            // Update streak
+            const streakEl = document.getElementById('streak-days');
+            if (streakEl) {
+                streakEl.textContent = stats.streak_days || 0;
+            }
+
+            // Update total hands
+            const handsEl = document.getElementById('total-hands');
+            if (handsEl) {
+                handsEl.textContent = stats.total_hands || 0;
+            }
+
+            // Update lifetime P&L
+            const pnlEl = document.getElementById('lifetime-pnl');
+            if (pnlEl) {
+                const pnl = stats.total_pnl || 0;
+                pnlEl.textContent = `${pnl >= 0 ? '+' : ''}$${pnl}`;
+                pnlEl.className = pnl >= 0 ? 'positive' : 'negative';
+            }
+
+            // Update total sessions
+            const sessionsEl = document.getElementById('total-sessions');
+            if (sessionsEl) {
+                sessionsEl.textContent = stats.total_sessions || 0;
+            }
+        }
+
+        async function fetchUserInfo() {
+            try {
+                const token = localStorage.getItem('sb-access-token');
+                const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+
+                const response = await fetch('/api/user/me', { headers });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    state.user = data;
+                    state.tier = data.tier || 'free';
+                    state.isDemo = data.is_demo || false;
+
+                    // Update UI based on tier
+                    updateTierUI();
+                    return data;
+                } else if (response.status === 401) {
+                    // Not authenticated - stay in demo mode
+                    state.user = null;
+                    state.tier = 'free';
+                    state.isDemo = true;
+                    updateTierUI();
+                }
+            } catch (e) {
+                console.log('Running in demo mode');
+                state.isDemo = true;
+            }
+            return null;
+        }
+
+        function updateTierUI() {
+            // Update counting system dropdown based on tier
+            const systemSelect = document.getElementById('counting-system');
+            const allowedSystems = state.isDemo ? ['hi_lo', 'omega_ii', 'wong_halves'] : (TIER_LIMITS[state.tier]?.countingSystems || ['hi_lo']);
+
+            Array.from(systemSelect.options).forEach(opt => {
+                if (!allowedSystems.includes(opt.value)) {
+                    opt.disabled = true;
+                    opt.textContent = opt.textContent.replace(' (Pro)', '') + ' (Pro)';
+                } else {
+                    opt.disabled = false;
+                    opt.textContent = opt.textContent.replace(' (Pro)', '');
+                }
+            });
+
+            // If current system is not allowed, switch to hi_lo
+            if (!allowedSystems.includes(state.countingSystem) && !state.isDemo) {
+                state.countingSystem = 'hi_lo';
+                systemSelect.value = 'hi_lo';
+                showToast('Switched to Hi-Lo (upgrade for advanced systems)', 'error');
+            }
+
+            // Show remaining hands for free tier
+            if (state.tier === 'free' && !state.isDemo) {
+                const remaining = Math.max(0, 10 - state.handsPlayedToday);
+                console.log(`Free tier: ${remaining} hands remaining today`);
+            }
+        }
+
+        // ===== LOCAL STORAGE PERSISTENCE =====
+        const STORAGE_KEY = 'blackjack_god_session';
+
+        function saveState() {
+            const saveData = {
+                // Count state
+                runningCount: state.runningCount,
+                trueCount: state.trueCount,
+                decksRemaining: state.decksRemaining,
+                cardsSeen: state.cardsSeen,
+                edge: state.edge,
+
+                // Settings
+                numDecks: state.numDecks,
+                countingSystem: state.countingSystem,
+                baseBet: state.baseBet,
+                bettingMethod: state.bettingMethod,
+
+                // Session stats
+                wins: state.wins,
+                losses: state.losses,
+                pushes: state.pushes,
+                blackjacks: state.blackjacks,
+                totalPnL: state.totalPnL,
+                totalWagered: state.totalWagered,
+
+                // Timestamp for session freshness
+                savedAt: Date.now()
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(saveData));
+        }
+
+        function loadState() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (!saved) return false;
+
+                const data = JSON.parse(saved);
+
+                // Check if session is less than 24 hours old
+                const hoursSinceSave = (Date.now() - data.savedAt) / (1000 * 60 * 60);
+                if (hoursSinceSave > 24) {
+                    console.log('Session expired, starting fresh');
+                    localStorage.removeItem(STORAGE_KEY);
+                    return false;
+                }
+
+                // Restore count state
+                state.runningCount = data.runningCount || 0;
+                state.trueCount = data.trueCount || 0;
+                state.decksRemaining = data.decksRemaining || 6;
+                state.cardsSeen = data.cardsSeen || 0;
+                state.edge = data.edge || -0.5;
+
+                // Restore settings
+                state.numDecks = data.numDecks || 6;
+                state.countingSystem = data.countingSystem || 'wong_halves';
+                state.baseBet = data.baseBet || 10;
+                state.bettingMethod = data.bettingMethod || 'spread';
+
+                // Restore session stats
+                state.wins = data.wins || 0;
+                state.losses = data.losses || 0;
+                state.pushes = data.pushes || 0;
+                state.blackjacks = data.blackjacks || 0;
+                state.totalPnL = data.totalPnL || 0;
+                state.totalWagered = data.totalWagered || 0;
+
+                console.log('Session restored from localStorage');
+                return true;
+            } catch (e) {
+                console.error('Failed to load state:', e);
+                return false;
+            }
+        }
+
+        function showSettings() {
+            // Scroll to settings section in sidebar
+            const settingsCard = document.querySelector('.stat-card:last-child');
+            if (settingsCard) {
+                settingsCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // Briefly highlight the settings card
+                settingsCard.style.boxShadow = '0 0 20px var(--gold)';
+                setTimeout(() => {
+                    settingsCard.style.boxShadow = '';
+                }, 2000);
+            }
+            showToast('Settings are in the sidebar');
+        }
+
+        function resetSession() {
+            if (!confirm('Reset all session stats and count? This cannot be undone.')) return;
+
+            // Reset count
+            state.runningCount = 0;
+            state.trueCount = 0;
+            state.decksRemaining = state.numDecks;
+            state.cardsSeen = 0;
+            state.edge = -0.5;
+
+            // Reset stats
+            state.wins = 0;
+            state.losses = 0;
+            state.pushes = 0;
+            state.blackjacks = 0;
+            state.totalPnL = 0;
+            state.totalWagered = 0;
+            state.decisionsCorrect = 0;
+            state.decisionsTotal = 0;
+
+            // Clear cards
+            state.playerCards = [];
+            state.dealerCards = [];
+            state.otherCards = [];
+
+            // Clear localStorage
+            localStorage.removeItem(STORAGE_KEY);
+
+            // Reset backend counter
+            resetCounter();
+
+            // Update UI
+            renderPlayerCards();
+            renderDealerCards();
+            updateDisplay();
+            updateStats();
+
+            showToast('Session reset', 'success');
+        }
+
+        // Suits for visual cards
+        const SUITS = ['♠', '♥', '♦', '♣'];
+
+        // ===== API FUNCTIONS =====
+        async function analyzeHand() {
+            // This function gets strategy recommendations only.
+            // Count state is managed incrementally by addCard/removeCard and should NOT be overwritten here.
+            try {
+                const response = await fetch('/api/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        player_cards: state.playerCards,
+                        dealer_cards: state.dealerCards,
+                        other_cards: state.otherCards,
+                        counting_system: state.countingSystem,
+                        num_decks: state.numDecks
+                    })
+                });
+
+                if (!response.ok) throw new Error('API error');
+
+                const data = await response.json();
+                state.lastAnalysis = data;
+
+                // DO NOT update count state here! Count is managed incrementally via addCard/removeCard.
+                // Only update bet recommendation based on current true count.
+                state.currentBet = calculateBet(state.trueCount);
+
+                return data;
+            } catch (error) {
+                console.error('API Error:', error);
+                showToast('API Error - is backend running?', 'error');
+                return null;
+            }
+        }
+
+        async function resetCounter() {
+            try {
+                await fetch('/api/counter/reset', { method: 'POST' });
+                state.runningCount = 0;
+                state.trueCount = 0;
+                state.decksRemaining = state.numDecks;
+                state.cardsSeen = 0;
+                state.edge = -0.5;
+            } catch (error) {
+                console.error('Reset error:', error);
+            }
+        }
+
+        async function createCounter() {
+            try {
+                const response = await fetch('/api/counter/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        system: state.countingSystem,
+                        num_decks: state.numDecks
+                    })
+                });
+
+                // After creating counter, fetch the actual state from backend
+                // This handles both new counters (count=0) and ensures sync
+                const stateResponse = await fetch('/api/counter/state');
+                if (stateResponse.ok) {
+                    const data = await stateResponse.json();
+                    state.runningCount = data.running_count;
+                    state.trueCount = data.true_count;
+                    state.decksRemaining = data.decks_remaining;
+                    state.cardsSeen = data.cards_seen;
+                    state.edge = data.edge;
+                }
+            } catch (error) {
+                console.error('Create counter error:', error);
+            }
+        }
+
+        // ===== HELPER FUNCTIONS =====
+        // Spread tables for different strategies
+        const SPREAD_TABLES = {
+            'spread': {
+                '-5': 1, '-4': 1, '-3': 1, '-2': 1, '-1': 1,
+                '0': 1, '1': 2, '2': 4, '3': 6, '4': 8, '5': 10, '6': 12
+            },
+            'spread_aggressive': {
+                '-5': 1, '-4': 1, '-3': 1, '-2': 1, '-1': 1,
+                '0': 1, '1': 2, '2': 4, '3': 8, '4': 12, '5': 12, '6': 12
+            }
+        };
+
+        function calculateBet(tc) {
+            const method = state.bettingMethod;
+            const tcRounded = Math.max(-5, Math.min(6, Math.round(tc)));
+
+            if (method === 'flat') {
+                return state.baseBet;
+            } else if (method === 'kelly') {
+                // Simplified Kelly calculation
+                const edge = -0.005 + (tc * 0.005);
+                if (edge <= 0) return state.baseBet;
+                const kellyFraction = edge / 1.15 * 0.5; // Half Kelly
+                const kellyBet = Math.min(state.baseBet * 12, Math.max(state.baseBet, 1000 * kellyFraction));
+                return Math.round(kellyBet);  // Round to nearest dollar
+            } else if (method in SPREAD_TABLES) {
+                const multiplier = SPREAD_TABLES[method][tcRounded.toString()] || 1;
+                return state.baseBet * multiplier;
+            } else {
+                // Default to standard spread
+                const multiplier = SPREAD_TABLES['spread'][tcRounded.toString()] || 1;
+                return state.baseBet * multiplier;
+            }
+        }
+
+        function getRandomSuit() {
+            return SUITS[Math.floor(Math.random() * 4)];
+        }
+
+        function isRedSuit(suit) {
+            return suit === '♥' || suit === '♦';
+        }
+
+        function getCardValue(card) {
+            if (card === 'A') return 11;
+            if (['J', 'Q', 'K'].includes(card)) return 10;
+            return parseInt(card);
+        }
+
+        function calculateHandValue(cards) {
+            let total = 0;
+            let aces = 0;
+
+            for (const card of cards) {
+                const val = getCardValue(card);
+                total += val;
+                if (card === 'A') aces++;
+            }
+
+            // Reduce aces from 11 to 1 as needed to avoid bust
+            while (total > 21 && aces > 0) {
+                total -= 10;
+                aces--;
+            }
+
+            // Hand is SOFT only if at least one Ace is still being counted as 11
+            // After the while loop, 'aces' = number of aces still valued at 11
+            return {
+                total,
+                isSoft: aces > 0 && total <= 21,
+                isBlackjack: cards.length === 2 && total === 21,
+                isBust: total > 21
+            };
+        }
+
+        // ===== UI FUNCTIONS =====
+        function createCardElement(card, canRemove = true, target = 'player') {
+            const suit = getRandomSuit();
+            const isRed = isRedSuit(suit);
+
+            const cardEl = document.createElement('div');
+            cardEl.className = `playing-card ${isRed ? 'red' : 'black'}`;
+            cardEl.dataset.card = card;
+            cardEl.dataset.target = target;
+
+            cardEl.innerHTML = `
+                <div class="card-corner">
+                    <span class="card-rank">${card}</span>
+                    <span class="card-suit">${suit}</span>
+                </div>
+                <span class="card-center-suit">${suit}</span>
+                <div class="card-corner bottom">
+                    <span class="card-rank">${card}</span>
+                    <span class="card-suit">${suit}</span>
+                </div>
+                ${canRemove ? '<div class="remove-btn" onclick="removeCard(this)">×</div>' : ''}
+            `;
+
+            return cardEl;
+        }
+
+        function createHiddenCard() {
+            const cardEl = document.createElement('div');
+            cardEl.className = 'playing-card hidden';
+            cardEl.id = 'dealer-hidden';
+            return cardEl;
+        }
+
+        function setInputTarget(target) {
+            state.inputTarget = target;
+
+            // Update button states
+            document.getElementById('target-player').classList.toggle('active', target === 'player');
+            document.getElementById('target-dealer').classList.toggle('active', target === 'dealer');
+            document.getElementById('target-others').classList.toggle('active', target === 'others');
+
+            // Show/hide other players section
+            document.getElementById('other-players-section').style.display =
+                target === 'others' || state.otherCards.length > 0 ? 'block' : 'none';
+        }
+
+        async function addCard(card) {
+            // Add card to appropriate array
+            if (state.inputTarget === 'player') {
+                state.playerCards.push(card);
+                renderPlayerCards();
+            } else if (state.inputTarget === 'dealer') {
+                state.dealerCards.push(card);
+                renderDealerCards();
+            } else {
+                state.otherCards.push(card);
+                renderOtherCards();
+            }
+
+            // Add card to running count via API (incremental counting)
+            try {
+                const response = await fetch('/api/counter/add_card', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ card: card })
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    // Update count state from API response
+                    state.runningCount = data.running_count;
+                    state.trueCount = data.true_count;
+                    state.decksRemaining = data.decks_remaining;
+                    state.cardsSeen = data.cards_seen;
+                    state.edge = data.edge;
+                }
+            } catch (e) {
+                console.error('Failed to add card to count:', e);
+            }
+
+            // Call API to analyze and update display (for strategy recommendation)
+            await updateDisplay();
+            saveState();  // Persist count changes to localStorage
+        }
+
+        async function removeCard(btn) {
+            const cardEl = btn.parentElement;
+            const card = cardEl.dataset.card;
+            const target = cardEl.dataset.target;
+
+            if (target === 'player') {
+                const idx = state.playerCards.indexOf(card);
+                if (idx > -1) state.playerCards.splice(idx, 1);
+                renderPlayerCards();
+            } else if (target === 'dealer') {
+                const idx = state.dealerCards.indexOf(card);
+                if (idx > -1) state.dealerCards.splice(idx, 1);
+                renderDealerCards();
+            }
+
+            // Remove card from running count (for mistake correction)
+            try {
+                const response = await fetch('/api/counter/remove_card', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ card: card })
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    state.runningCount = data.running_count;
+                    state.trueCount = data.true_count;
+                    state.decksRemaining = data.decks_remaining;
+                    state.cardsSeen = data.cards_seen;
+                    state.edge = data.edge;
+                }
+            } catch (e) {
+                console.error('Failed to remove card from count:', e);
+            }
+
+            // Call API to re-analyze
+            await updateDisplay();
+        }
+
+        async function removeOtherCard(idx) {
+            const card = state.otherCards[idx];
+            state.otherCards.splice(idx, 1);
+            renderOtherCards();
+
+            // Remove card from running count (for mistake correction)
+            try {
+                const response = await fetch('/api/counter/remove_card', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ card: card })
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    state.runningCount = data.running_count;
+                    state.trueCount = data.true_count;
+                    state.decksRemaining = data.decks_remaining;
+                    state.cardsSeen = data.cards_seen;
+                    state.edge = data.edge;
+                }
+            } catch (e) {
+                console.error('Failed to remove card from count:', e);
+            }
+
+            await updateDisplay();
+        }
+
+        function renderPlayerCards() {
+            const container = document.getElementById('player-cards');
+            container.innerHTML = '';
+
+            for (const card of state.playerCards) {
+                container.appendChild(createCardElement(card, true, 'player'));
+            }
+
+            const placeholder = document.createElement('div');
+            placeholder.className = 'add-card-placeholder';
+            placeholder.textContent = '+';
+            placeholder.onclick = () => setInputTarget('player');
+            container.appendChild(placeholder);
+
+            // Update hand value
+            const valueEl = document.getElementById('player-value');
+            if (state.playerCards.length >= 2) {
+                const hand = calculateHandValue(state.playerCards);
+                valueEl.textContent = hand.total;
+                valueEl.className = 'hand-value';
+                if (hand.isBlackjack) valueEl.classList.add('blackjack');
+                else if (hand.isBust) valueEl.classList.add('bust');
+                else if (hand.isSoft) valueEl.classList.add('soft');
+                else valueEl.classList.add('hard');
+            } else {
+                valueEl.textContent = '--';
+                valueEl.className = 'hand-value';
+            }
+        }
+
+        function renderDealerCards() {
+            const container = document.getElementById('dealer-cards');
+            container.innerHTML = '';
+
+            for (const card of state.dealerCards) {
+                container.appendChild(createCardElement(card, true, 'dealer'));
+            }
+
+            // Add hidden card placeholder if only upcard
+            if (state.dealerCards.length === 1) {
+                container.appendChild(createHiddenCard());
+            }
+
+            const placeholder = document.createElement('div');
+            placeholder.className = 'add-card-placeholder';
+            placeholder.textContent = '+';
+            placeholder.onclick = () => setInputTarget('dealer');
+            container.appendChild(placeholder);
+
+            // Update dealer value
+            const valueEl = document.getElementById('dealer-value');
+            if (state.dealerCards.length >= 1) {
+                const hand = calculateHandValue(state.dealerCards);
+                valueEl.textContent = state.dealerCards.length === 1 ? state.dealerCards[0] : hand.total;
+                valueEl.className = 'hand-value';
+            } else {
+                valueEl.textContent = '--';
+                valueEl.className = 'hand-value';
+            }
+        }
+
+        function renderOtherCards() {
+            const container = document.getElementById('other-cards');
+            container.innerHTML = '';
+
+            for (let i = 0; i < state.otherCards.length; i++) {
+                const chip = document.createElement('div');
+                chip.className = 'other-card-chip';
+                chip.innerHTML = `
+                    ${state.otherCards[i]}
+                    <span class="remove" onclick="removeOtherCard(${i})">×</span>
+                `;
+                container.appendChild(chip);
+            }
+
+            // Show section if there are cards
+            document.getElementById('other-players-section').style.display =
+                state.otherCards.length > 0 || state.inputTarget === 'others' ? 'block' : 'none';
+        }
+
+        async function updateDisplay() {
+            // Fetch the current count from the backend (ground truth)
+            try {
+                const countResponse = await fetch('/api/counter/state');
+                if (countResponse.ok) {
+                    const countData = await countResponse.json();
+                    // Update frontend state from backend
+                    state.runningCount = countData.running_count;
+                    state.trueCount = countData.true_count;
+                    state.decksRemaining = countData.decks_remaining;
+                    state.cardsSeen = countData.cards_seen;
+                    state.edge = countData.edge;
+                }
+            } catch (e) {
+                console.error('Failed to fetch counter state:', e);
+            }
+
+            // Call API to analyze current state (for strategy recommendation only)
+            const analysis = await analyzeHand();
+
+            // Use the count values from backend
+            const rc = state.runningCount;
+            const tc = state.trueCount;
+            const dr = state.decksRemaining;
+            const edge = state.edge;
+            const bet = calculateBet(tc);
+
+            document.getElementById('running-count').textContent = rc >= 0 ? `+${rc}` : rc;
+            document.getElementById('running-count').className = `count-value ${rc > 0 ? 'positive' : rc < 0 ? 'negative' : 'neutral'}`;
+
+            document.getElementById('true-count').textContent = tc >= 0 ? `+${tc.toFixed(1)}` : tc.toFixed(1);
+            document.getElementById('true-count').className = `true-count-value ${tc > 0 ? 'positive' : tc < 0 ? 'negative' : 'neutral'}`;
+
+            document.getElementById('decks-remaining').textContent = dr.toFixed(1);
+
+            document.getElementById('bet-amount').textContent = bet;
+
+            const edgeEl = document.getElementById('edge-display');
+            edgeEl.textContent = `Edge: ${edge >= 0 ? '+' : ''}${edge.toFixed(2)}%`;
+            edgeEl.className = `bet-edge ${edge >= 0 ? 'positive' : 'negative'}`;
+
+            // Update action recommendation from API
+            const actionEl = document.getElementById('action-text');
+            const sourceEl = document.getElementById('action-source');
+
+            if (analysis && analysis.recommendation) {
+                const { action, source } = analysis.recommendation;
+                actionEl.textContent = action;
+                actionEl.className = `action-recommendation ${action.toLowerCase()}`;
+
+                if (source === 'deviation') {
+                    sourceEl.textContent = `Deviation at TC ${tc >= 0 ? '+' : ''}${tc.toFixed(1)}`;
+                    sourceEl.className = 'action-source deviation';
+                } else if (source === 'natural') {
+                    sourceEl.textContent = 'Natural 21!';
+                    sourceEl.className = 'action-source';
+                } else if (source === 'bust') {
+                    sourceEl.textContent = 'Hand busted';
+                    sourceEl.className = 'action-source';
+                } else {
+                    sourceEl.textContent = 'Basic Strategy';
+                    sourceEl.className = 'action-source';
+                }
+            } else {
+                // Check for bust locally for immediate feedback
+                if (state.playerCards.length >= 2) {
+                    const hand = calculateHandValue(state.playerCards);
+                    if (hand.isBust) {
+                        actionEl.textContent = 'BUST';
+                        actionEl.className = 'action-recommendation bust';
+                        sourceEl.textContent = 'Hand busted';
+                        return;
+                    } else if (hand.isBlackjack) {
+                        actionEl.textContent = 'BLACKJACK';
+                        actionEl.className = 'action-recommendation blackjack';
+                        sourceEl.textContent = 'Natural 21!';
+                        return;
+                    }
+                }
+                actionEl.textContent = 'ENTER CARDS';
+                actionEl.className = 'action-recommendation waiting';
+                sourceEl.textContent = '';
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('stat-wins').textContent = state.wins;
+            document.getElementById('stat-losses').textContent = state.losses;
+            document.getElementById('stat-pushes').textContent = state.pushes;
+
+            const pnlEl = document.getElementById('pnl-value');
+            pnlEl.textContent = `${state.totalPnL >= 0 ? '+' : ''}$${state.totalPnL}`;
+            pnlEl.className = `pnl-value ${state.totalPnL >= 0 ? 'positive' : 'negative'}`;
+
+            const roi = state.totalWagered > 0 ? (state.totalPnL / state.totalWagered * 100) : 0;
+            const roiEl = document.getElementById('roi-badge');
+            roiEl.textContent = `${roi >= 0 ? '+' : ''}${roi.toFixed(1)}% ROI`;
+            roiEl.className = `roi-badge ${roi >= 0 ? 'positive' : 'negative'}`;
+        }
+
+        async function newHand() {
+            state.playerCards = [];
+            state.dealerCards = [];
+            state.otherCards = [];
+            renderPlayerCards();
+            renderDealerCards();
+            renderOtherCards();
+            await updateDisplay();
+            setInputTarget('player');
+            showToast('New hand started', 'success');
+        }
+
+        async function shuffle() {
+            state.playerCards = [];
+            state.dealerCards = [];
+            state.otherCards = [];
+            await resetCounter();
+            renderPlayerCards();
+            renderDealerCards();
+            renderOtherCards();
+            await updateDisplay();
+            saveState();  // Persist count reset to localStorage
+            showToast('Deck shuffled - count reset', 'success');
+        }
+
+        async function sitOut() {
+            // Clear player and dealer cards only, keep count and other players' cards
+            state.playerCards = [];
+            state.dealerCards = [];
+            renderPlayerCards();
+            renderDealerCards();
+            await updateDisplay();
+            setInputTarget('player');
+            showToast('Sat out - count maintained', 'success');
+        }
+
+        function trackDecision(followedAdvice = true) {
+            // Track whether the user followed the advisor's recommendation
+            state.decisionsTotal++;
+            if (followedAdvice) {
+                state.decisionsCorrect++;
+            }
+            saveState();
+        }
+
+        function recordResult(result) {
+            // Auto-track decision as correct when recording result
+            // (user can call trackDecision(false) before recordResult if they deviated)
+            if (state.lastAnalysis && state.lastAnalysis.recommendation) {
+                state.decisionsTotal++;
+                state.decisionsCorrect++;  // Assume correct unless indicated otherwise
+            }
+
+            // Check hand limit for free tier
+            if (!canPlayHand()) {
+                showUpgradeModal('hands_limit');
+                return;
+            }
+
+            const bet = state.currentBet;
+            state.totalWagered += bet;
+
+            if (result === 'win') {
+                state.wins++;
+                state.totalPnL += bet;
+                showToast(`Win! +$${bet}`, 'success');
+            } else if (result === 'loss') {
+                state.losses++;
+                state.totalPnL -= bet;
+                showToast(`Loss: -$${bet}`, 'error');
+            } else if (result === 'push') {
+                state.pushes++;
+                showToast('Push - no change', 'success');
+            } else if (result === 'blackjack') {
+                state.wins++;
+                state.blackjacks++;
+                const payout = Math.round(bet * 1.5);
+                state.totalPnL += payout;
+                showToast(`Blackjack! +$${payout}`, 'success');
+            }
+
+            // Track hand played for free tier limit
+            incrementHandsPlayed();
+
+            // Show warning when running low on hands
+            if (!state.isDemo && state.tier === 'free') {
+                const remaining = Math.max(0, 10 - state.handsPlayedToday);
+                if (remaining === 0) {
+                    showToast('Daily limit reached! Upgrade to continue.', 'error');
+                } else if (remaining <= 3) {
+                    showToast(`${remaining} hands remaining today`, 'error');
+                }
+            }
+
+            updateStats();
+            saveState();  // Persist to localStorage
+            newHand();
+        }
+
+        async function updateSettings() {
+            const newSystem = document.getElementById('counting-system').value;
+
+            // Check if user can use the selected system
+            if (!canUseSystem(newSystem)) {
+                showUpgradeModal('counting_system');
+                // Revert to current value
+                document.getElementById('counting-system').value = state.countingSystem;
+                return;
+            }
+
+            state.countingSystem = newSystem;
+            state.numDecks = parseInt(document.getElementById('num-decks').value);
+            state.baseBet = parseInt(document.getElementById('base-bet').value);
+
+            // Clear all cards when settings change
+            state.playerCards = [];
+            state.dealerCards = [];
+            state.otherCards = [];
+            renderPlayerCards();
+            renderDealerCards();
+            renderOtherCards();
+
+            // Create new counter with updated settings
+            await createCounter();
+            await updateDisplay();
+            saveState();  // Persist settings to localStorage
+
+            showToast(`Settings updated: ${state.countingSystem.toUpperCase()}`, 'success');
+        }
+
+        async function updateBettingMethod() {
+            state.bettingMethod = document.getElementById('betting-method').value;
+
+            // Update hint text
+            const hints = {
+                'spread': 'Standard 1-12 spread for 75%+ penetration',
+                'spread_aggressive': 'Aggressive spread for 50% penetration games',
+                'kelly': 'Kelly Criterion - mathematically optimal, higher variance',
+                'flat': 'Flat betting - constant bet size (for testing)'
+            };
+            document.getElementById('betting-hint').textContent = hints[state.bettingMethod] || '';
+
+            // Update backend
+            try {
+                await fetch('/api/settings/betting_method', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ method: state.bettingMethod })
+                });
+            } catch (e) {
+                console.error('Failed to update betting method:', e);
+            }
+
+            // Refresh display with new bet calculation
+            await updateDisplay();
+
+            const methodNames = {
+                'spread': 'Standard Spread',
+                'spread_aggressive': 'Aggressive Spread',
+                'kelly': 'Kelly Criterion',
+                'flat': 'Flat Betting'
+            };
+            saveState();  // Persist betting method to localStorage
+            showToast(`Betting: ${methodNames[state.bettingMethod]}`, 'success');
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            const key = e.key.toUpperCase();
+
+            // Card shortcuts
+            if (['A', '2', '3', '4', '5', '6', '7', '8', '9', 'J', 'Q', 'K'].includes(key)) {
+                addCard(key);
+            } else if (key === '0' || key === 'T') {
+                addCard('10');
+            } else if (key === '1' && !e.shiftKey) {
+                addCard('A');
+            }
+
+            // Control shortcuts
+            if (key === 'N') newHand();
+            if (key === 'S' && e.shiftKey) shuffle();
+            if (key === 'P') setInputTarget('player');
+            if (key === 'D') setInputTarget('dealer');
+            if (key === 'O') setInputTarget('others');
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Load saved session state first
+            const hasSession = loadState();
+
+            // Get hands played today
+            state.handsPlayedToday = getHandsPlayedToday();
+
+            // Fetch user info for tier enforcement
+            await fetchUserInfo();
+
+            // Sync settings UI with loaded state
+            document.getElementById('counting-system').value = state.countingSystem;
+            document.getElementById('num-decks').value = state.numDecks;
+            document.getElementById('base-bet').value = state.baseBet;
+            document.getElementById('betting-method').value = state.bettingMethod;
+
+            // Initialize counter on backend
+            await createCounter();
+
+            renderPlayerCards();
+            renderDealerCards();
+            await updateDisplay();
+            updateStats();
+
+            if (hasSession) {
+                showToast('Session restored', 'success');
+            }
+
+            // Show tier info
+            if (!state.isDemo && state.tier === 'free') {
+                const remaining = Math.max(0, 10 - state.handsPlayedToday);
+                if (remaining <= 3) {
+                    showToast(`${remaining} free hands remaining today`, 'error');
+                }
+            }
+
+            // Fetch session history and stats for Pro users
+            await fetchSessionHistory();
+            await fetchUserStats();
+
+            console.log('Blackjack Advisor Dashboard connected to backend API');
+        });
+    </script>
+</body>
+</html>

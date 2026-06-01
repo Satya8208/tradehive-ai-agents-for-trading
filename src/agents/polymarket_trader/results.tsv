@@ -1,0 +1,27 @@
+commit	score	win_rate	pnl	trades	status	description
+baseline	57.19	0.408	273.28	76	keep	initial baseline - no modifications
+2babba4	64.72	0.429	325.15	63	keep	ETH-only filter (remove BTC 0%WR, SOL 0%WR deadweight)
+2137216	65.46	0.421	328.66	57	keep	raise min_edge_threshold 3% -> 15% (swarm now 3t 100%WR)
+cf117a3	89.17	0.583	356.60	36	keep	raise min_arb_edge 1.5% -> 27% (filter penny-token range arb losers)
+4a2c6d7	90.21	0.583	244.29	36	keep	reduce max_position_usd 100 -> 30 (better risk-adjusted ROI)
+d8d650e	90.21	0.583	244.29	36	keep	range arb top-2 only (structural fix, prevents future dilution)
+5944ef4	90.21	0.583	244.29	36	keep	max_expiry_hours=24, min_arb_token_price=0.05 (structural)
+59d5c41	90.21	0.583	244.29	36	keep	stronger contrarian+conservative prompts (bullish bias fix)
+9cac8ac	90.21	0.583	244.29	36	keep	volatility math in quantitative prompt (structural)
+7169334	90.21	0.583	244.29	36	keep	market price in swarm prompt with anti-anchoring (structural)
+b8991b1	90.21	0.583	244.29	36	keep	5% abstain guard in edge calculator (structural)
+c886ef0	106.94	0.700	74.54	10	keep	rebalance: arb 80%, swarm 5%, pos $60 — trust ETH swarm, strict arb
+1372a78	106.94	0.700	74.54	10	keep	steeper time decay (24h cutoff, 10% min) — structural
+7789f6d	106.94	0.700	74.54	10	keep	stronger dissent penalty (30% at >0.7 conf) — structural
+11c07ce	106.94	0.700	74.54	10	keep	reduce Kelly 0.25 -> 0.15 — structural
+715e8a3	106.94	0.700	74.54	10	keep	reduce exposure 500 -> 300 — structural
+776c7c1	106.94	0.700	74.54	10	keep	base prompt overhaul with calibration facts + NO-bias — structural
+da7a8e5	106.94	0.700	74.54	10	keep	tighter confidence interval 0.10 -> 0.15 — structural
+1917c1a	106.94	0.700	74.54	10	keep	sigma analysis in prompt (warns >1.5-2 sigma moves) — structural
+4c604f9	64.72	0.429	325.15	63	keep	position dedup + correlation + directional cap (fixes -$605 live losses)
+af4f492	64.72	0.429	325.15	63	keep	sync ParamSet to live config (arb 80% -> 5%, honest baseline)
+51066f4	75.96	0.509	353.25	53	keep	raise arb_edge 5% -> 10% (0-10% edge arb trades are all losers)
+75172e6	81.19	0.540	369.46	50	keep	raise arb_edge 10% -> 20%
+d414a0e	85.70	0.571	353.09	42	keep	raise arb_edge 20% -> 27% (sweet spot before cliff at 30%)
+7b7b691	89.17	0.583	356.60	36	keep	raise swarm min_edge 5% -> 15% (swarm 3t 100%WR)
+cb1efc0	90.21	0.583	244.29	36	keep	reduce max_pos 60 -> 30 (better ROI) — MAXIMUM for >=15 trades

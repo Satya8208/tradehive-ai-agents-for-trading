@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack Twitter Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #050505;
+            --felt: #0d1f12;
+            --felt-light: #1a472a;
+            --felt-glow: #2d5a3d;
+            --gold: #d4af37;
+            --gold-light: #f4cf67;
+            --gold-dark: #b8960c;
+            --ivory: #f5f0e1;
+            --cream: #e8e0cc;
+            --silver: #c0c0c0;
+            --cyan: #00d4ff;
+            --magenta: #ff00aa;
+            --shark-red: #dc2626;
+            --royal-blue: #3b82f6;
+            --success: #22c55e;
+
+            --font-display: 'Cinzel', serif;
+            --font-body: 'Crimson Pro', serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            --shadow-gold: 0 0 30px rgba(212, 175, 55, 0.3);
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--void);
+            color: var(--ivory);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Art deco border pattern */
+        .deco-border {
+            background: linear-gradient(90deg,
+                transparent 0%,
+                var(--gold-dark) 10%,
+                var(--gold) 20%,
+                var(--gold-dark) 30%,
+                transparent 50%,
+                var(--gold-dark) 70%,
+                var(--gold) 80%,
+                var(--gold-dark) 90%,
+                transparent 100%
+            );
+            height: 2px;
+            margin: 0.5rem 0;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 2.5rem 1rem;
+            background: linear-gradient(180deg, var(--felt) 0%, var(--void) 100%);
+            border-bottom: 1px solid var(--felt-light);
+            position: relative;
+        }
+
+        .header::before {
+            content: '♠ ♥ ♦ ♣';
+            position: absolute;
+            top: 0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            letter-spacing: 1rem;
+            color: var(--gold-dark);
+            opacity: 0.5;
+        }
+
+        .header h1 {
+            font-family: var(--font-display);
+            font-size: clamp(1.75rem, 5vw, 3rem);
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--gold);
+            text-shadow: var(--shadow-gold);
+            margin-bottom: 0.25rem;
+        }
+
+        .header .tagline {
+            font-family: var(--font-body);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-style: italic;
+            font-weight: 300;
+            color: var(--cream);
+            opacity: 0.8;
+            letter-spacing: 0.05em;
+        }
+
+        /* Navigation Tabs */
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem 1rem;
+            background: var(--void);
+            border-bottom: 1px solid var(--felt-light);
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--felt);
+            padding: 0.35rem;
+            border-radius: 8px;
+            border: 1px solid var(--felt-light);
+        }
+
+        .nav-tab {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--cream);
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-tab:hover::before {
+            left: 100%;
+        }
+
+        .nav-tab:hover {
+            color: var(--gold-light);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            color: var(--void);
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Input Section */
+        .input-section {
+            background: linear-gradient(145deg, var(--felt), #0a1a0f);
+            border: 1px solid var(--felt-light);
+            border-radius: 12px;
+            padding: 1.75rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        .input-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .input-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .input-label {
+            display: block;
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        textarea, input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 1rem;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--felt-light);
+            border-radius: 8px;
+            color: var(--ivory);
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus, input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+        }
+
+        textarea::placeholder, input::placeholder {
+            color: rgba(245, 240, 225, 0.3);
+            font-style: italic;
+        }
+
+        /* Image Upload Zone */
+        .upload-zone {
+            border: 2px dashed var(--felt-light);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .upload-zone.has-image {
+            border-style: solid;
+            border-color: var(--felt-glow);
+        }
+
+        .upload-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            opacity: 0.6;
+        }
+
+        .upload-text {
+            font-size: 0.95rem;
+            color: var(--cream);
+            opacity: 0.7;
+        }
+
+        .upload-preview {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .upload-zone.has-image .upload-preview {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .upload-zone.has-image .upload-icon,
+        .upload-zone.has-image .upload-text {
+            display: none;
+        }
+
+        .clear-image {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--shark-red);
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            font-size: 1rem;
+            line-height: 1;
+        }
+
+        .upload-zone.has-image .clear-image {
+            display: block;
+        }
+
+        /* Mode Filter Buttons */
+        .mode-filters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .mode-filter-btn {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--felt-light);
+            border-radius: 6px;
+            color: var(--cream);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+        }
+
+        .mode-filter-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .mode-filter-btn.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--void);
+            font-weight: 500;
+        }
+
+        /* Generate Button */
+        .generate-btn {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            letter-spacing: 0.15em;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-dark));
+            background-size: 200% 100%;
+            border: none;
+            border-radius: 8px;
+            color: var(--void);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: var(--shadow-gold);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .generate-btn:hover {
+            background-position: 100% 0;
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.5);
+        }
+
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Analysis Display */
+        .analysis-section {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--felt-light);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .analysis-section.visible {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .analysis-title {
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .analysis-item {
+            background: rgba(26, 71, 42, 0.2);
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            border-left: 3px solid var(--gold-dark);
+        }
+
+        .analysis-label {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            color: var(--cream);
+            opacity: 0.6;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .analysis-value {
+            font-size: 0.95rem;
+            color: var(--ivory);
+            font-weight: 400;
+        }
+
+        .analysis-value.highlight {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* Reply Cards Grid */
+        .replies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .reply-card {
+            background: linear-gradient(145deg, var(--felt), #0a1a0f);
+            border: 1px solid var(--felt-light);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            transition: all 0.3s ease;
+            animation: dealCard 0.5s ease backwards;
+        }
+
+        .reply-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        @keyframes dealCard {
+            from {
+                opacity: 0;
+                transform: translateY(20px) rotateX(15deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+
+        .reply-card:nth-child(1) { animation-delay: 0.05s; }
+        .reply-card:nth-child(2) { animation-delay: 0.1s; }
+        .reply-card:nth-child(3) { animation-delay: 0.15s; }
+        .reply-card:nth-child(4) { animation-delay: 0.2s; }
+        .reply-card:nth-child(5) { animation-delay: 0.25s; }
+        .reply-card:nth-child(6) { animation-delay: 0.3s; }
+        .reply-card:nth-child(7) { animation-delay: 0.35s; }
+        .reply-card:nth-child(8) { animation-delay: 0.4s; }
+
+        .reply-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--felt-light);
+        }
+
+        .mode-badge {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            padding: 0.35rem 0.75rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        /* Mode-specific colors */
+        .mode-card_counter .mode-badge { background: var(--cyan); color: var(--void); }
+        .mode-high_roller .mode-badge { background: var(--gold); color: var(--void); }
+        .mode-table_reader .mode-badge { background: var(--magenta); color: white; }
+        .mode-shark .mode-badge { background: var(--shark-red); color: white; }
+        .mode-odds_validator .mode-badge { background: var(--success); color: var(--void); }
+        .mode-bankroll_amplifier .mode-badge { background: #16a34a; color: white; }
+        .mode-bankroll_manager .mode-badge { background: var(--royal-blue); color: white; }
+        .mode-the_dealer .mode-badge { background: var(--silver); color: var(--void); }
+
+        /* Select dropdown styling */
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23d4af37' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.5rem;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+        }
+
+        select option {
+            background: var(--void);
+            color: var(--ivory);
+            padding: 0.5rem;
+        }
+
+        /* Article section styling */
+        .article-section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--felt-light);
+        }
+
+        .article-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .char-count {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--cream);
+            opacity: 0.5;
+        }
+
+        .reply-body {
+            padding: 1.25rem;
+            min-height: 100px;
+        }
+
+        .reply-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--ivory);
+        }
+
+        .reply-footer {
+            padding: 0.75rem 1rem;
+            border-top: 1px solid var(--felt-light);
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .copy-btn {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid var(--gold-dark);
+            border-radius: 4px;
+            color: var(--gold);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .copy-btn:hover {
+            background: var(--gold);
+            color: var(--void);
+        }
+
+        .copy-btn.copied {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        /* Tweet Cards (Idea Lab) */
+        .tweets-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .tweet-card {
+            background: linear-gradient(145deg, var(--felt), #0a1a0f);
+            border: 1px solid var(--felt-light);
+            border-radius: 10px;
+            padding: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            box-shadow: var(--shadow-card);
+            animation: dealCard 0.4s ease backwards;
+        }
+
+        .tweet-card:nth-child(1) { animation-delay: 0.05s; }
+        .tweet-card:nth-child(2) { animation-delay: 0.1s; }
+        .tweet-card:nth-child(3) { animation-delay: 0.15s; }
+        .tweet-card:nth-child(4) { animation-delay: 0.2s; }
+        .tweet-card:nth-child(5) { animation-delay: 0.25s; }
+
+        .tweet-content {
+            flex: 1;
+        }
+
+        .tweet-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--ivory);
+            margin-bottom: 0.5rem;
+        }
+
+        .tweet-meta {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--cream);
+            opacity: 0.5;
+        }
+
+        /* Thread Display */
+        .thread-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .thread-tweet {
+            background: linear-gradient(145deg, var(--felt), #0a1a0f);
+            border: 1px solid var(--felt-light);
+            border-bottom: none;
+            padding: 1.5rem;
+            position: relative;
+            animation: dealCard 0.4s ease backwards;
+        }
+
+        .thread-tweet:first-child {
+            border-radius: 12px 12px 0 0;
+        }
+
+        .thread-tweet:last-child {
+            border-radius: 0 0 12px 12px;
+            border-bottom: 1px solid var(--felt-light);
+        }
+
+        .thread-tweet:only-child {
+            border-radius: 12px;
+            border-bottom: 1px solid var(--felt-light);
+        }
+
+        .thread-number {
+            position: absolute;
+            left: 1.5rem;
+            top: 1.5rem;
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            color: var(--gold);
+            opacity: 0.8;
+        }
+
+        .thread-tweet-content {
+            margin-left: 2rem;
+        }
+
+        .thread-connector {
+            position: absolute;
+            left: 1.75rem;
+            top: 2.5rem;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--gold-dark), var(--felt-light));
+        }
+
+        .thread-tweet:last-child .thread-connector {
+            display: none;
+        }
+
+        /* Loading State */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 5, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .loading-overlay.visible {
+            display: flex;
+        }
+
+        .loading-cards {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .loading-card {
+            width: 40px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+            border-radius: 6px;
+            animation: cardFlip 1.2s ease-in-out infinite;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .loading-card:nth-child(1) { animation-delay: 0s; }
+        .loading-card:nth-child(2) { animation-delay: 0.15s; }
+        .loading-card:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes cardFlip {
+            0%, 100% { transform: rotateY(0deg) translateY(0); }
+            50% { transform: rotateY(180deg) translateY(-10px); }
+        }
+
+        .loading-text {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--cream);
+            opacity: 0.5;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-text {
+            font-style: italic;
+        }
+
+        /* Inline controls */
+        .inline-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .inline-controls .input-group {
+            margin-bottom: 0;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .inline-controls .input-group.small {
+            flex: 0 0 120px;
+            min-width: 100px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 2rem 1rem;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .nav-tab {
+                text-align: center;
+            }
+
+            .main-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .replies-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .inline-controls {
+                flex-direction: column;
+            }
+
+            .inline-controls .input-group.small {
+                flex: 1;
+                width: 100%;
+            }
+
+            .mode-filters {
+                justify-content: center;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--void);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--felt-light);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--felt-glow);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-cards">
+            <div class="loading-card"></div>
+            <div class="loading-card"></div>
+            <div class="loading-card"></div>
+        </div>
+        <div class="loading-text">Dealing your hand...</div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <h1>BLACKJACK TWITTER ENGINE</h1>
+        <div class="deco-border"></div>
+        <p class="tagline">The house edge is ignorance. Your edge is wisdom.</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-tab="reply">Reply Generator</button>
+            <button class="nav-tab" data-tab="ideas">Idea Lab</button>
+            <button class="nav-tab" data-tab="thread">Thread Weaver</button>
+            <button class="nav-tab" data-tab="articles">Article Writer</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Reply Generator Tab -->
+        <section class="tab-panel active" id="tab-reply">
+            <div class="input-section">
+                <div class="input-group">
+                    <label class="input-label">Tweet to Reply To</label>
+                    <textarea id="tweetInput" rows="3" placeholder="Paste the tweet you want to reply to..."></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Or Upload an Image</label>
+                    <div class="upload-zone" id="uploadZone">
+                        <div class="upload-icon">♠</div>
+                        <div class="upload-text">Drop image here or click to upload</div>
+                        <img class="upload-preview" id="imagePreview" alt="Preview">
+                        <button class="clear-image" id="clearImage">×</button>
+                        <input type="file" id="imageInput" accept="image/*" hidden>
+                    </div>
+                </div>
+
+                <div class="input-group" id="captionGroup" style="display: none;">
+                    <label class="input-label">Image Caption (optional)</label>
+                    <input type="text" id="captionInput" placeholder="Add context about the image...">
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Mode Filter</label>
+                    <div class="mode-filters">
+                        <button class="mode-filter-btn active" data-filter="">ALL</button>
+                        <button class="mode-filter-btn" data-filter="challenge">CHALLENGE</button>
+                        <button class="mode-filter-btn" data-filter="align">ALIGN</button>
+                    </div>
+                </div>
+
+                <button class="generate-btn" id="generateReplies">DEAL REPLIES</button>
+            </div>
+
+            <!-- Analysis Section -->
+            <div class="analysis-section" id="analysisSection">
+                <div class="analysis-title">♦ TABLE READ</div>
+                <div class="analysis-grid">
+                    <div class="analysis-item">
+                        <div class="analysis-label">Tone</div>
+                        <div class="analysis-value" id="analysisTone">—</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">The Bet</div>
+                        <div class="analysis-value" id="analysisBet">—</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">Best Mode</div>
+                        <div class="analysis-value highlight" id="analysisMode">—</div>
+                    </div>
+                    <div class="analysis-item">
+                        <div class="analysis-label">Engagement</div>
+                        <div class="analysis-value" id="analysisEngagement">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Replies Grid -->
+            <div class="replies-grid" id="repliesGrid">
+                <div class="empty-state">
+                    <div class="empty-icon">♠</div>
+                    <div class="empty-text">Enter a tweet or upload an image to generate replies</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Idea Lab Tab -->
+        <section class="tab-panel" id="tab-ideas">
+            <div class="input-section">
+                <div class="inline-controls">
+                    <div class="input-group">
+                        <label class="input-label">Topic</label>
+                        <input type="text" id="topicInput" placeholder="Enter a topic or leave blank for random...">
+                    </div>
+                    <div class="input-group small">
+                        <label class="input-label">Count</label>
+                        <input type="number" id="tweetCount" value="5" min="1" max="10">
+                    </div>
+                </div>
+                <div style="margin-top: 1.25rem;">
+                    <button class="generate-btn" id="generateTweets">DEAL TWEETS</button>
+                </div>
+            </div>
+
+            <div class="tweets-container" id="tweetsContainer">
+                <div class="empty-state">
+                    <div class="empty-icon">♥</div>
+                    <div class="empty-text">Generate original tweet ideas with gambling wisdom</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Thread Weaver Tab -->
+        <section class="tab-panel" id="tab-thread">
+            <div class="input-section">
+                <div class="input-group">
+                    <label class="input-label">Thread Topic</label>
+                    <input type="text" id="threadTopic" placeholder="What should this thread be about?">
+                </div>
+                <div class="inline-controls">
+                    <div class="input-group">
+                        <label class="input-label">Thesis (optional)</label>
+                        <input type="text" id="threadThesis" placeholder="The main argument or point...">
+                    </div>
+                    <div class="input-group small">
+                        <label class="input-label">Length</label>
+                        <input type="number" id="threadLength" value="5" min="3" max="15">
+                    </div>
+                </div>
+                <div style="margin-top: 1.25rem;">
+                    <button class="generate-btn" id="generateThread">WEAVE THREAD</button>
+                </div>
+            </div>
+
+            <div class="thread-container" id="threadContainer">
+                <div class="empty-state">
+                    <div class="empty-icon">♣</div>
+                    <div class="empty-text">Create a thread of gambling wisdom</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Article Writer Tab -->
+        <section class="tab-panel" id="tab-articles">
+            <div class="input-section">
+                <div class="input-group">
+                    <label class="input-label">Article Topic</label>
+                    <input type="text" id="articleTopic" placeholder="What gambling wisdom should this article explore?">
+                </div>
+                <div class="inline-controls">
+                    <div class="input-group">
+                        <label class="input-label">Article Type</label>
+                        <select id="articleType" style="width: 100%; padding: 1rem; font-family: var(--font-body); font-size: 1rem; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--felt-light); border-radius: 8px; color: var(--ivory);">
+                            <option value="deep_dive">🎰 Deep Dive - Comprehensive exploration</option>
+                            <option value="listicle">🃏 Listicle - Numbered insights</option>
+                            <option value="opinion">💰 Opinion - Strong stance piece</option>
+                            <option value="howto">🎯 How-To - Step-by-step guide</option>
+                            <option value="contrarian">🔥 Contrarian - Against the grain</option>
+                        </select>
+                    </div>
+                    <div class="input-group small">
+                        <label class="input-label">Length</label>
+                        <select id="articleLength" style="width: 100%; padding: 1rem; font-family: var(--font-body); font-size: 1rem; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--felt-light); border-radius: 8px; color: var(--ivory);">
+                            <option value="short">Short (2-3K)</option>
+                            <option value="medium" selected>Medium (5-8K)</option>
+                            <option value="long">Long (10-15K)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Thesis (optional)</label>
+                    <input type="text" id="articleThesis" placeholder="The main argument or angle you want to take...">
+                </div>
+                <div style="margin-top: 1.25rem;">
+                    <button class="generate-btn" id="generateArticle">DEAL ARTICLE</button>
+                </div>
+            </div>
+
+            <!-- Article Display -->
+            <div id="articleDisplay" style="display: none;">
+                <!-- Article Header -->
+                <div class="article-header" style="background: linear-gradient(145deg, var(--felt), #0a1a0f); border: 1px solid var(--felt-light); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                        <span id="articleTypeBadge" class="mode-badge" style="background: var(--gold); color: var(--void);">DEEP DIVE</span>
+                        <span id="articleStats" class="char-count">0 chars | 0 words</span>
+                    </div>
+                    <h2 id="articleTitle" style="font-family: var(--font-display); font-size: 1.5rem; color: var(--gold); margin-bottom: 0.75rem;"></h2>
+                    <p id="articleHook" style="font-size: 1.1rem; color: var(--ivory); font-style: italic; line-height: 1.6;"></p>
+                </div>
+
+                <!-- Article Body -->
+                <div id="articleBody" style="background: linear-gradient(145deg, var(--felt), #0a1a0f); border: 1px solid var(--felt-light); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem;">
+                </div>
+
+                <!-- Article Closer -->
+                <div id="articleCloserSection" style="background: linear-gradient(145deg, var(--felt), #0a1a0f); border: 1px solid var(--felt-light); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; border-left: 3px solid var(--gold);">
+                    <p id="articleCloser" style="font-size: 1rem; color: var(--ivory); line-height: 1.6;"></p>
+                </div>
+
+                <!-- Article Actions -->
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                    <button class="generate-btn" id="copyArticle" style="flex: 1;">♦ COPY ARTICLE</button>
+                    <button class="generate-btn" id="generateTeaser" style="flex: 1; background: linear-gradient(135deg, var(--felt-glow), var(--felt-light));">🎯 GENERATE TEASER</button>
+                </div>
+
+                <!-- Teaser Display -->
+                <div id="teaserContainer" style="display: none; background: linear-gradient(145deg, var(--felt), #0a1a0f); border: 1px solid var(--felt-light); border-radius: 12px; padding: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <span class="input-label" style="margin: 0;">PROMOTIONAL TEASER</span>
+                        <span id="teaserCharCount" class="char-count">0/280</span>
+                    </div>
+                    <p id="teaserText" style="font-size: 1.1rem; color: var(--ivory); line-height: 1.6; margin-bottom: 1rem;"></p>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="copy-btn" id="copyTeaser">♦ COPY TEASER</button>
+                        <button class="copy-btn" id="regenerateTeaser" style="border-color: var(--felt-glow); color: var(--cream);">↻ REGENERATE</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="articleEmptyState" class="empty-state">
+                <div class="empty-icon">♦</div>
+                <div class="empty-text">Write long-form gambling wisdom articles</div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const API_BASE = 'http://localhost:8052';
+
+        // State
+        let currentModeFilter = '';
+        let currentImageData = null;
+
+        // DOM Elements
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const tabs = document.querySelectorAll('.nav-tab');
+        const panels = document.querySelectorAll('.tab-panel');
+
+        // Tab Navigation
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                panels.forEach(p => p.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById(`tab-${tab.dataset.tab}`).classList.add('active');
+            });
+        });
+
+        // Mode Filter
+        document.querySelectorAll('.mode-filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.mode-filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentModeFilter = btn.dataset.filter;
+            });
+        });
+
+        // Image Upload
+        const uploadZone = document.getElementById('uploadZone');
+        const imageInput = document.getElementById('imageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const clearImage = document.getElementById('clearImage');
+        const captionGroup = document.getElementById('captionGroup');
+
+        uploadZone.addEventListener('click', () => imageInput.click());
+
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                handleImageUpload(file);
+            }
+        });
+
+        imageInput.addEventListener('change', (e) => {
+            if (e.target.files[0]) {
+                handleImageUpload(e.target.files[0]);
+            }
+        });
+
+        clearImage.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentImageData = null;
+            imagePreview.src = '';
+            uploadZone.classList.remove('has-image');
+            captionGroup.style.display = 'none';
+            imageInput.value = '';
+        });
+
+        function handleImageUpload(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                currentImageData = e.target.result;
+                imagePreview.src = currentImageData;
+                uploadZone.classList.add('has-image');
+                captionGroup.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Loading State
+        function showLoading(text = 'Dealing your hand...') {
+            document.querySelector('.loading-text').textContent = text;
+            loadingOverlay.classList.add('visible');
+        }
+
+        function hideLoading() {
+            loadingOverlay.classList.remove('visible');
+        }
+
+        // Copy to Clipboard
+        async function copyToClipboard(text, btn) {
+            try {
+                await navigator.clipboard.writeText(text);
+                btn.classList.add('copied');
+                btn.innerHTML = '✓ COPIED';
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.innerHTML = '♦ COPY';
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy:', err);
+            }
+        }
+
+        // Generate Replies
+        document.getElementById('generateReplies').addEventListener('click', async () => {
+            const tweet = document.getElementById('tweetInput').value.trim();
+            const caption = document.getElementById('captionInput').value.trim();
+
+            if (!tweet && !currentImageData) {
+                alert('Please enter a tweet or upload an image');
+                return;
+            }
+
+            showLoading('Reading the table...');
+
+            try {
+                let response;
+                if (currentImageData) {
+                    response = await fetch(`${API_BASE}/api/image-replies`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            image_data: currentImageData,
+                            caption: caption,
+                            mode_filter: currentModeFilter || null
+                        })
+                    });
+                } else {
+                    response = await fetch(`${API_BASE}/api/replies`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            tweet: tweet,
+                            mode_filter: currentModeFilter || null
+                        })
+                    });
+                }
+
+                const data = await response.json();
+                displayAnalysis(data.analysis);
+                displayReplies(data.replies);
+            } catch (err) {
+                console.error('Error:', err);
+                alert('Failed to generate replies. Is the API running?');
+            } finally {
+                hideLoading();
+            }
+        });
+
+        function displayAnalysis(analysis) {
+            const section = document.getElementById('analysisSection');
+            section.classList.add('visible');
+
+            document.getElementById('analysisTone').textContent = analysis.tone || '—';
+            document.getElementById('analysisBet').textContent = analysis.the_bet || '—';
+            document.getElementById('analysisMode').textContent = (analysis.recommended_mode || '—').toUpperCase();
+            document.getElementById('analysisEngagement').textContent = (analysis.engagement_potential || '—').toUpperCase();
+        }
+
+        function displayReplies(replies) {
+            const grid = document.getElementById('repliesGrid');
+            grid.innerHTML = replies.map(reply => `
+                <div class="reply-card mode-${reply.mode}">
+                    <div class="reply-header">
+                        <span class="mode-badge">${reply.mode.replace('_', ' ')}</span>
+                        <span class="char-count">${reply.char_count}/280</span>
+                    </div>
+                    <div class="reply-body">
+                        <p class="reply-text">${escapeHtml(reply.reply)}</p>
+                    </div>
+                    <div class="reply-footer">
+                        <button class="copy-btn" onclick="copyToClipboard('${escapeJs(reply.reply)}', this)">♦ COPY</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Generate Tweets
+        document.getElementById('generateTweets').addEventListener('click', async () => {
+            const topic = document.getElementById('topicInput').value.trim();
+            const count = parseInt(document.getElementById('tweetCount').value) || 5;
+
+            showLoading('Dealing fresh hands...');
+
+            try {
+                const response = await fetch(`${API_BASE}/api/tweets`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ topic: topic || null, count })
+                });
+
+                const data = await response.json();
+                displayTweets(data.tweets);
+            } catch (err) {
+                console.error('Error:', err);
+                alert('Failed to generate tweets. Is the API running?');
+            } finally {
+                hideLoading();
+            }
+        });
+
+        function displayTweets(tweets) {
+            const container = document.getElementById('tweetsContainer');
+            container.innerHTML = tweets.map(tweet => `
+                <div class="tweet-card">
+                    <div class="tweet-content">
+                        <p class="tweet-text">${escapeHtml(tweet.text)}</p>
+                        <span class="tweet-meta">${tweet.char_count}/280 characters</span>
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('${escapeJs(tweet.text)}', this)">♦ COPY</button>
+                </div>
+            `).join('');
+        }
+
+        // Generate Thread
+        document.getElementById('generateThread').addEventListener('click', async () => {
+            const topic = document.getElementById('threadTopic').value.trim();
+            const thesis = document.getElementById('threadThesis').value.trim();
+            const length = parseInt(document.getElementById('threadLength').value) || 5;
+
+            if (!topic) {
+                alert('Please enter a thread topic');
+                return;
+            }
+
+            showLoading('Weaving the thread...');
+
+            try {
+                const response = await fetch(`${API_BASE}/api/thread`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ topic, length, thesis: thesis || null })
+                });
+
+                const data = await response.json();
+                displayThread(data.tweets);
+            } catch (err) {
+                console.error('Error:', err);
+                alert('Failed to generate thread. Is the API running?');
+            } finally {
+                hideLoading();
+            }
+        });
+
+        function displayThread(tweets) {
+            const container = document.getElementById('threadContainer');
+            container.innerHTML = tweets.map((tweet, i) => `
+                <div class="thread-tweet" style="animation-delay: ${i * 0.1}s">
+                    <span class="thread-number">${tweet.position}/</span>
+                    <div class="thread-connector"></div>
+                    <div class="thread-tweet-content">
+                        <p class="tweet-text">${escapeHtml(tweet.text)}</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem;">
+                            <span class="tweet-meta">${tweet.char_count}/280</span>
+                            <button class="copy-btn" onclick="copyToClipboard('${escapeJs(tweet.text)}', this)">♦ COPY</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Article State
+        let currentArticle = null;
+
+        // Article Type Labels
+        const articleTypeLabels = {
+            'deep_dive': '🎰 DEEP DIVE',
+            'listicle': '🃏 LISTICLE',
+            'opinion': '💰 OPINION',
+            'howto': '🎯 HOW-TO',
+            'contrarian': '🔥 CONTRARIAN'
+        };
+
+        // Generate Article
+        document.getElementById('generateArticle').addEventListener('click', async () => {
+            const topic = document.getElementById('articleTopic').value.trim();
+            const articleType = document.getElementById('articleType').value;
+            const length = document.getElementById('articleLength').value;
+            const thesis = document.getElementById('articleThesis').value.trim();
+
+            if (!topic) {
+                alert('Please enter an article topic');
+                return;
+            }
+
+            showLoading('Dealing your article...');
+
+            try {
+                const response = await fetch(`${API_BASE}/api/articles`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        topic,
+                        article_type: articleType,
+                        length,
+                        thesis: thesis || null
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    currentArticle = data;
+                    displayArticle(data);
+                } else {
+                    alert('Failed to generate article: ' + (data.detail || 'Unknown error'));
+                }
+            } catch (err) {
+                console.error('Error:', err);
+                alert('Failed to generate article. Is the API running?');
+            } finally {
+                hideLoading();
+            }
+        });
+
+        function displayArticle(article) {
+            // Hide empty state, show article
+            document.getElementById('articleEmptyState').style.display = 'none';
+            document.getElementById('articleDisplay').style.display = 'block';
+            document.getElementById('teaserContainer').style.display = 'none';
+
+            // Set header info
+            document.getElementById('articleTypeBadge').textContent = articleTypeLabels[article.article_type] || article.article_type.toUpperCase();
+            document.getElementById('articleStats').textContent = `${article.char_count.toLocaleString()} chars | ${article.word_count.toLocaleString()} words`;
+            document.getElementById('articleTitle').textContent = article.title;
+            document.getElementById('articleHook').textContent = article.hook;
+
+            // Render sections
+            const bodyContainer = document.getElementById('articleBody');
+            bodyContainer.innerHTML = article.sections.map(section => `
+                <div style="margin-bottom: 1.5rem;">
+                    <h3 style="font-family: var(--font-display); font-size: 1.1rem; color: var(--gold); margin-bottom: 0.75rem; letter-spacing: 0.05em;">${escapeHtml(section.heading)}</h3>
+                    <div style="font-size: 1rem; color: var(--ivory); line-height: 1.7; white-space: pre-wrap;">${formatArticleBody(section.body)}</div>
+                </div>
+            `).join('');
+
+            // Set closer
+            document.getElementById('articleCloser').innerHTML = formatArticleBody(article.closer);
+        }
+
+        function formatArticleBody(text) {
+            // Convert markdown-style bold to HTML
+            let formatted = escapeHtml(text);
+            formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong style="color: var(--gold);">$1</strong>');
+            // Convert bullet points
+            formatted = formatted.replace(/^- (.+)$/gm, '• $1');
+            // Convert numbered lists
+            formatted = formatted.replace(/^(\d+)\. (.+)$/gm, '<span style="color: var(--gold);">$1.</span> $2');
+            return formatted;
+        }
+
+        // Copy Article
+        document.getElementById('copyArticle').addEventListener('click', function() {
+            if (currentArticle) {
+                copyToClipboard(currentArticle.full_content, this);
+            }
+        });
+
+        // Generate Teaser
+        document.getElementById('generateTeaser').addEventListener('click', async () => {
+            if (!currentArticle) {
+                alert('Please generate an article first');
+                return;
+            }
+
+            showLoading('Generating teaser...');
+
+            try {
+                const response = await fetch(`${API_BASE}/api/teaser`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title: currentArticle.title,
+                        hook: currentArticle.hook,
+                        key_insight: currentArticle.closer || ''
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayTeaser(data);
+                } else {
+                    alert('Failed to generate teaser: ' + (data.detail || 'Unknown error'));
+                }
+            } catch (err) {
+                console.error('Error:', err);
+                alert('Failed to generate teaser. Is the API running?');
+            } finally {
+                hideLoading();
+            }
+        });
+
+        function displayTeaser(data) {
+            document.getElementById('teaserContainer').style.display = 'block';
+            document.getElementById('teaserText').textContent = data.teaser;
+            document.getElementById('teaserCharCount').textContent = `${data.char_count}/280`;
+        }
+
+        // Copy Teaser
+        document.getElementById('copyTeaser').addEventListener('click', function() {
+            const teaserText = document.getElementById('teaserText').textContent;
+            copyToClipboard(teaserText, this);
+        });
+
+        // Regenerate Teaser
+        document.getElementById('regenerateTeaser').addEventListener('click', () => {
+            document.getElementById('generateTeaser').click();
+        });
+
+        // Utility Functions
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function escapeJs(text) {
+            return text.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, '\\n');
+        }
+    </script>
+</body>
+</html>

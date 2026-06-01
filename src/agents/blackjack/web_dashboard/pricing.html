@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing | Blackjack God</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #050505;
+            --surface: #0f0f0f;
+            --surface-elevated: #1a1a1a;
+            --gold: #d4a853;
+            --gold-dim: #a68a3f;
+            --gold-glow: rgba(212, 168, 83, 0.3);
+            --emerald: #2dd881;
+            --text-primary: #f5f5f0;
+            --text-secondary: #888;
+            --text-dim: #555;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--void);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(26, 61, 36, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(212, 168, 83, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .logo-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .logo-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 8px 32px var(--gold-glow);
+        }
+
+        .logo-text {
+            font-family: 'Cinzel', serif;
+            font-size: 32px;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--gold) 0%, #fff 50%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 3px;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 900px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        .pricing-card {
+            background: linear-gradient(180deg, var(--surface) 0%, rgba(15, 15, 15, 0.9) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 32px;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .pricing-card.popular {
+            border-color: var(--gold);
+            box-shadow: 0 0 40px var(--gold-glow);
+        }
+
+        .pricing-card.popular::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+            color: var(--void);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            padding: 6px 16px;
+            border-radius: 20px;
+        }
+
+        .tier-name {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .tier-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .price {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            margin-bottom: 24px;
+        }
+
+        .price-currency {
+            font-size: 24px;
+            color: var(--text-secondary);
+        }
+
+        .price-amount {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 56px;
+            font-weight: 700;
+        }
+
+        .price-interval {
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        .features {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+
+        .features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .features li::before {
+            content: '✓';
+            color: var(--emerald);
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .features li.disabled {
+            opacity: 0.4;
+        }
+
+        .features li.disabled::before {
+            content: '✗';
+            color: var(--text-dim);
+        }
+
+        .cta-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cta-btn.primary {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+            color: var(--void);
+        }
+
+        .cta-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px var(--gold-glow);
+        }
+
+        .cta-btn.secondary {
+            background: var(--surface-elevated);
+            border: 1px solid var(--text-dim);
+            color: var(--text-primary);
+        }
+
+        .cta-btn.secondary:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .guarantee {
+            text-align: center;
+            padding: 32px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            margin-bottom: 40px;
+        }
+
+        .guarantee h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: var(--gold);
+        }
+
+        .guarantee p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .faq {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .faq h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+        }
+
+        .faq-question {
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .faq-answer {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 40px;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--gold);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to Dashboard</a>
+
+        <div class="header">
+            <div class="logo-row">
+                <div class="logo-icon">♠</div>
+                <div class="logo-text">BLACKJACK GOD</div>
+            </div>
+            <h1>Choose Your Edge</h1>
+            <p class="subtitle">Get the tools used by professional advantage players to beat the casino at their own game.</p>
+        </div>
+
+        <div class="pricing-grid">
+            <!-- Free Tier -->
+            <div class="pricing-card">
+                <div class="tier-name">Free</div>
+                <div class="tier-desc">Get started with the basics</div>
+                <div class="price">
+                    <span class="price-currency">$</span>
+                    <span class="price-amount">0</span>
+                    <span class="price-interval">/forever</span>
+                </div>
+                <ul class="features">
+                    <li>Basic strategy lookup</li>
+                    <li>Hi-Lo counting practice (10/day)</li>
+                    <li>Simple betting calculator</li>
+                    <li class="disabled">Advisor mode</li>
+                    <li class="disabled">Session tracking</li>
+                    <li class="disabled">Advanced systems</li>
+                </ul>
+                <button class="cta-btn secondary" onclick="window.location.href='/auth'">Get Started Free</button>
+            </div>
+
+            <!-- Pro Tier -->
+            <div class="pricing-card popular">
+                <div class="tier-name">Pro</div>
+                <div class="tier-desc">For serious advantage players</div>
+                <div class="price">
+                    <span class="price-currency">$</span>
+                    <span class="price-amount">15</span>
+                    <span class="price-interval">/month</span>
+                </div>
+                <ul class="features">
+                    <li>Everything in Free</li>
+                    <li>Unlimited counting practice</li>
+                    <li>Full advisor mode</li>
+                    <li>Session tracking & history</li>
+                    <li>Count-based deviations</li>
+                    <li class="disabled">Omega II & Wong Halves</li>
+                </ul>
+                <button class="cta-btn primary" data-tier="pro">Upgrade to Pro</button>
+            </div>
+
+            <!-- Premium Tier -->
+            <div class="pricing-card">
+                <div class="tier-name">Premium</div>
+                <div class="tier-desc">Maximum edge, all features</div>
+                <div class="price">
+                    <span class="price-currency">$</span>
+                    <span class="price-amount">25</span>
+                    <span class="price-interval">/month</span>
+                </div>
+                <ul class="features">
+                    <li>Everything in Pro</li>
+                    <li>Omega II counting system</li>
+                    <li>Wong Halves system</li>
+                    <li>Advanced analytics</li>
+                    <li>Progress tracking</li>
+                    <li>Priority support</li>
+                </ul>
+                <button class="cta-btn secondary" data-tier="premium">Go Premium</button>
+            </div>
+        </div>
+
+        <div class="guarantee">
+            <h3>💯 30-Day Money Back Guarantee</h3>
+            <p>If you're not satisfied with your subscription, we'll refund you in full. No questions asked. We're confident you'll love the tools.</p>
+        </div>
+
+        <div class="faq">
+            <h2>Questions & Answers</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">Is card counting legal?</div>
+                <div class="faq-answer">Yes! Card counting is 100% legal. You're using your brain, not a device. Casinos don't like it, but it's not a crime.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Can I cancel anytime?</div>
+                <div class="faq-answer">Absolutely. Cancel with one click from your account settings. No contracts, no hassle.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How does the advisor mode work?</div>
+                <div class="faq-answer">Input the cards you see, and our AI tells you the mathematically optimal play, adjusted for the current count.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What payment methods do you accept?</div>
+                <div class="faq-answer">All major credit cards via Stripe. Your payment info is never stored on our servers.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let currentTier = 'free';
+
+        // Fetch user info on page load
+        async function fetchUserInfo() {
+            try {
+                const token = localStorage.getItem('sb-access-token');
+                const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+
+                const response = await fetch('/api/user/me', { headers });
+
+                if (response.ok) {
+                    currentUser = await response.json();
+                    currentTier = currentUser.tier || 'free';
+                    updatePricingUI();
+                }
+            } catch (e) {
+                console.log('Not logged in');
+            }
+        }
+
+        function updatePricingUI() {
+            // Add "Current Plan" badge and disable button for current tier
+            document.querySelectorAll('.pricing-card').forEach(card => {
+                const btn = card.querySelector('[data-tier]');
+                if (!btn) return;
+
+                const tier = btn.dataset.tier;
+
+                // Check if this is the current plan
+                if ((tier === 'free' && currentTier === 'free') ||
+                    (tier === 'pro' && currentTier === 'pro') ||
+                    (tier === 'premium' && currentTier === 'premium')) {
+
+                    // Add current plan badge
+                    let badge = card.querySelector('.current-badge');
+                    if (!badge) {
+                        badge = document.createElement('div');
+                        badge.className = 'current-badge';
+                        badge.textContent = 'Current Plan';
+                        badge.style.cssText = 'background: var(--positive); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; position: absolute; top: -10px; right: 20px;';
+                        card.style.position = 'relative';
+                        card.appendChild(badge);
+                    }
+
+                    // Update button
+                    if (currentTier !== 'free') {
+                        btn.textContent = 'Manage Subscription';
+                        btn.dataset.manage = 'true';
+                    } else {
+                        btn.textContent = 'Current Plan';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.6';
+                        btn.style.cursor = 'default';
+                    }
+                }
+
+                // If user has Pro, disable Pro button (they can only go to Premium)
+                if (currentTier === 'pro' && tier === 'pro' && !btn.dataset.manage) {
+                    btn.textContent = 'Current Plan';
+                    btn.disabled = true;
+                }
+
+                // If user has Premium, disable all upgrade buttons
+                if (currentTier === 'premium' && tier !== 'premium') {
+                    btn.disabled = true;
+                    btn.style.opacity = '0.5';
+                }
+            });
+        }
+
+        // Handle upgrade clicks
+        document.querySelectorAll('[data-tier]').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const tier = btn.dataset.tier;
+
+                // Handle manage subscription
+                if (btn.dataset.manage === 'true') {
+                    try {
+                        const token = localStorage.getItem('sb-access-token');
+                        const response = await fetch('/api/billing/portal', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            }
+                        });
+                        const data = await response.json();
+                        if (data.portal_url) {
+                            window.location.href = data.portal_url;
+                        }
+                    } catch (e) {
+                        alert('Failed to open billing portal');
+                    }
+                    return;
+                }
+
+                // Check if user is logged in
+                const token = localStorage.getItem('sb-access-token');
+                const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+                const response = await fetch('/api/user/me', { headers });
+
+                if (response.status === 401 || !token) {
+                    // Redirect to login
+                    window.location.href = '/auth?redirect=pricing&tier=' + tier;
+                    return;
+                }
+
+                // Create checkout session
+                try {
+                    const checkoutResponse = await fetch('/api/subscribe', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            tier: tier,
+                            success_url: window.location.origin + '/?upgraded=true',
+                            cancel_url: window.location.origin + '/pricing'
+                        })
+                    });
+
+                    const data = await checkoutResponse.json();
+
+                    if (data.checkout_url) {
+                        window.location.href = data.checkout_url;
+                    } else {
+                        alert('Failed to start checkout. Please try again.');
+                    }
+                } catch (error) {
+                    console.error('Checkout error:', error);
+                    alert('Something went wrong. Please try again.');
+                }
+            });
+        });
+
+        // Initialize
+        fetchUserInfo();
+
+        // Check for tier param from login redirect
+        const urlParams = new URLSearchParams(window.location.search);
+        const tierParam = urlParams.get('tier');
+        if (tierParam) {
+            // Auto-click the tier button after a short delay
+            setTimeout(() => {
+                const btn = document.querySelector(`[data-tier="${tierParam}"]`);
+                if (btn && !btn.disabled) {
+                    btn.click();
+                }
+            }, 500);
+        }
+    </script>
+</body>
+</html>

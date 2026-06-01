@@ -1,0 +1,48 @@
+{
+  "timestamp": "20260113_192028",
+  "original_tweet": "AI will replace 80% of jobs in the next 5 years. If you're not learning to code or prompt engineer right now, you're going to be left behind.",
+  "analysis": {
+    "tone": "confident and performative with a hint of aggressive urgency",
+    "assumptions": "that coding/prompt engineering is the only path to relevance in an AI-dominated future, and that job replacement will be linear rather than transformative",
+    "content_type": "sharing_insight",
+    "angle": "disagree and provoke with an unexpected angle",
+    "engagement_approach": "controversial_stance",
+    "recommended_mode": "philosophical",
+    "why": "A philosophical counter-narrative about human creativity and consciousness will spark deeper debate than a technical rebuttal, attracting both agreement and passionate disagreement.",
+    "engagement_potential": "high"
+  },
+  "replies": [
+    {
+      "mode": "savage",
+      "reply": "You think AI will take your job. It will take your identity first.\n\nThe panic to \"learn to code\" is just rearranging deck chairs. Who told you the ship was sinking? Who told you there was a ship?\n\nAI doesn't replace jobs. It reveals which jobs were never real to begin with."
+    },
+    {
+      "mode": "funny",
+      "reply": "AI will replace 80% of jobs, not 80% of people. The one left behind will be the person who thought coding was more important than thinking."
+    },
+    {
+      "mode": "philosophical",
+      "reply": "AI will replace the jobs that require a person. It can't replace the work that requires a human being. Start there."
+    },
+    {
+      "mode": "controversial",
+      "reply": "Learning to code for AI is like learning to shovel coal for a steam engine. The future isn't for the engineers. It's for those who can ask the questions the engineers are too busy to hear."
+    },
+    {
+      "mode": "nuclear",
+      "reply": "Learning to talk to machines is the modern version of learning to talk to your boss. A better slave, still a slave. The only thing AI can't replace: the human who remembers they're not a machine."
+    },
+    {
+      "mode": "osho",
+      "reply": "AI will replace the mind. But who is watching the mind? That watcher has no job to lose.\n\nLearn to code the only thing that matters: your consciousness."
+    },
+    {
+      "mode": "align_insight",
+      "reply": "AI doesn't replace people. It replaces the idea of a \"job.\" The person who masters stillness while the world chases prompts will see the next wave before it forms."
+    },
+    {
+      "mode": "align_humor",
+      "reply": "Learning to code for the AI takeover is like learning to shovel coal as the Titanic sank. The real skill is learning what you want to do when no one needs you to work."
+    }
+  ]
+}

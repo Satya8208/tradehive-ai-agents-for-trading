@@ -1,0 +1,60 @@
+{
+  "_comment": "Hold'em Raise First In (RFI) ranges by position - GTO baseline",
+  "_version": "1.0",
+  "_source": "Poker God Agent by TradeHive",
+  
+  "UTG": {
+    "range": "AA-77,AKo-AJo,KQo,AKs-ATs,KQs-KJs,QJs,JTs,T9s,98s",
+    "percent": 12,
+    "sizing_bb": 2.5,
+    "description": "Tight UTG range - only premium hands"
+  },
+  "UTG1": {
+    "range": "AA-66,AKo-ATo,KQo-KJo,QJo,AKs-A9s,KQs-KTs,QJs-QTs,JTs,T9s,98s,87s",
+    "percent": 14,
+    "sizing_bb": 2.5,
+    "description": "Slightly wider than UTG"
+  },
+  "UTG2": {
+    "range": "AA-55,AKo-ATo,KQo-KJo,QJo,AKs-A8s,KQs-K9s,QJs-Q9s,JTs-J9s,T9s,98s,87s,76s",
+    "percent": 16,
+    "sizing_bb": 2.5,
+    "description": "Add small pairs and more suited connectors"
+  },
+  "MP": {
+    "range": "AA-44,AKo-A9o,KQo-KTo,QJo-QTo,JTo,AKs-A5s,KQs-K8s,QJs-Q8s,JTs-J8s,T9s-T8s,98s-97s,87s,76s,65s",
+    "percent": 20,
+    "sizing_bb": 2.5,
+    "description": "Middle position - moderate expansion"
+  },
+  "MP2": {
+    "range": "AA-33,AKo-A8o,KQo-K9o,QJo-Q9o,JTo-J9o,T9o,AKs-A4s,KQs-K7s,QJs-Q7s,JTs-J7s,T9s-T7s,98s-96s,87s-86s,76s-75s,65s,54s",
+    "percent": 23,
+    "sizing_bb": 2.5,
+    "description": "HJ-adjacent position"
+  },
+  "HJ": {
+    "range": "AA-22,AKo-A7o,KQo-K9o,QJo-Q9o,JTo-J8o,T9o-T8o,98o,AKs-A2s,KQs-K5s,QJs-Q5s,JTs-J6s,T9s-T6s,98s-95s,87s-85s,76s-74s,65s-64s,54s,43s",
+    "percent": 27,
+    "sizing_bb": 2.5,
+    "description": "Hijack - significant range expansion"
+  },
+  "CO": {
+    "range": "AA-22,AKo-A5o,KQo-K8o,QJo-Q8o,JTo-J8o,T9o-T8o,98o-97o,87o,AKs-A2s,KQs-K3s,QJs-Q3s,JTs-J4s,T9s-T5s,98s-94s,87s-84s,76s-74s,65s-63s,54s-53s,43s",
+    "percent": 32,
+    "sizing_bb": 2.5,
+    "description": "Cutoff - wide and aggressive"
+  },
+  "BTN": {
+    "range": "AA-22,AKo-A2o,KQo-K5o,QJo-Q6o,JTo-J7o,T9o-T7o,98o-96o,87o-85o,76o-75o,65o,AKs-A2s,KQs-K2s,QJs-Q2s,JTs-J2s,T9s-T3s,98s-93s,87s-83s,76s-73s,65s-62s,54s-52s,43s-42s,32s",
+    "percent": 48,
+    "sizing_bb": 2.5,
+    "description": "Button - very wide, steal frequently"
+  },
+  "SB": {
+    "range": "AA-22,AKo-A7o,KQo-K9o,QJo-Q9o,JTo-J9o,T9o,AKs-A2s,KQs-K4s,QJs-Q6s,JTs-J6s,T9s-T6s,98s-96s,87s-85s,76s-74s,65s-64s,54s,43s",
+    "percent": 35,
+    "sizing_bb": 3.0,
+    "description": "Small blind - wider sizing due to positional disadvantage"
+  }
+}

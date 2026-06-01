@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack God - Logo Concepts</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f4d03f;
+            --gold-dark: #b8960c;
+            --void: #050505;
+            --void-lighter: #0a0a0a;
+            --ivory: #f5f0e1;
+            --felt: #0d1f12;
+            --emerald: #2dd881;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--void);
+            color: var(--ivory);
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Subtle noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 80px 40px 60px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            text-shadow: 0 0 60px rgba(212, 175, 55, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: rgba(245, 240, 225, 0.6);
+            letter-spacing: 0.1em;
+            font-weight: 300;
+        }
+
+        /* Logo Grid */
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 60px;
+            padding: 60px 80px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        /* Logo Card */
+        .logo-card {
+            background: linear-gradient(145deg, rgba(13, 31, 18, 0.4), rgba(5, 5, 5, 0.8));
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: 16px;
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .logo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .logo-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(212, 175, 55, 0.4);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(212, 175, 55, 0.1);
+        }
+
+        .logo-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .concept-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--gold);
+            letter-spacing: 0.2em;
+            opacity: 0.7;
+        }
+
+        .concept-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            padding: 6px 14px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            color: var(--gold);
+        }
+
+        .logo-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 280px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .concept-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--ivory);
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+        }
+
+        .concept-description {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: rgba(245, 240, 225, 0.7);
+            margin-bottom: 24px;
+        }
+
+        .meaning-list {
+            list-style: none;
+        }
+
+        .meaning-list li {
+            font-size: 0.85rem;
+            color: rgba(245, 240, 225, 0.5);
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .meaning-list li:last-child {
+            border-bottom: none;
+        }
+
+        .meaning-list li::before {
+            content: '→';
+            color: var(--gold);
+            opacity: 0.6;
+        }
+
+        /* ===== LOGO 1: THE ABSOLUTE MINIMAL ===== */
+        .logo-1 {
+            position: relative;
+        }
+
+        .logo-1 .spade {
+            width: 120px;
+            height: 150px;
+            position: relative;
+        }
+
+        .logo-1 .spade-shape {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 2.5;
+        }
+
+        .logo-1 .ace-mark {
+            font-family: 'Cinzel', serif;
+            font-size: 36px;
+            font-weight: 700;
+            fill: var(--gold);
+        }
+
+        /* ===== LOGO 2: THE MATHEMATICAL EDGE ===== */
+        .logo-2 {
+            position: relative;
+        }
+
+        .logo-2 .container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-2 .spade-icon {
+            width: 80px;
+            height: 100px;
+            margin-bottom: 20px;
+        }
+
+        .logo-2 .spade-fill {
+            fill: var(--gold);
+        }
+
+        .logo-2 .brand-text {
+            font-family: 'Cinzel', serif;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 0.4em;
+            color: var(--ivory);
+            text-transform: uppercase;
+        }
+
+        .logo-2 .edge-line {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), var(--gold), transparent);
+        }
+
+        /* ===== LOGO 3: THE CARD CORNER ===== */
+        .logo-3 {
+            position: relative;
+        }
+
+        .logo-3 .card-corner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 30px;
+            border: 2px solid var(--gold);
+            border-radius: 8px;
+            background: linear-gradient(180deg, rgba(212, 175, 55, 0.05), transparent);
+            position: relative;
+        }
+
+        .logo-3 .rank {
+            font-family: 'Cinzel', serif;
+            font-size: 72px;
+            font-weight: 900;
+            color: var(--gold);
+            line-height: 1;
+            text-shadow: 0 0 40px rgba(212, 175, 55, 0.4);
+        }
+
+        .logo-3 .suit-small {
+            width: 40px;
+            height: 48px;
+            margin-top: 8px;
+        }
+
+        .logo-3 .suit-small path {
+            fill: var(--gold);
+        }
+
+        .logo-3 .corner-accent {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border: 1px solid var(--gold);
+        }
+
+        .logo-3 .corner-accent.tl { top: -4px; left: -4px; border-right: none; border-bottom: none; }
+        .logo-3 .corner-accent.tr { top: -4px; right: -4px; border-left: none; border-bottom: none; }
+        .logo-3 .corner-accent.bl { bottom: -4px; left: -4px; border-right: none; border-top: none; }
+        .logo-3 .corner-accent.br { bottom: -4px; right: -4px; border-left: none; border-top: none; }
+
+        /* ===== LOGO 4: THE NEGATIVE SPACE ===== */
+        .logo-4 {
+            position: relative;
+        }
+
+        .logo-4 .negative-container {
+            width: 140px;
+            height: 140px;
+            background: var(--gold);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 60px rgba(212, 175, 55, 0.3);
+            position: relative;
+        }
+
+        .logo-4 .negative-spade {
+            width: 80px;
+            height: 100px;
+        }
+
+        .logo-4 .negative-spade path {
+            fill: var(--void);
+        }
+
+        .logo-4 .brand-below {
+            position: absolute;
+            bottom: -50px;
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5em;
+            color: var(--gold);
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        /* ===== LOGO 5: THE CROWN (SURPRISE) ===== */
+        .logo-5 {
+            position: relative;
+        }
+
+        .logo-5 .crown-spade {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-5 .crown {
+            width: 60px;
+            height: 40px;
+            margin-bottom: -8px;
+            z-index: 2;
+        }
+
+        .logo-5 .crown path {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 2;
+        }
+
+        .logo-5 .main-spade {
+            width: 100px;
+            height: 120px;
+        }
+
+        .logo-5 .main-spade path {
+            fill: var(--gold);
+        }
+
+        .logo-5 .god-text {
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.8em;
+            color: var(--void);
+            position: absolute;
+            bottom: 35px;
+            text-transform: uppercase;
+        }
+
+        .logo-5 .shimmer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%
+            );
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Variations Section */
+        .variations-section {
+            padding: 80px;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            margin-top: 40px;
+        }
+
+        .variations-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 60px;
+            letter-spacing: 0.2em;
+        }
+
+        .variations-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .variation-item {
+            aspect-ratio: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .variation-item:hover {
+            transform: scale(1.05);
+        }
+
+        .variation-item.dark {
+            background: var(--void);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .variation-item.light {
+            background: var(--ivory);
+        }
+
+        .variation-item.gold {
+            background: var(--gold);
+        }
+
+        .variation-item.felt {
+            background: var(--felt);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .variation-item svg {
+            width: 60%;
+            height: 60%;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 60px 40px;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .footer-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: rgba(245, 240, 225, 0.3);
+            letter-spacing: 0.1em;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .logo-grid {
+                grid-template-columns: 1fr;
+                padding: 40px;
+            }
+
+            .variations-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.8rem;
+                letter-spacing: 0.15em;
+            }
+
+            .variations-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Logo Concepts</h1>
+        <p>Five distinctive approaches for the Blackjack God brand</p>
+    </header>
+
+    <main class="logo-grid">
+
+        <!-- LOGO 1: The Absolute Minimal -->
+        <article class="logo-card">
+            <div class="card-header">
+                <span class="concept-number">CONCEPT 01</span>
+                <span class="concept-tag">Minimal</span>
+            </div>
+
+            <div class="logo-display logo-1">
+                <svg class="spade" viewBox="0 0 100 130">
+                    <!-- Outlined spade -->
+                    <path class="spade-shape" d="M50 10 C50 10 10 50 10 75 C10 95 25 105 40 100 C35 115 30 125 25 130 L75 130 C70 125 65 115 60 100 C75 105 90 95 90 75 C90 50 50 10 50 10 Z"/>
+                    <!-- A in center -->
+                    <text class="ace-mark" x="50" y="78" text-anchor="middle">A</text>
+                </svg>
+            </div>
+
+            <h3 class="concept-title">The Purist</h3>
+            <p class="concept-description">
+                Stripped to essence. A single outlined spade with the ace mark. Nothing more, nothing less.
+                This logo works at any size, from favicon to billboard.
+            </p>
+            <ul class="meaning-list">
+                <li>Outline suggests transparency and honesty in approach</li>
+                <li>The 'A' for Ace centers the mathematical precision</li>
+                <li>Negative space creates breathing room and confidence</li>
+                <li>Works perfectly as a watermark or stamp</li>
+            </ul>
+        </article>
+
+        <!-- LOGO 2: The Mathematical Edge -->
+        <article class="logo-card">
+            <div class="card-header">
+                <span class="concept-number">CONCEPT 02</span>
+                <span class="concept-tag">Brand Mark</span>
+            </div>
+
+            <div class="logo-display logo-2">
+                <div class="container">
+                    <svg class="spade-icon" viewBox="0 0 100 125">
+                        <path class="spade-fill" d="M50 0 C50 0 0 50 0 80 C0 105 20 115 40 108 C32 125 20 135 20 135 L80 135 C80 135 68 125 60 108 C80 115 100 105 100 80 C100 50 50 0 50 0 Z"/>
+                    </svg>
+                    <span class="brand-text">Blackjack</span>
+                    <div class="edge-line"></div>
+                </div>
+            </div>
+
+            <h3 class="concept-title">The Edge</h3>
+            <p class="concept-description">
+                A solid spade mark above bold typography. The gold underline represents "the edge" —
+                the mathematical advantage that separates amateurs from professionals.
+            </p>
+            <ul class="meaning-list">
+                <li>Solid fill conveys authority and certainty</li>
+                <li>The line underneath = your statistical edge</li>
+                <li>Cinzel typography brings classical casino elegance</li>
+                <li>Vertical stack creates strong Twitter/profile presence</li>
+            </ul>
+        </article>
+
+        <!-- LOGO 3: The Card Corner -->
+        <article class="logo-card">
+            <div class="card-header">
+                <span class="concept-number">CONCEPT 03</span>
+                <span class="concept-tag">Iconic</span>
+            </div>
+
+            <div class="logo-display logo-3">
+                <div class="card-corner">
+                    <div class="corner-accent tl"></div>
+                    <div class="corner-accent tr"></div>
+                    <div class="corner-accent bl"></div>
+                    <div class="corner-accent br"></div>
+                    <span class="rank">A</span>
+                    <svg class="suit-small" viewBox="0 0 100 120">
+                        <path d="M50 0 C50 0 0 50 0 75 C0 100 20 110 40 103 C32 120 20 130 20 130 L80 130 C80 130 68 120 60 103 C80 110 100 100 100 75 C100 50 50 0 50 0 Z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <h3 class="concept-title">The Corner</h3>
+            <p class="concept-description">
+                Instantly recognizable — the corner of a playing card. Everyone who's held cards knows this view.
+                It's the first thing you see when peeking at your hand.
+            </p>
+            <ul class="meaning-list">
+                <li>Universal recognition from anyone who's played cards</li>
+                <li>Framed border suggests precision and containment</li>
+                <li>Art deco corner accents add premium refinement</li>
+                <li>Perfect square ratio for social media profiles</li>
+            </ul>
+        </article>
+
+        <!-- LOGO 4: The Negative Space -->
+        <article class="logo-card">
+            <div class="card-header">
+                <span class="concept-number">CONCEPT 04</span>
+                <span class="concept-tag">Bold</span>
+            </div>
+
+            <div class="logo-display logo-4">
+                <div class="negative-container">
+                    <svg class="negative-spade" viewBox="0 0 100 125">
+                        <path d="M50 5 C50 5 5 50 5 77 C5 100 22 110 40 104 C33 120 22 130 22 130 L78 130 C78 130 67 120 60 104 C78 110 95 100 95 77 C95 50 50 5 50 5 Z"/>
+                    </svg>
+                </div>
+                <span class="brand-below">Blackjack God</span>
+            </div>
+
+            <h3 class="concept-title">The Inverse</h3>
+            <p class="concept-description">
+                Gold commands attention. The spade cut out of gold creates a powerful negative space.
+                This is the bold statement — you're not playing games, you're mastering them.
+            </p>
+            <ul class="meaning-list">
+                <li>Gold background = premium, exclusive, valuable</li>
+                <li>Negative space spade = seeing what others miss</li>
+                <li>Rounded square works as app icon or stamp</li>
+                <li>High contrast ensures visibility everywhere</li>
+            </ul>
+        </article>
+
+        <!-- LOGO 5: The Crown (Surprise) -->
+        <article class="logo-card">
+            <div class="card-header">
+                <span class="concept-number">CONCEPT 05</span>
+                <span class="concept-tag">Surprise</span>
+            </div>
+
+            <div class="logo-display logo-5">
+                <div class="crown-spade">
+                    <svg class="crown" viewBox="0 0 60 40">
+                        <path d="M5 35 L5 15 L15 25 L30 5 L45 25 L55 15 L55 35 Z"/>
+                    </svg>
+                    <svg class="main-spade" viewBox="0 0 100 125">
+                        <path d="M50 0 C50 0 0 50 0 80 C0 105 20 115 40 108 C32 125 20 135 20 135 L80 135 C80 135 68 125 60 108 C80 115 100 105 100 80 C100 50 50 0 50 0 Z"/>
+                        <rect class="shimmer" x="0" y="0" width="100" height="125"/>
+                    </svg>
+                    <span class="god-text">GOD</span>
+                </div>
+            </div>
+
+            <h3 class="concept-title">The Crowned Ace</h3>
+            <p class="concept-description">
+                The surprise entry. A crown sits atop the spade — you're not just playing, you're ruling.
+                "GOD" embossed within reinforces the brand name. This is for those who've truly mastered the game.
+            </p>
+            <ul class="meaning-list">
+                <li>Crown = mastery, dominance, ruling the tables</li>
+                <li>Embedded "GOD" text ties directly to brand name</li>
+                <li>Shimmer animation adds premium, living quality</li>
+                <li>Strong vertical composition commands respect</li>
+            </ul>
+        </article>
+
+    </main>
+
+    <!-- Color Variations -->
+    <section class="variations-section">
+        <h2 class="variations-title">Color Variations</h2>
+        <div class="variations-grid">
+            <!-- Dark bg, gold spade -->
+            <div class="variation-item dark">
+                <svg viewBox="0 0 100 125">
+                    <path fill="#d4af37" d="M50 5 C50 5 5 50 5 77 C5 100 22 110 40 104 C33 120 22 130 22 130 L78 130 C78 130 67 120 60 104 C78 110 95 100 95 77 C95 50 50 5 50 5 Z"/>
+                </svg>
+            </div>
+            <!-- Light bg, black spade -->
+            <div class="variation-item light">
+                <svg viewBox="0 0 100 125">
+                    <path fill="#050505" d="M50 5 C50 5 5 50 5 77 C5 100 22 110 40 104 C33 120 22 130 22 130 L78 130 C78 130 67 120 60 104 C78 110 95 100 95 77 C95 50 50 5 50 5 Z"/>
+                </svg>
+            </div>
+            <!-- Gold bg, black spade -->
+            <div class="variation-item gold">
+                <svg viewBox="0 0 100 125">
+                    <path fill="#050505" d="M50 5 C50 5 5 50 5 77 C5 100 22 110 40 104 C33 120 22 130 22 130 L78 130 C78 130 67 120 60 104 C78 110 95 100 95 77 C95 50 50 5 50 5 Z"/>
+                </svg>
+            </div>
+            <!-- Felt bg, gold spade -->
+            <div class="variation-item felt">
+                <svg viewBox="0 0 100 125">
+                    <path fill="#d4af37" d="M50 5 C50 5 5 50 5 77 C5 100 22 110 40 104 C33 120 22 130 22 130 L78 130 C78 130 67 120 60 104 C78 110 95 100 95 77 C95 50 50 5 50 5 Z"/>
+                </svg>
+            </div>
+            <!-- Dark bg, outlined -->
+            <div class="variation-item dark">
+                <svg viewBox="0 0 100 125">
+                    <path fill="none" stroke="#d4af37" stroke-width="3" d="M50 5 C50 5 5 50 5 77 C5 100 22 110 40 104 C33 120 22 130 22 130 L78 130 C78 130 67 120 60 104 C78 110 95 100 95 77 C95 50 50 5 50 5 Z"/>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p class="footer-text">BLACKJACK GOD • LOGO CONCEPTS • 2026</p>
+    </footer>
+</body>
+</html>

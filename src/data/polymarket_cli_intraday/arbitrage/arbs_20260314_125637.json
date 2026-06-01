@@ -1,0 +1,30 @@
+[
+  {
+    "arb_type": "range_sum",
+    "description": "Range-sum underpricing (2 ranges): sum=0.060 < 1.0",
+    "edge_percent": 92.0,
+    "markets": [
+      "0x26145310fac16321e5cc3bab23e333dd0e06b31d9d8aa39fd52bcaec5bb297bf",
+      "0xd308326490382c8227d303968d7774101c535f21d85e532aaf10b868c124615d"
+    ],
+    "recommended_trades": [
+      {
+        "action": "BUY",
+        "side": "YES",
+        "market_id": "0x26145310fac16321e5cc3bab23e333dd0e06b31d9d8aa39fd52bcaec5bb297bf",
+        "token_id": "0xabb8683e98a7d481f60f016b2e05265df065e003136a597571e7fe041fcc2dbc",
+        "price": 0.015,
+        "reason": "Buy all ranges: sum < 1.0"
+      },
+      {
+        "action": "BUY",
+        "side": "YES",
+        "market_id": "0xd308326490382c8227d303968d7774101c535f21d85e532aaf10b868c124615d",
+        "token_id": "0x59c9bb2c69276429726986794d42d962a976a8b4d83f12afc198a83965df5f3a",
+        "price": 0.045,
+        "reason": "Buy all ranges: sum < 1.0"
+      }
+    ],
+    "timestamp": "2026-03-14T12:56:36.673247"
+  }
+]

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack God - Twitter Logo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1a1a1a;
+            font-family: system-ui, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo-wrapper {
+            position: relative;
+        }
+
+        .label {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .instructions {
+            color: #888;
+            font-size: 14px;
+            margin-top: 2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-wrapper">
+            <div class="label">Profile Logo (400x400) - Right click → Save as PNG</div>
+            <svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <!-- Gold gradient -->
+                    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#f4d03f"/>
+                        <stop offset="25%" style="stop-color:#d4af37"/>
+                        <stop offset="50%" style="stop-color:#c9a227"/>
+                        <stop offset="75%" style="stop-color:#d4af37"/>
+                        <stop offset="100%" style="stop-color:#f4d03f"/>
+                    </linearGradient>
+
+                    <!-- Metallic gold for spade -->
+                    <linearGradient id="spadeGold" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#fff8e7"/>
+                        <stop offset="15%" style="stop-color:#f4d03f"/>
+                        <stop offset="50%" style="stop-color:#d4af37"/>
+                        <stop offset="85%" style="stop-color:#b8941f"/>
+                        <stop offset="100%" style="stop-color:#8b7016"/>
+                    </linearGradient>
+
+                    <!-- Glow effect -->
+                    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+
+                    <!-- Subtle inner shadow -->
+                    <filter id="innerShadow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feComponentTransfer in="SourceAlpha">
+                            <feFuncA type="table" tableValues="1 0"/>
+                        </feComponentTransfer>
+                        <feGaussianBlur stdDeviation="3"/>
+                        <feOffset dx="0" dy="2" result="offsetblur"/>
+                        <feFlood flood-color="#000" flood-opacity="0.5"/>
+                        <feComposite in2="offsetblur" operator="in"/>
+                        <feMerge>
+                            <feMergeNode/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+
+                    <!-- Noise texture -->
+                    <filter id="noise">
+                        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise"/>
+                        <feColorMatrix type="saturate" values="0"/>
+                        <feBlend in="SourceGraphic" in2="noise" mode="multiply" result="blend"/>
+                        <feComponentTransfer>
+                            <feFuncA type="linear" slope="0.08"/>
+                        </feComponentTransfer>
+                        <feBlend in="SourceGraphic" mode="overlay"/>
+                    </filter>
+
+                    <!-- Clip for circular avatar -->
+                    <clipPath id="circleClip">
+                        <circle cx="200" cy="200" r="200"/>
+                    </clipPath>
+                </defs>
+
+                <!-- Background -->
+                <rect width="400" height="400" fill="#0a0a0a"/>
+
+                <!-- Subtle radial gradient overlay -->
+                <circle cx="200" cy="200" r="280" fill="url(#goldGradient)" opacity="0.03"/>
+
+                <!-- Decorative outer ring -->
+                <circle cx="200" cy="200" r="185" fill="none" stroke="url(#goldGradient)" stroke-width="1" opacity="0.3"/>
+                <circle cx="200" cy="200" r="175" fill="none" stroke="url(#goldGradient)" stroke-width="0.5" opacity="0.15"/>
+
+                <!-- Main spade symbol - large and centered -->
+                <g transform="translate(200, 185)" filter="url(#glow)">
+                    <!-- Spade shape -->
+                    <path d="
+                        M 0 -95
+                        C 0 -95, 75 -40, 75 25
+                        C 75 65, 45 85, 0 60
+                        C -45 85, -75 65, -75 25
+                        C -75 -40, 0 -95, 0 -95
+                        Z
+                    " fill="url(#spadeGold)" filter="url(#innerShadow)"/>
+
+                    <!-- Spade stem -->
+                    <path d="
+                        M -18 55
+                        L -18 95
+                        C -18 105, -30 110, -35 110
+                        L 35 110
+                        C 30 110, 18 105, 18 95
+                        L 18 55
+                        C 10 65, -10 65, -18 55
+                        Z
+                    " fill="url(#spadeGold)"/>
+                </g>
+
+                <!-- Subtle corner accents -->
+                <g opacity="0.4">
+                    <!-- Top left -->
+                    <path d="M 30 30 L 30 50 M 30 30 L 50 30" stroke="url(#goldGradient)" stroke-width="1.5" fill="none"/>
+                    <!-- Top right -->
+                    <path d="M 370 30 L 370 50 M 370 30 L 350 30" stroke="url(#goldGradient)" stroke-width="1.5" fill="none"/>
+                    <!-- Bottom left -->
+                    <path d="M 30 370 L 30 350 M 30 370 L 50 370" stroke="url(#goldGradient)" stroke-width="1.5" fill="none"/>
+                    <!-- Bottom right -->
+                    <path d="M 370 370 L 370 350 M 370 370 L 350 370" stroke="url(#goldGradient)" stroke-width="1.5" fill="none"/>
+                </g>
+
+                <!-- Noise overlay for texture -->
+                <rect width="400" height="400" filter="url(#noise)" opacity="0.4"/>
+            </svg>
+        </div>
+
+        <p class="instructions">Right-click the image and "Save image as..." or take a screenshot</p>
+    </div>
+</body>
+</html>

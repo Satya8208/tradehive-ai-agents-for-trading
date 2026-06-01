@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sutradhaar — Twitter Profile Picture (400x400)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background: #050505;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Playfair Display', serif;
+        }
+        .canvas-label {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+            letter-spacing: 0.15em;
+            font-family: monospace;
+        }
+        .canvas-instructions {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.3);
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas-label">SUTRADHAAR — PROFILE PICTURE — 400×400</div>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+        <defs>
+            <!-- Deep black background -->
+            <radialGradient id="bgVoid" cx="50%" cy="50%" r="70%">
+                <stop offset="0%" stop-color="#0a0a0a"/>
+                <stop offset="100%" stop-color="#050505"/>
+            </radialGradient>
+
+            <!-- Crimson vignette -->
+            <radialGradient id="crimsonVignette" cx="50%" cy="50%" r="50%">
+                <stop offset="60%" stop-color="#8b0000" stop-opacity="0"/>
+                <stop offset="85%" stop-color="#8b0000" stop-opacity="0.08"/>
+                <stop offset="100%" stop-color="#6b0000" stop-opacity="0.15"/>
+            </radialGradient>
+
+            <!-- Gold gradient for strings -->
+            <linearGradient id="goldString" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#d4a853" stop-opacity="0.9"/>
+                <stop offset="50%" stop-color="#b8941f" stop-opacity="0.7"/>
+                <stop offset="100%" stop-color="#d4a853" stop-opacity="0.5"/>
+            </linearGradient>
+
+            <!-- Gold glow filter -->
+            <filter id="goldGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+                <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <!-- Stronger gold glow for nodes -->
+            <filter id="nodeGlow" x="-200%" y="-200%" width="500%" height="500%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+                <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <!-- Subtle ambient glow -->
+            <filter id="ambientGlow" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>
+                <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <!-- Noise texture -->
+            <filter id="noise" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="4" stitchTiles="stitch" result="noise"/>
+                <feColorMatrix type="saturate" values="0" in="noise" result="grey"/>
+                <feBlend in="SourceGraphic" in2="grey" mode="overlay"/>
+            </filter>
+
+            <!-- Gold corner gradient -->
+            <linearGradient id="cornerGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#d4a853"/>
+                <stop offset="100%" stop-color="#b8941f"/>
+            </linearGradient>
+        </defs>
+
+        <!-- Deep black background -->
+        <rect width="400" height="400" fill="url(#bgVoid)"/>
+
+        <!-- Crimson vignette at edges -->
+        <rect width="400" height="400" fill="url(#crimsonVignette)"/>
+
+        <!-- Very subtle top glow (where the hand would be, above frame) -->
+        <ellipse cx="200" cy="-20" rx="200" ry="80" fill="#d4a853" opacity="0.03"/>
+
+        <!-- Gold corner accents (like Blackjack God pattern) -->
+        <!-- Top-left -->
+        <line x1="25" y1="25" x2="70" y2="25" stroke="url(#cornerGold)" stroke-width="1" opacity="0.4"/>
+        <line x1="25" y1="25" x2="25" y2="70" stroke="url(#cornerGold)" stroke-width="1" opacity="0.4"/>
+        <!-- Top-right -->
+        <line x1="330" y1="25" x2="375" y2="25" stroke="url(#cornerGold)" stroke-width="1" opacity="0.4"/>
+        <line x1="375" y1="25" x2="375" y2="70" stroke="url(#cornerGold)" stroke-width="1" opacity="0.4"/>
+        <!-- Bottom-left -->
+        <line x1="25" y1="375" x2="70" y2="375" stroke="url(#cornerGold)" stroke-width="1" opacity="0.4"/>
+        <line x1="25" y1="330" x2="25" y2="375" stroke="url(#cornerGold)" stroke-width="1" opacity="0.4"/>
+        <!-- Bottom-right -->
+        <line x1="330" y1="375" x2="375" y2="375" stroke="url(#cornerGold)" stroke-width="1" opacity="0.4"/>
+        <line x1="375" y1="330" x2="375" y2="375" stroke="url(#cornerGold)" stroke-width="1" opacity="0.4"/>
+
+        <!-- PUPPET STRINGS - descending from top, gold with glow -->
+        <!-- String 1 - leftmost, slight curve -->
+        <g filter="url(#goldGlow)">
+            <path d="M 120 0 C 118 60, 122 120, 115 200 C 112 240, 118 300, 114 380" fill="none" stroke="url(#goldString)" stroke-width="1.2" opacity="0.7"/>
+        </g>
+
+        <!-- String 2 - left-center -->
+        <g filter="url(#goldGlow)">
+            <path d="M 175 0 C 177 70, 173 140, 178 220 C 180 270, 174 330, 176 400" fill="none" stroke="url(#goldString)" stroke-width="1.3" opacity="0.8"/>
+        </g>
+
+        <!-- String 3 - right-center (most prominent) -->
+        <g filter="url(#goldGlow)">
+            <path d="M 230 0 C 228 55, 233 130, 228 210 C 225 260, 231 320, 229 400" fill="none" stroke="url(#goldString)" stroke-width="1.4" opacity="0.85"/>
+        </g>
+
+        <!-- String 4 - rightmost -->
+        <g filter="url(#goldGlow)">
+            <path d="M 285 0 C 287 65, 282 135, 288 215 C 290 275, 284 340, 287 400" fill="none" stroke="url(#goldString)" stroke-width="1.1" opacity="0.65"/>
+        </g>
+
+        <!-- Control points (small gold circles where strings emerge from top) -->
+        <g filter="url(#nodeGlow)">
+            <circle cx="120" cy="8" r="4" fill="#d4a853" opacity="0.9"/>
+            <circle cx="175" cy="8" r="4.5" fill="#d4a853" opacity="0.95"/>
+            <circle cx="230" cy="8" r="5" fill="#d4a853"/>
+            <circle cx="285" cy="8" r="4" fill="#d4a853" opacity="0.9"/>
+        </g>
+
+        <!-- Control bar hint at very top (barely visible) -->
+        <line x1="105" y1="5" x2="300" y2="5" stroke="#d4a853" stroke-width="2" opacity="0.3"/>
+
+        <!-- String end points at bottom (where puppet would attach - small circles) -->
+        <g filter="url(#ambientGlow)" opacity="0.5">
+            <circle cx="114" cy="380" r="3" fill="#d4a853"/>
+            <circle cx="176" cy="400" r="3" fill="#d4a853"/>
+            <circle cx="229" cy="400" r="3.5" fill="#d4a853"/>
+            <circle cx="287" cy="395" r="3" fill="#d4a853"/>
+        </g>
+
+        <!-- Thin cross-threads connecting strings (control mechanism) -->
+        <line x1="120" y1="60" x2="285" y2="60" stroke="#d4a853" stroke-width="0.4" opacity="0.15"/>
+        <line x1="115" y1="160" x2="290" y2="160" stroke="#d4a853" stroke-width="0.3" opacity="0.1"/>
+
+        <!-- Noise texture overlay -->
+        <rect width="400" height="400" filter="url(#noise)" opacity="0.04"/>
+    </svg>
+
+    <div class="canvas-instructions">Right-click → Save Image As... or screenshot at 400×400</div>
+</body>
+</html>

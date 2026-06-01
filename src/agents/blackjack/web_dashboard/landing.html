@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack God | Beat the Casino — Legally</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #050505;
+            --surface: #0f0f0f;
+            --surface-elevated: #1a1a1a;
+            --gold: #d4a853;
+            --gold-dim: #a68a3f;
+            --gold-bright: #f0d48a;
+            --gold-glow: rgba(212, 168, 83, 0.3);
+            --emerald: #2dd881;
+            --ruby: #e85454;
+            --text-primary: #f5f5f0;
+            --text-secondary: #999;
+            --text-dim: #666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--void);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Ambient glow effects */
+        .ambient-glow {
+            position: fixed;
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .glow-1 {
+            top: -200px;
+            left: -200px;
+            background: var(--gold);
+        }
+
+        .glow-2 {
+            bottom: -300px;
+            right: -200px;
+            background: linear-gradient(135deg, var(--gold-dim), #1a3d24);
+        }
+
+        /* Card suit decorations */
+        .suit-divider {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            padding: 60px 0;
+            opacity: 0.2;
+            font-size: 24px;
+        }
+
+        .suit-divider span {
+            color: var(--gold);
+        }
+
+        /* Section styling */
+        section {
+            position: relative;
+            padding: 100px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative card pattern background */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(212, 168, 83, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 20% 80%, rgba(26, 61, 36, 0.15) 0%, transparent 40%),
+                radial-gradient(ellipse at 80% 80%, rgba(212, 168, 83, 0.05) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        /* Animated card suits floating */
+        .floating-suits {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-suit {
+            position: absolute;
+            font-size: 60px;
+            opacity: 0.03;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .floating-suit:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .floating-suit:nth-child(2) { top: 20%; right: 10%; animation-delay: -5s; }
+        .floating-suit:nth-child(3) { top: 60%; left: 8%; animation-delay: -10s; }
+        .floating-suit:nth-child(4) { top: 70%; right: 5%; animation-delay: -15s; }
+        .floating-suit:nth-child(5) { top: 40%; left: 2%; animation-delay: -7s; }
+        .floating-suit:nth-child(6) { top: 85%; right: 15%; animation-delay: -12s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 50px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .logo-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow:
+                0 10px 40px var(--gold-glow),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+            position: relative;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--gold-bright), transparent, var(--gold-dim));
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .logo-text {
+            font-family: 'Cinzel', serif;
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 6px;
+            background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 50%, var(--gold-dim) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero h1 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(36px, 6vw, 72px);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(18px, 2.5vw, 24px);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 50px;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        /* Email capture form */
+        .email-capture {
+            animation: fadeInUp 1s ease-out 0.6s both;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .email-capture-label {
+            font-size: 14px;
+            color: var(--gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .email-form {
+            display: flex;
+            gap: 12px;
+            background: var(--surface);
+            border: 1px solid rgba(212, 168, 83, 0.2);
+            border-radius: 60px;
+            padding: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .email-form:focus-within {
+            border-color: var(--gold);
+            box-shadow: 0 0 30px var(--gold-glow);
+        }
+
+        .email-form input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 16px 24px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .email-form input::placeholder {
+            color: var(--text-dim);
+        }
+
+        .email-form button {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+            border: none;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--void);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .email-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px var(--gold-glow);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator span {
+            display: block;
+            width: 24px;
+            height: 40px;
+            border: 2px solid var(--gold-dim);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .scroll-indicator span::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 2px;
+            animation: scrollDot 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        @keyframes scrollDot {
+            0%, 100% { opacity: 1; top: 8px; }
+            50% { opacity: 0.3; top: 20px; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================================
+           THE HOOK SECTION
+           ============================================ */
+        .hook {
+            background: linear-gradient(180deg, var(--void) 0%, var(--surface) 50%, var(--void) 100%);
+            text-align: center;
+        }
+
+        .hook-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hook-intro {
+            font-size: clamp(20px, 3vw, 28px);
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .hook-revelation {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(24px, 4vw, 42px);
+            font-weight: 600;
+            color: var(--gold);
+            position: relative;
+            padding: 40px;
+            margin: 40px 0;
+        }
+
+        .hook-revelation::before,
+        .hook-revelation::after {
+            content: '"';
+            font-size: 120px;
+            position: absolute;
+            opacity: 0.1;
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+        }
+
+        .hook-revelation::before {
+            top: -20px;
+            left: 0;
+        }
+
+        .hook-revelation::after {
+            bottom: -60px;
+            right: 0;
+        }
+
+        .hook-emphasis {
+            font-size: 20px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* ============================================
+           WHAT YOU'LL LEARN
+           ============================================ */
+        .learn {
+            background: var(--void);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            font-size: 12px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 600;
+        }
+
+        .learn-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .learn-card {
+            background: linear-gradient(135deg, var(--surface) 0%, rgba(15, 15, 15, 0.5) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .learn-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .learn-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(212, 168, 83, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .learn-card:hover::before {
+            opacity: 1;
+        }
+
+        .learn-card-chapter {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--gold-dim);
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .learn-card-title {
+            font-family: 'Cinzel', serif;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .learn-card-desc {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .learn-meta {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .learn-meta-item {
+            text-align: center;
+        }
+
+        .learn-meta-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--gold);
+        }
+
+        .learn-meta-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        /* ============================================
+           WHO THIS IS FOR
+           ============================================ */
+        .audience {
+            background: linear-gradient(180deg, var(--void) 0%, var(--surface) 100%);
+        }
+
+        .audience-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .audience-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        .audience-column h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .audience-column.for h3 {
+            color: var(--emerald);
+        }
+
+        .audience-column.not-for h3 {
+            color: var(--ruby);
+        }
+
+        .audience-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .audience-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .audience-list .icon {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .for .icon {
+            background: rgba(45, 216, 129, 0.15);
+            color: var(--emerald);
+        }
+
+        .not-for .icon {
+            background: rgba(232, 84, 84, 0.15);
+            color: var(--ruby);
+        }
+
+        /* ============================================
+           PRICING SECTION
+           ============================================ */
+        .pricing {
+            background: var(--surface);
+            position: relative;
+        }
+
+        .pricing::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 30% 50%, rgba(212, 168, 83, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 50%, rgba(45, 216, 129, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            position: relative;
+        }
+
+        @media (max-width: 900px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        }
+
+        .pricing-card {
+            background: linear-gradient(180deg, var(--surface-elevated) 0%, var(--surface) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 40px 32px;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--gold);
+            box-shadow: 0 0 60px var(--gold-glow);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-8px);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+            color: var(--void);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 8px 20px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .pricing-tier {
+            font-family: 'Cinzel', serif;
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .pricing-price {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 48px;
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 24px;
+        }
+
+        .pricing-price span {
+            font-size: 18px;
+            color: var(--text-dim);
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features .check {
+            color: var(--emerald);
+            font-size: 16px;
+        }
+
+        .pricing-cta {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .pricing-card:not(.featured) .pricing-cta {
+            background: transparent;
+            border: 1px solid var(--gold-dim);
+            color: var(--gold);
+        }
+
+        .pricing-card:not(.featured) .pricing-cta:hover {
+            background: var(--gold);
+            color: var(--void);
+        }
+
+        .pricing-card.featured .pricing-cta {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+            border: none;
+            color: var(--void);
+        }
+
+        .pricing-card.featured .pricing-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px var(--gold-glow);
+        }
+
+        /* ============================================
+           TESTIMONIALS
+           ============================================ */
+        .testimonials {
+            background: var(--void);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        @media (max-width: 768px) {
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .testimonial-card {
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            font-family: 'Cinzel', serif;
+            font-size: 80px;
+            color: var(--gold);
+            opacity: 0.1;
+            position: absolute;
+            top: 20px;
+            left: 30px;
+        }
+
+        .testimonial-text {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            font-size: 14px;
+            color: var(--gold);
+            font-weight: 500;
+        }
+
+        /* ============================================
+           FAQ SECTION
+           ============================================ */
+        .faq {
+            background: linear-gradient(180deg, var(--void) 0%, var(--surface) 100%);
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .faq-item {
+            background: var(--surface-elevated);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(212, 168, 83, 0.2);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 24px 32px;
+            background: transparent;
+            border: none;
+            text-align: left;
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 24px;
+            color: var(--gold);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 200px;
+        }
+
+        .faq-answer-content {
+            padding: 0 32px 24px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* ============================================
+           FINAL CTA
+           ============================================ */
+        .final-cta {
+            background: var(--surface);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .final-cta::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .final-cta-tagline {
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .final-cta-headline {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(32px, 5vw, 52px);
+            font-weight: 700;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .final-cta-headline .gold {
+            color: var(--gold);
+        }
+
+        .final-cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .final-cta-buttons a {
+            padding: 18px 36px;
+            border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+            color: var(--void);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px var(--gold-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--gold-dim);
+            color: var(--gold);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gold);
+            color: var(--void);
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        footer {
+            background: var(--void);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .footer-logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .footer-logo-text {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 3px;
+        }
+
+        .footer-tagline {
+            font-size: 15px;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto 24px;
+            line-height: 1.8;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 24px;
+        }
+
+        .footer-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .footer-legal {
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+
+        /* ============================================
+           RESPONSIVE ADJUSTMENTS
+           ============================================ */
+        @media (max-width: 768px) {
+            section {
+                padding: 60px 20px;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 100px 20px 80px;
+            }
+
+            .email-form {
+                flex-direction: column;
+                border-radius: 20px;
+                padding: 16px;
+            }
+
+            .email-form input {
+                padding: 12px 16px;
+            }
+
+            .email-form button {
+                width: 100%;
+                padding: 16px;
+            }
+
+            .learn-meta {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .final-cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .final-cta-buttons a {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text {
+                font-size: 20px;
+                letter-spacing: 3px;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .pricing-card {
+                padding: 32px 24px;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .pricing-card.featured:hover {
+                transform: translateY(-8px);
+            }
+        }
+
+        /* Scroll reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Ambient glow effects -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <!-- ============================================
+         HERO SECTION
+         ============================================ -->
+    <section class="hero">
+        <div class="floating-suits">
+            <span class="floating-suit">♠</span>
+            <span class="floating-suit">♥</span>
+            <span class="floating-suit">♦</span>
+            <span class="floating-suit">♣</span>
+            <span class="floating-suit">♠</span>
+            <span class="floating-suit">♥</span>
+        </div>
+
+        <div class="logo">
+            <div class="logo-icon">🃏</div>
+            <span class="logo-text">BLACKJACK GOD</span>
+        </div>
+
+        <h1>Beat the Casino at Blackjack<br><span class="highlight">— Legally</span></h1>
+
+        <p class="subtitle">The AI-powered guide to card counting that actually works</p>
+
+        <!-- ConvertKit Email Capture Form -->
+        <div class="email-capture">
+            <script src="https://f.convertkit.com/ckjs/ck.5.js"></script>
+            <form action="https://app.kit.com/forms/8958591/subscriptions" class="seva-form formkit-form" method="post" data-sv-form="8958591" data-uid="cd92e8b6c5" data-format="inline" data-version="5" data-options="{&quot;settings&quot;:{&quot;after_subscribe&quot;:{&quot;action&quot;:&quot;message&quot;,&quot;success_message&quot;:&quot;Success! Now check your email to confirm your subscription.&quot;,&quot;redirect_url&quot;:&quot;&quot;},&quot;analytics&quot;:{&quot;google&quot;:null,&quot;fathom&quot;:null,&quot;facebook&quot;:null,&quot;segment&quot;:null,&quot;pinterest&quot;:null,&quot;sparkloop&quot;:null,&quot;googletagmanager&quot;:null},&quot;modal&quot;:{&quot;trigger&quot;:&quot;timer&quot;,&quot;scroll_percentage&quot;:null,&quot;timer&quot;:5,&quot;devices&quot;:&quot;all&quot;,&quot;show_once_every&quot;:15},&quot;powered_by&quot;:{&quot;show&quot;:false,&quot;url&quot;:&quot;https://kit.com/features/forms?utm_campaign=poweredby&amp;utm_content=form&amp;utm_medium=referral&amp;utm_source=dynamic&quot;},&quot;recaptcha&quot;:{&quot;enabled&quot;:false},&quot;return_visitor&quot;:{&quot;action&quot;:&quot;show&quot;,&quot;custom_content&quot;:&quot;&quot;},&quot;slide_in&quot;:{&quot;display_in&quot;:&quot;bottom_right&quot;,&quot;trigger&quot;:&quot;timer&quot;,&quot;scroll_percentage&quot;:null,&quot;timer&quot;:5,&quot;devices&quot;:&quot;all&quot;,&quot;show_once_every&quot;:15},&quot;sticky_bar&quot;:{&quot;display_in&quot;:&quot;top&quot;,&quot;trigger&quot;:&quot;timer&quot;,&quot;scroll_percentage&quot;:null,&quot;timer&quot;:5,&quot;devices&quot;:&quot;all&quot;,&quot;show_once_every&quot;:15}},&quot;version&quot;:&quot;5&quot;}" min-width="400 500 600 700 800">
+                <div class="formkit-container" data-style="full" style="background-color: rgb(10, 10, 10); border-radius: 12px;">
+                    <div class="formkit-hero" style="padding: 20px;">
+                        <div class="formkit-header" data-element="header" style="color: rgb(212, 175, 55); font-size: 24px; font-weight: 700;">
+                            <p>FREE: Card Counting Cheat Sheet</p>
+                        </div>
+                        <div class="formkit-content" data-element="content" style="color: rgb(212, 175, 55); font-size: 16px; font-weight: 400; opacity: 0.8;">
+                            <p>The exact strategy that gives you a 1.5% edge over the house</p>
+                        </div>
+                    </div>
+                    <div style="padding: 0 20px 20px;">
+                        <ul class="formkit-alert formkit-alert-error" data-element="errors" data-group="alert"></ul>
+                        <div data-element="fields" data-stacked="false" class="seva-fields formkit-fields" style="display: flex; gap: 0;">
+                            <div class="formkit-field" style="flex: 1;">
+                                <input class="formkit-input" name="email_address" aria-label="Enter your email address" placeholder="Enter your email address" required="" type="email" style="color: #fff; background: #1a1a1a; border: 1px solid #333; border-radius: 8px 0 0 8px; padding: 14px 18px; font-size: 16px; width: 100%;">
+                            </div>
+                            <button data-element="submit" class="formkit-submit" style="color: rgb(10, 10, 10); background-color: rgb(212, 175, 55); border-radius: 0 8px 8px 0; font-weight: 700; padding: 14px 24px; border: none; cursor: pointer; font-size: 16px; white-space: nowrap;">
+                                <div class="formkit-spinner"><div></div><div></div><div></div></div>
+                                <span>Get Free Cheat Sheet</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="scroll-indicator">
+            <span></span>
+        </div>
+    </section>
+
+    <!-- Suit divider -->
+    <div class="suit-divider">
+        <span>♠</span>
+        <span>♥</span>
+        <span>♦</span>
+        <span>♣</span>
+    </div>
+
+    <!-- ============================================
+         THE HOOK SECTION
+         ============================================ -->
+    <section class="hook">
+        <div class="container">
+            <div class="hook-content reveal">
+                <p class="hook-intro">
+                    Every time you sit at a blackjack table without this knowledge,<br>
+                    <strong>you're giving money away.</strong>
+                </p>
+
+                <p class="hook-intro">
+                    The casino has a mathematical edge. They know it. You feel it.
+                </p>
+
+                <p class="hook-intro">
+                    But here's what they don't tell you:
+                </p>
+
+                <div class="hook-revelation">
+                    Blackjack is the ONLY casino game where skilled players can have an edge.
+                </div>
+
+                <p class="hook-emphasis">
+                    Card counting isn't illegal. It isn't cheating.<br>
+                    It's using your brain to shift the odds in your favor — exactly what the casino does to you.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         WHAT YOU'LL LEARN
+         ============================================ -->
+    <section class="learn">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="section-label">Inside the Book</p>
+                <h2 class="section-title">What You'll Learn</h2>
+            </div>
+
+            <div class="learn-grid">
+                <div class="learn-card reveal">
+                    <p class="learn-card-chapter">Chapter 01</p>
+                    <h3 class="learn-card-title">The Truth</h3>
+                    <p class="learn-card-desc">Why 99% of players lose (and it's not bad luck)</p>
+                </div>
+
+                <div class="learn-card reveal">
+                    <p class="learn-card-chapter">Chapter 02</p>
+                    <h3 class="learn-card-title">Perfect Strategy</h3>
+                    <p class="learn-card-desc">Master basic strategy in 20 minutes</p>
+                </div>
+
+                <div class="learn-card reveal">
+                    <p class="learn-card-chapter">Chapter 03</p>
+                    <h3 class="learn-card-title">Card Counting</h3>
+                    <p class="learn-card-desc">The Hi-Lo system, explained simply</p>
+                </div>
+
+                <div class="learn-card reveal">
+                    <p class="learn-card-chapter">Chapter 04</p>
+                    <h3 class="learn-card-title">Advanced Systems</h3>
+                    <p class="learn-card-desc">Omega II & Wong Halves for serious players</p>
+                </div>
+
+                <div class="learn-card reveal">
+                    <p class="learn-card-chapter">Chapter 05</p>
+                    <h3 class="learn-card-title">True Count</h3>
+                    <p class="learn-card-desc">The key to knowing your exact edge</p>
+                </div>
+
+                <div class="learn-card reveal">
+                    <p class="learn-card-chapter">Chapter 06</p>
+                    <h3 class="learn-card-title">Betting Strategy</h3>
+                    <p class="learn-card-desc">How much to bet and when</p>
+                </div>
+
+                <div class="learn-card reveal">
+                    <p class="learn-card-chapter">Chapter 07</p>
+                    <h3 class="learn-card-title">Stay Undetected</h3>
+                    <p class="learn-card-desc">What surveillance looks for (and how to avoid it)</p>
+                </div>
+
+                <div class="learn-card reveal">
+                    <p class="learn-card-chapter">Chapter 08</p>
+                    <h3 class="learn-card-title">AI Practice</h3>
+                    <p class="learn-card-desc">Your personal training partner</p>
+                </div>
+            </div>
+
+            <div class="learn-meta reveal">
+                <div class="learn-meta-item">
+                    <p class="learn-meta-value">~90</p>
+                    <p class="learn-meta-label">Minutes to Read</p>
+                </div>
+                <div class="learn-meta-item">
+                    <p class="learn-meta-value">8</p>
+                    <p class="learn-meta-label">Chapters</p>
+                </div>
+                <div class="learn-meta-item">
+                    <p class="learn-meta-value">1%+</p>
+                    <p class="learn-meta-label">Edge Over Casino</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Suit divider -->
+    <div class="suit-divider">
+        <span>♣</span>
+        <span>♦</span>
+        <span>♥</span>
+        <span>♠</span>
+    </div>
+
+    <!-- ============================================
+         WHO THIS IS FOR
+         ============================================ -->
+    <section class="audience">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="section-label">Is This For You?</p>
+                <h2 class="section-title">Know Before You Buy</h2>
+            </div>
+
+            <div class="audience-grid">
+                <div class="audience-column for reveal">
+                    <h3><span>✓</span> This Is For You If</h3>
+                    <ul class="audience-list">
+                        <li>
+                            <span class="icon">✓</span>
+                            <span>You've lost money at blackjack and want to understand why</span>
+                        </li>
+                        <li>
+                            <span class="icon">✓</span>
+                            <span>You're willing to practice a skill (not just gamble)</span>
+                        </li>
+                        <li>
+                            <span class="icon">✓</span>
+                            <span>You want the math to work FOR you, not against you</span>
+                        </li>
+                        <li>
+                            <span class="icon">✓</span>
+                            <span>You're playing for profit, not just entertainment</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="audience-column not-for reveal">
+                    <h3><span>✗</span> This Is NOT For You If</h3>
+                    <ul class="audience-list">
+                        <li>
+                            <span class="icon">✗</span>
+                            <span>You think gambling should be "fun" and don't care about winning</span>
+                        </li>
+                        <li>
+                            <span class="icon">✗</span>
+                            <span>You're looking for a get-rich-quick scheme</span>
+                        </li>
+                        <li>
+                            <span class="icon">✗</span>
+                            <span>You're not willing to practice for a few weeks</span>
+                        </li>
+                        <li>
+                            <span class="icon">✗</span>
+                            <span>You think counting cards is "cheating" (it's not)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         PRICING SECTION
+         ============================================ -->
+    <section class="pricing">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="section-label">Choose Your Path</p>
+                <h2 class="section-title">Investment Options</h2>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card reveal">
+                    <p class="pricing-tier">E-Book Only</p>
+                    <p class="pricing-price">$27</p>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Complete 8-chapter guide (PDF)</li>
+                        <li><span class="check">✓</span> Printable strategy reference cards</li>
+                        <li><span class="check">✓</span> Instant download</li>
+                    </ul>
+                    <a href="pricing.html" class="pricing-cta">Get Started</a>
+                </div>
+
+                <div class="pricing-card featured reveal">
+                    <div class="pricing-badge">⭐ BEST VALUE</div>
+                    <p class="pricing-tier">E-Book + AI Tool</p>
+                    <p class="pricing-price">$47</p>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Everything in E-Book Only</li>
+                        <li><span class="check">✓</span> 30-day access to Blackjack God AI</li>
+                        <li><span class="check">✓</span> Training drills & simulation mode</li>
+                        <li><span class="check">✓</span> Progress tracking dashboard</li>
+                    </ul>
+                    <a href="pricing.html" class="pricing-cta">Get Best Value</a>
+                </div>
+
+                <div class="pricing-card reveal">
+                    <p class="pricing-tier">Complete Bundle</p>
+                    <p class="pricing-price">$97</p>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> Everything in E-Book + AI Tool</li>
+                        <li><span class="check">✓</span> Lifetime access to AI tool</li>
+                        <li><span class="check">✓</span> All future updates included</li>
+                        <li><span class="check">✓</span> Priority support</li>
+                    </ul>
+                    <a href="pricing.html" class="pricing-cta">Go Premium</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         TESTIMONIALS
+         ============================================ -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="section-label">Success Stories</p>
+                <h2 class="section-title">What Players Say</h2>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card reveal">
+                    <p class="testimonial-text">"I went from losing $500/month to consistently profitable. The AI practice tool is a game-changer."</p>
+                    <p class="testimonial-author">— Verified buyer</p>
+                </div>
+
+                <div class="testimonial-card reveal">
+                    <p class="testimonial-text">"Finally understood true count after reading this. Years of YouTube videos never explained it this clearly."</p>
+                    <p class="testimonial-author">— Verified buyer</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FAQ SECTION
+         ============================================ -->
+    <section class="faq">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="section-label">Questions?</p>
+                <h2 class="section-title">Frequently Asked</h2>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item reveal">
+                    <button class="faq-question">Is card counting illegal?</button>
+                    <div class="faq-answer">
+                        <p class="faq-answer-content">No. It's 100% legal in the US, UK, Canada, and most countries. Casinos don't like it, but it's not a crime. You're simply using your brain — nothing more.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal">
+                    <button class="faq-question">Do I need to be good at math?</button>
+                    <div class="faq-answer">
+                        <p class="faq-answer-content">You need to add and subtract by 1. That's it. If you passed second grade, you can count cards. The system is simple — consistency is what matters.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal">
+                    <button class="faq-question">Will casinos ban me?</button>
+                    <div class="faq-answer">
+                        <p class="faq-answer-content">They can ask you to leave, but Chapter 7 teaches you detection avoidance techniques. Most recreational counters fly under the radar and never get backed off.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal">
+                    <button class="faq-question">How long does it take to learn?</button>
+                    <div class="faq-answer">
+                        <p class="faq-answer-content">You can understand the system in an afternoon. Mastery — where counting becomes automatic — takes 2-4 weeks of consistent practice with the AI tool.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FINAL CTA
+         ============================================ -->
+    <section class="final-cta">
+        <div class="container">
+            <p class="final-cta-tagline reveal">The casino's edge is a math problem.</p>
+            <h2 class="final-cta-headline reveal">This book is <span class="gold">the solution.</span></h2>
+
+            <div class="final-cta-buttons reveal">
+                <a href="pricing.html" class="btn-secondary">Get the E-Book — $27</a>
+                <a href="pricing.html" class="btn-primary">Get E-Book + AI Tool — $47</a>
+                <a href="pricing.html" class="btn-secondary">Get Complete Bundle — $97</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer>
+        <div class="footer-logo">
+            <div class="footer-logo-icon">🃏</div>
+            <span class="footer-logo-text">BLACKJACK GOD</span>
+        </div>
+
+        <p class="footer-tagline">Built by the team behind the Blackjack God AI Agent. Tested on millions of simulated hands. No BS. Just math.</p>
+
+        <div class="footer-links">
+            <a href="pricing.html">Pricing</a>
+            <a href="index.html">Dashboard</a>
+            <a href="auth.html">Login</a>
+        </div>
+
+        <p class="footer-legal">© 2024 Blackjack God. All rights reserved.</p>
+    </footer>
+
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const isOpen = item.classList.contains('open');
+
+                // Close all other items
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+
+                // Toggle current item
+                if (!isOpen) {
+                    item.classList.add('open');
+                }
+            });
+        });
+
+        // Scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Email capture form handler
+        const emailForm = document.getElementById('email-capture-form');
+        if (emailForm) {
+            emailForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const emailInput = document.getElementById('email-input');
+                const submitBtn = document.getElementById('email-submit');
+                const successMsg = document.getElementById('email-success');
+                const errorMsg = document.getElementById('email-error');
+
+                const email = emailInput.value.trim();
+                if (!email) return;
+
+                // Disable form during submission
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
+                errorMsg.style.display = 'none';
+
+                try {
+                    const response = await fetch('/api/email/subscribe', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, source: 'landing' })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.success) {
+                        // Success - show message and hide form
+                        emailForm.style.display = 'none';
+                        successMsg.style.display = 'block';
+                    } else {
+                        // Error from API
+                        errorMsg.textContent = data.detail || 'Something went wrong. Please try again.';
+                        errorMsg.style.display = 'block';
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Get Free Guide →';
+                    }
+                } catch (error) {
+                    // Network error
+                    errorMsg.textContent = 'Network error. Please try again.';
+                    errorMsg.style.display = 'block';
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Get Free Guide →';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

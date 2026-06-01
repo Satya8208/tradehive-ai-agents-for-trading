@@ -1,0 +1,41 @@
+{
+  "market_id": "0x6522287fb91b15bfc00e2777fef81362c6eeb973a4f75d48e0a74eaad8442eef",
+  "timestamp": "2026-03-14T12:55:10.488552",
+  "consensus_prediction": "YES",
+  "consensus_probability": 0.960754716981132,
+  "consensus_confidence": 0.8833333333333333,
+  "yes_votes": 3,
+  "no_votes": 0,
+  "agreement_ratio": 1.0,
+  "predictions": [
+    {
+      "model_provider": "openrouter",
+      "model_name": "anthropic/claude-sonnet-4",
+      "prediction": "YES",
+      "probability_estimate": 0.98,
+      "confidence": 0.95,
+      "reasoning": "Bitcoin is already at the $70,000 target with only 3.1 hours remaining. The market would need to drop significantly in a very short timeframe for NO to win, which is highly unlikely given current stab",
+      "response_time": 3.677063465118408
+    },
+    {
+      "model_provider": "deepseek",
+      "model_name": "deepseek-chat",
+      "prediction": "YES",
+      "probability_estimate": 0.95,
+      "confidence": 0.85,
+      "reasoning": "Bitcoin is already at the target price with only 3 hours remaining, and the YES token shows bullish momentum, making a significant drop below $70,000 unlikely in such a short timeframe.",
+      "response_time": 4.563656806945801
+    },
+    {
+      "model_provider": "openrouter",
+      "model_name": "x-ai/grok-4-fast",
+      "prediction": "YES",
+      "probability_estimate": 0.95,
+      "confidence": 0.85,
+      "reasoning": "Bitcoin is currently at ~$70,000 with only 3.1 hours left and bullish momentum in the YES shares, making a drop below $70,000 unlikely; the market's 94.2% implied probability aligns closely with this ",
+      "response_time": 6.9943482875823975
+    }
+  ],
+  "market_question": "Will the price of Bitcoin be above $70,000 on March 14?",
+  "market_symbol": "BTC"
+}

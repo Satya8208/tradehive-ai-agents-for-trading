@@ -1,0 +1,56 @@
+{
+  "timestamp": "20260111_184748",
+  "image_analysis": {
+    "image_type": "unknown",
+    "description": "Could not analyze image",
+    "visible_text": "",
+    "actual_message": "Image tweet",
+    "tone": "unknown",
+    "hook": "the image itself"
+  },
+  "caption": "",
+  "strategy_analysis": {
+    "tone": "The tweet contains no text content, only an image placeholder, making tone analysis impossible without visual context.",
+    "assumptions": "Without text or image analysis, no assumptions can be identified to challenge or validate.",
+    "content_type": "seeking_engagement",
+    "angle": "Since the tweet relies solely on an image, the response should take an unexpected angle by creating context where none exists.",
+    "engagement_approach": "collaborative",
+    "recommended_mode": "funny",
+    "why": "Humor around the missing image creates natural engagement by inviting others to playfully imagine or describe what might be in the picture.",
+    "engagement_potential": "medium"
+  },
+  "replies": [
+    {
+      "mode": "savage",
+      "reply": "The image you're not posting is more honest than the one you're trying to create."
+    },
+    {
+      "mode": "funny",
+      "reply": "The image is perfect. It says everything without saying anything. Just like most conversations."
+    },
+    {
+      "mode": "philosophical",
+      "reply": "The image you're not seeing is the one you're creating. What story are you telling yourself about what's missing?"
+    },
+    {
+      "mode": "controversial",
+      "reply": "The image you're not seeing is the lesson. What you imagine it contains reveals more about you than any picture ever could."
+    },
+    {
+      "mode": "nuclear",
+      "reply": "The image you didn't post is more interesting than the one you did. It's the one you're afraid to share. The one that shows who you really are. Post that one."
+    },
+    {
+      "mode": "osho",
+      "reply": "The image you see is a mirror. What you find there depends on who is looking."
+    },
+    {
+      "mode": "align_insight",
+      "reply": "The image is the silence between thoughts.  \nMost people see the picture.  \nFew notice who's looking."
+    },
+    {
+      "mode": "align_humor",
+      "reply": "The image is so profound it speaks in silence. Meanwhile, my mind is narrating a grocery list."
+    }
+  ]
+}

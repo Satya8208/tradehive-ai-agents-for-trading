@@ -1,0 +1,48 @@
+{
+  "timestamp": "20260113_191723",
+  "original_tweet": "AI will replace 80% of jobs in the next 5 years. If you're not learning to code or prompt engineer right now, you're going to be left behind.",
+  "analysis": {
+    "tone": "confident and performative with aggressive urgency",
+    "assumptions": "that coding/prompt engineering are the only paths to future relevance, and that AI job displacement will be uniform across industries",
+    "content_type": "sharing_insight",
+    "angle": "disagree and provoke with an unexpected angle",
+    "engagement_approach": "controversial_stance",
+    "recommended_mode": "philosophical",
+    "why": "A philosophical challenge to the narrow tech-centric worldview will spark deeper debate about human value beyond technical skills.",
+    "engagement_potential": "high"
+  },
+  "replies": [
+    {
+      "mode": "savage",
+      "reply": "Learning to code is just learning to speak to the new boss. The real question is: will you own the company, or just be the best employee?"
+    },
+    {
+      "mode": "funny",
+      "reply": "AI will replace the people who make predictions like this first. The future belongs to those who learn to be human, not machines."
+    },
+    {
+      "mode": "philosophical",
+      "reply": "AI isn't taking your job. Your job was just a cage you built for yourself. The real question is what you'll do when the door is finally kicked open."
+    },
+    {
+      "mode": "controversial",
+      "reply": "AI won't replace jobs. It will replace people who think like machines. Your value isn't in learning its language, but in remembering your own."
+    },
+    {
+      "mode": "nuclear",
+      "reply": "The 80% being replaced aren't jobs. They're tasks. Learning to code a machine is the machine's victory lap. The real skill? Becoming the 1% it can't replicate: a human with a soul."
+    },
+    {
+      "mode": "osho",
+      "reply": "AI will replace the job. But who has the job? Discover the one who watches the fear of being left behind. That watcher was never employed."
+    },
+    {
+      "mode": "align_insight",
+      "reply": "AI won't replace jobs. It will replace job descriptions. The skill that matters isn't coding\u2014it's knowing what to ask for. That can't be engineered."
+    },
+    {
+      "mode": "align_humor",
+      "reply": "Learning to code for AI is like learning to shovel for the bulldozer. The guy who drives the bulldozer is learning to garden."
+    }
+  ]
+}

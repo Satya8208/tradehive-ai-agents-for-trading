@@ -1,0 +1,62 @@
+{
+  "_comment": "Nash equilibrium push ranges by BB count and position",
+  "_version": "1.0",
+  "_source": "Poker God Agent by TradeHive",
+  
+  "3bb": {
+    "SB": "22+,A2s+,A2o+,K2s+,K5o+,Q4s+,Q8o+,J6s+,J8o+,T6s+,T8o+,96s+,98o,86s+,76s,65s,54s",
+    "BTN": "22+,A2s+,A2o+,K2s+,K6o+,Q5s+,Q9o+,J7s+,J9o+,T7s+,T9o,97s+,87s,76s,65s",
+    "CO": "22+,A2s+,A3o+,K4s+,K9o+,Q7s+,QTo+,J8s+,JTo,T8s+,98s,87s",
+    "HJ": "22+,A2s+,A7o+,K7s+,KTo+,Q8s+,QJo,J9s+,T9s,98s",
+    "MP": "33+,A2s+,A9o+,K9s+,KJo+,Q9s+,QJo,JTs,T9s",
+    "UTG": "44+,A4s+,ATo+,KTs+,KQo,QTs+,JTs"
+  },
+  "5bb": {
+    "SB": "22+,A2s+,A2o+,K2s+,K7o+,Q6s+,Q9o+,J7s+,J9o+,T7s+,T9o,97s+,87s,76s,65s",
+    "BTN": "22+,A2s+,A3o+,K3s+,K8o+,Q6s+,QTo+,J7s+,JTo,T7s+,97s+,87s,76s",
+    "CO": "22+,A2s+,A7o+,K6s+,KTo+,Q8s+,QJo,J8s+,T8s+,98s",
+    "HJ": "33+,A2s+,A9o+,K8s+,KJo+,Q9s+,J9s+,T9s",
+    "MP": "44+,A3s+,ATo+,KTs+,KQo,QTs+,JTs",
+    "UTG": "55+,A5s+,AJo+,KJs+,QJs"
+  },
+  "8bb": {
+    "SB": "22+,A2s+,A5o+,K4s+,K9o+,Q7s+,QTo+,J8s+,JTo,T8s+,98s,87s",
+    "BTN": "22+,A2s+,A7o+,K6s+,KTo+,Q8s+,QJo,J8s+,T8s+,98s,87s",
+    "CO": "33+,A2s+,A9o+,K8s+,KJo+,Q9s+,J9s+,T9s",
+    "HJ": "44+,A4s+,ATo+,K9s+,KQo,QTs+,JTs",
+    "MP": "55+,A5s+,AJo+,KTs+,QJs",
+    "UTG": "66+,A7s+,AQo+,KQs"
+  },
+  "10bb": {
+    "SB": "22+,A2s+,A7o+,K5s+,KTo+,Q8s+,QJo,J8s+,T8s+,98s",
+    "BTN": "22+,A2s+,A9o+,K7s+,KJo+,Q9s+,QJo,J9s+,T9s,98s",
+    "CO": "44+,A3s+,ATo+,K9s+,KQo,QTs+,JTs",
+    "HJ": "55+,A5s+,AJo+,KTs+,QJs",
+    "MP": "66+,A7s+,AQo+,KQs",
+    "UTG": "77+,A9s+,AKo"
+  },
+  "12bb": {
+    "SB": "33+,A2s+,A8o+,K6s+,KJo+,Q8s+,QJo,J9s+,T9s",
+    "BTN": "44+,A2s+,ATo+,K8s+,KQo,Q9s+,J9s+,T9s",
+    "CO": "55+,A4s+,AJo+,KTs+,QTs+,JTs",
+    "HJ": "66+,A6s+,AQo+,KQs,QJs",
+    "MP": "77+,A8s+,AKo",
+    "UTG": "88+,ATs+,AKo"
+  },
+  "15bb": {
+    "SB": "55+,A3s+,ATo+,K8s+,KQo,Q9s+,JTs",
+    "BTN": "55+,A4s+,AJo+,K9s+,QTs+,JTs",
+    "CO": "66+,A6s+,AQo+,KTs+,QJs",
+    "HJ": "77+,A8s+,AKo",
+    "MP": "88+,ATs+,AKo",
+    "UTG": "99+,AQs+,AKo"
+  },
+  "20bb": {
+    "SB": "66+,A5s+,AJo+,K9s+,QTs+",
+    "BTN": "66+,A6s+,AQo+,KTs+,QJs",
+    "CO": "77+,A8s+,AKo,KQs",
+    "HJ": "88+,ATs+,AKo",
+    "MP": "99+,AQs+",
+    "UTG": "TT+,AKs"
+  }
+}

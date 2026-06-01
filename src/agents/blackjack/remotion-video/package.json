@@ -1,0 +1,23 @@
+{
+  "name": "blackjack-god-video",
+  "version": "1.0.0",
+  "description": "Blackjack God promotional video built with Remotion",
+  "scripts": {
+    "dev": "npx remotion studio",
+    "build": "npx remotion render BlackjackPromo out/blackjack-promo.mp4",
+    "render": "npx remotion render BlackjackPromo out/blackjack-promo.mp4",
+    "render-gif": "npx remotion render BlackjackPromo out/blackjack-promo.gif"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "@remotion/transitions": "^4.0.0",
+    "@remotion/google-fonts": "^4.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "typescript": "^5.0.0"
+  }
+}

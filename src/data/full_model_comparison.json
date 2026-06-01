@@ -1,0 +1,60 @@
+{
+  "timestamp": "2026-01-19T20:53:55.899744",
+  "tweet": "Hustle culture is the only path to success. Sleep is for the weak.",
+  "results": [
+    {
+      "label": "Gemini 2.5 (OR)",
+      "provider": "openrouter",
+      "model": "google/gemini-2.5-flash",
+      "reply": "Your \"hustle\" isn't ambition. It's a fear of stillness.",
+      "chars": 55,
+      "time": 0.8,
+      "cost": 3.8e-05
+    },
+    {
+      "label": "Grok 4 Fast",
+      "provider": "xai",
+      "model": "grok-4-fast-reasoning",
+      "reply": "Hustle culture isn't ambition. It's anxiety chasing a finish line that doesn't exist. Rest to run farther.",
+      "chars": 106,
+      "time": 5.0,
+      "cost": 0.000105
+    },
+    {
+      "label": "DeepSeek V3",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "reply": "Hustle culture isn't a path. It's a hamster wheel for people who confuse exhaustion with purpose.",
+      "chars": 97,
+      "time": 2.0,
+      "cost": 0.00015
+    },
+    {
+      "label": "Llama 3.3 70B",
+      "provider": "openrouter",
+      "model": "meta-llama/llama-3.3-70b-instruct",
+      "reply": "Your hustle isn't ambition, it's desperation with a deadline.",
+      "chars": 61,
+      "time": 2.4,
+      "cost": 0.00019
+    },
+    {
+      "label": "Claude Haiku 3.5",
+      "provider": "claude",
+      "model": "claude-3-5-haiku-latest",
+      "reply": "Hustle culture is performance art for people too scared to build real systems. Success whispers; desperation screams.",
+      "chars": 117,
+      "time": 1.6,
+      "cost": 0.000483
+    },
+    {
+      "label": "Claude Sonnet 4.5",
+      "provider": "claude",
+      "model": "claude-sonnet-4-5-20250929",
+      "reply": "Your burnout isn't a badge. It's what happens when you mistake motion for progress and call exhaustion commitment.",
+      "chars": 114,
+      "time": 1.6,
+      "cost": 0.001797
+    }
+  ]
+}

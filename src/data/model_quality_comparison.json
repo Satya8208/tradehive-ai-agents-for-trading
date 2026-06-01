@@ -1,0 +1,38 @@
+{
+  "Sonnet 4.5": {
+    "savage": "Productive people meditate. Busy people think sitting still is a waste of time. There's a difference.",
+    "funny": "Productive people\" spend 6 hours a day in meetings that could've been emails, but sure, 10 minutes of sitting still is the real time-waster.",
+    "philosophical": "Productive people\" spend lifetimes doing everything except living. The irony: you call sitting still a waste while running in place.",
+    "osho": "The productive person is productive at what? Making more noise in their head? Meditation is the only productive thing - it produces silence. From that silence, real action happens. Everything else is just keeping yourself busy so you don't have to face yourself."
+  },
+  "Haiku 3.5": {
+    "savage": "Meditation isn't doing nothing. It's the only practice teaching you how much noise lives in your head while everyone else is drowning in it.",
+    "funny": "Productivity is just moving while thinking you're achieving something. Sitting still? That's advanced multitasking for the universe-brain crew.",
+    "philosophical": "Most \"productive\" people are running from themselves. Meditation is the only productivity that expands inner space. Stillness reveals what action conceals.",
+    "osho": "Doing nothing is the most profound doing. Productivity is the mind's escape from being. Sit. Watch. The universe unfolds in that silence."
+  },
+  "DeepSeek": {
+    "savage": "Your productivity is just busyness wearing a costume.",
+    "funny": "Productive people are too busy optimizing their to-do lists to notice they're optimizing the wrong life.",
+    "philosophical": "The busiest minds need stillness most. Your resistance to doing nothing reveals your addiction to distraction.",
+    "osho": "Productivity is the mind's addiction to motion. Meditation is discovering the space between motions. That space contains everything you're running toward."
+  },
+  "Grok 4": {
+    "savage": "Your \"productivity\" isn't progress. It's panic disguised as motion. Sit still \u2013 watch how much gets done after.",
+    "funny": "By this logic, sleep is the greatest con: eight hours of elite laziness, and we still call it essential.",
+    "philosophical": "The irony: Meditation's \"nothing\" births the clarity that makes every action count. Without it, productivity is just endless running in place.",
+    "osho": "Productivity is the ego's trap\u2014endless doing to avoid being. Sit doing nothing, and discover: true action arises effortlessly from stillness. Buddha knew."
+  },
+  "Llama 3.3": {
+    "savage": "Your 'productivity' is just distraction. Meditating on nothing reveals what's truly wasting your time: your thoughts.",
+    "funny": "By this logic, sleep is just lying down doing nothing, so I'm quitting my job to be a professional napper.",
+    "philosophical": "Is it the sitting that's doing nothing or the mind that can't stay still?",
+    "osho": "Doing nothing is the only thing that allows you to notice the doer."
+  },
+  "Gemini 2.5": {
+    "savage": "Your \"productivity\" is just distraction. Afraid to sit with your own thoughts.",
+    "funny": "True. We should all be scrolling through infinite content, optimizing our anxiety.",
+    "philosophical": "The stillness you avoid is the power you crave. The deepest work is often indistinguishable from doing nothing.",
+    "osho": "The mind, left unchecked, is the greatest waste of all. To sit is to watch it. That watching is the only true act."
+  }
+}

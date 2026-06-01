@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Death Revolution - Hero Image</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .hero-container {
+            width: 100%;
+            max-width: 1400px;
+            aspect-ratio: 5 / 2;
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.03),
+                0 50px 100px -20px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Base atmosphere */
+        .atmosphere {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% 100%, rgba(180, 140, 100, 0.25) 0%, transparent 60%),
+                radial-gradient(ellipse 100% 80% at 20% 50%, rgba(80, 60, 90, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 100% at 80% 30%, rgba(200, 160, 120, 0.2) 0%, transparent 50%),
+                linear-gradient(180deg, #1a1816 0%, #252220 50%, #2a2624 100%);
+        }
+
+        /* Grain texture overlay */
+        .grain {
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+        }
+
+        /* Warm wash overlay */
+        .warm-wash {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 200, 150, 0.03) 0%, transparent 50%, rgba(200, 180, 220, 0.02) 100%);
+            pointer-events: none;
+        }
+
+        /* Hourglass frame */
+        .hourglass {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 320px;
+            opacity: 0.9;
+        }
+
+        .hourglass-frame {
+            position: absolute;
+            inset: 0;
+            border: 2px solid rgba(220, 200, 180, 0.4);
+            clip-path: polygon(
+                0% 0%, 100% 0%,
+                100% 8%, 55% 45%, 55% 50%, 55% 55%, 100% 92%,
+                100% 100%, 0% 100%,
+                0% 92%, 45% 55%, 45% 50%, 45% 45%, 0% 8%
+            );
+            box-shadow: 0 0 40px rgba(210, 180, 140, 0.1);
+        }
+
+        .hourglass-glass {
+            position: absolute;
+            inset: 4px;
+            background: linear-gradient(180deg,
+                rgba(210, 190, 160, 0.1) 0%,
+                rgba(210, 190, 160, 0.05) 45%,
+                transparent 50%,
+                rgba(210, 190, 160, 0.05) 55%,
+                rgba(210, 190, 160, 0.12) 100%
+            );
+            clip-path: polygon(
+                0% 0%, 100% 0%,
+                100% 8%, 55% 45%, 55% 50%, 55% 55%, 100% 92%,
+                100% 100%, 0% 100%,
+                0% 92%, 45% 55%, 45% 50%, 45% 45%, 0% 8%
+            );
+        }
+
+        /* Falling sand particles */
+        .sand-stream {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 3px;
+            height: 80px;
+            transform: translateX(-50%);
+            background: linear-gradient(180deg,
+                rgba(230, 200, 150, 0.9) 0%,
+                rgba(230, 200, 150, 0.5) 50%,
+                rgba(230, 200, 150, 0.2) 100%
+            );
+            animation: sandFlow 2s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(230, 200, 150, 0.3);
+        }
+
+        @keyframes sandFlow {
+            0%, 100% { opacity: 0.7; height: 80px; }
+            50% { opacity: 1; height: 100px; }
+        }
+
+        /* Sand particles floating */
+        .particles {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(230, 200, 150, 0.8);
+            border-radius: 50%;
+            animation: fall linear infinite;
+            box-shadow: 0 0 6px rgba(230, 200, 150, 0.4);
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(400px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Generate multiple particles */
+        .particle:nth-child(1) { left: 48%; animation-duration: 4s; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 49%; animation-duration: 3.5s; animation-delay: 0.5s; }
+        .particle:nth-child(3) { left: 50%; animation-duration: 4.2s; animation-delay: 1s; }
+        .particle:nth-child(4) { left: 51%; animation-duration: 3.8s; animation-delay: 1.5s; }
+        .particle:nth-child(5) { left: 52%; animation-duration: 4.5s; animation-delay: 2s; }
+        .particle:nth-child(6) { left: 47%; animation-duration: 3.3s; animation-delay: 0.3s; }
+        .particle:nth-child(7) { left: 53%; animation-duration: 4.1s; animation-delay: 0.8s; }
+        .particle:nth-child(8) { left: 50.5%; animation-duration: 3.7s; animation-delay: 1.2s; }
+
+        /* Silhouette figure */
+        .figure {
+            position: absolute;
+            bottom: 15%;
+            left: 18%;
+            width: 60px;
+            height: 140px;
+        }
+
+        .figure-body {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 80px;
+            background: #1a1816;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .figure-head {
+            position: absolute;
+            bottom: 75px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 18px;
+            height: 22px;
+            background: #1a1816;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .figure-shadow {
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 10px;
+            background: radial-gradient(ellipse, rgba(0,0,0,0.4) 0%, transparent 70%);
+        }
+
+        /* Light beam from right */
+        .light-beam {
+            position: absolute;
+            right: -10%;
+            top: -20%;
+            width: 60%;
+            height: 140%;
+            background:
+                conic-gradient(
+                    from 200deg at 100% 50%,
+                    transparent 0deg,
+                    rgba(255, 240, 220, 0.08) 15deg,
+                    rgba(255, 240, 220, 0.15) 30deg,
+                    rgba(255, 240, 220, 0.08) 45deg,
+                    transparent 60deg
+                );
+            transform: rotate(-10deg);
+            filter: blur(30px);
+        }
+
+        /* Secondary ambient light */
+        .light-beam::after {
+            content: '';
+            position: absolute;
+            right: 20%;
+            top: 30%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 220, 180, 0.1) 0%, transparent 70%);
+            filter: blur(40px);
+        }
+
+        /* Horizon line */
+        .horizon {
+            position: absolute;
+            bottom: 20%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(220, 200, 170, 0.25) 20%,
+                rgba(230, 210, 180, 0.4) 50%,
+                rgba(220, 200, 170, 0.25) 80%,
+                transparent 100%
+            );
+            box-shadow: 0 0 20px rgba(220, 200, 170, 0.2);
+        }
+
+        /* Typography */
+        .title-container {
+            position: absolute;
+            left: 8%;
+            top: 50%;
+            transform: translateY(-50%);
+            max-width: 35%;
+        }
+
+        .title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 4rem);
+            font-weight: 300;
+            color: rgba(255, 250, 245, 0.95);
+            line-height: 1.1;
+            letter-spacing: 0.02em;
+            text-shadow: 0 2px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .title em {
+            font-style: italic;
+            color: rgba(240, 200, 140, 1);
+        }
+
+        .subtitle {
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(0.6rem, 0.8vw, 0.75rem);
+            font-weight: 400;
+            color: rgba(200, 180, 160, 0.7);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-top: 1.5rem;
+        }
+
+        /* Quote element on right */
+        .quote-container {
+            position: absolute;
+            right: 8%;
+            bottom: 25%;
+            max-width: 25%;
+            text-align: right;
+        }
+
+        .quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+            font-weight: 300;
+            font-style: italic;
+            color: rgba(220, 200, 180, 0.6);
+            line-height: 1.6;
+        }
+
+        /* Decorative elements */
+        .corner-accent {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 1px solid rgba(220, 200, 180, 0.25);
+        }
+
+        .corner-accent.top-left {
+            top: 5%;
+            left: 5%;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-accent.bottom-right {
+            bottom: 5%;
+            right: 5%;
+            border-left: none;
+            border-top: none;
+        }
+
+        /* Countdown numbers - subtle */
+        .countdown {
+            position: absolute;
+            right: 12%;
+            top: 20%;
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(3rem, 6vw, 6rem);
+            font-weight: 700;
+            color: rgba(220, 200, 180, 0.08);
+            letter-spacing: -0.05em;
+        }
+
+        /* Floating dust motes */
+        .dust {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .dust-mote {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 240, 220, 0.5);
+            border-radius: 50%;
+            animation: drift 20s ease-in-out infinite;
+        }
+
+        .dust-mote:nth-child(1) { left: 20%; top: 30%; animation-delay: 0s; }
+        .dust-mote:nth-child(2) { left: 70%; top: 60%; animation-delay: -5s; }
+        .dust-mote:nth-child(3) { left: 40%; top: 20%; animation-delay: -10s; }
+        .dust-mote:nth-child(4) { left: 80%; top: 40%; animation-delay: -15s; }
+        .dust-mote:nth-child(5) { left: 30%; top: 70%; animation-delay: -3s; }
+        .dust-mote:nth-child(6) { left: 60%; top: 25%; animation-delay: -8s; }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0); opacity: 0.3; }
+            25% { transform: translate(10px, -5px); opacity: 0.5; }
+            50% { transform: translate(-5px, 10px); opacity: 0.3; }
+            75% { transform: translate(5px, 5px); opacity: 0.5; }
+        }
+
+        /* Vignette */
+        .vignette {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 0%, rgba(15, 12, 10, 0.4) 100%);
+            pointer-events: none;
+        }
+
+        /* Download hint */
+        .download-hint {
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 0.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-container">
+        <!-- Background atmosphere -->
+        <div class="atmosphere"></div>
+
+        <!-- Light beam -->
+        <div class="light-beam"></div>
+
+        <!-- Horizon line -->
+        <div class="horizon"></div>
+
+        <!-- Hourglass -->
+        <div class="hourglass">
+            <div class="hourglass-frame"></div>
+            <div class="hourglass-glass"></div>
+            <div class="sand-stream"></div>
+        </div>
+
+        <!-- Falling particles -->
+        <div class="particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+
+        <!-- Silhouette figure -->
+        <div class="figure">
+            <div class="figure-head"></div>
+            <div class="figure-body"></div>
+            <div class="figure-shadow"></div>
+        </div>
+
+        <!-- Floating dust -->
+        <div class="dust">
+            <div class="dust-mote"></div>
+            <div class="dust-mote"></div>
+            <div class="dust-mote"></div>
+            <div class="dust-mote"></div>
+            <div class="dust-mote"></div>
+            <div class="dust-mote"></div>
+        </div>
+
+        <!-- Countdown number -->
+        <div class="countdown">∞</div>
+
+        <!-- Title -->
+        <div class="title-container">
+            <h1 class="title">The <em>Death</em><br>Revolution</h1>
+            <p class="subtitle">On Living Before It's Too Late</p>
+        </div>
+
+        <!-- Quote -->
+        <div class="quote-container">
+            <p class="quote">"The question isn't whether you'll die.<br>It's whether you'll live first."</p>
+        </div>
+
+        <!-- Corner accents -->
+        <div class="corner-accent top-left"></div>
+        <div class="corner-accent bottom-right"></div>
+
+        <!-- Grain overlay -->
+        <div class="grain"></div>
+
+        <!-- Warm wash -->
+        <div class="warm-wash"></div>
+
+        <!-- Vignette -->
+        <div class="vignette"></div>
+    </div>
+
+    <p class="download-hint">Right-click → Save as image or screenshot at 5:2 ratio</p>
+</body>
+</html>

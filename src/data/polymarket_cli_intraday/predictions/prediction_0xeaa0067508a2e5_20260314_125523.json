@@ -1,0 +1,41 @@
+{
+  "market_id": "0xeaa0067508a2e58578f330b1dd2845874e645ae80c98c41a62f2cf7bf16f2d5e",
+  "timestamp": "2026-03-14T12:55:23.299283",
+  "consensus_prediction": "YES",
+  "consensus_probability": 0.59,
+  "consensus_confidence": 0.425,
+  "yes_votes": 2,
+  "no_votes": 1,
+  "agreement_ratio": 0.6666666666666666,
+  "predictions": [
+    {
+      "model_provider": "deepseek",
+      "model_name": "deepseek-chat",
+      "prediction": "NO",
+      "probability_estimate": 0.05,
+      "confidence": 0.9,
+      "reasoning": "Ethereum is exactly at the $2,100 target with only 3.1 hours remaining, making a significant upward move unlikely; the market's 5.5% implied probability is reasonable.",
+      "response_time": 3.9717345237731934
+    },
+    {
+      "model_provider": "openrouter",
+      "model_name": "anthropic/claude-sonnet-4",
+      "prediction": "YES",
+      "probability_estimate": 0.85,
+      "confidence": 0.9,
+      "reasoning": "ETH is currently at exactly $2,100 with only 3.1 hours remaining. The market is severely underpricing at 5.5% when ETH just needs to stay above the target price for a few hours.",
+      "response_time": 4.710742950439453
+    },
+    {
+      "model_provider": "openrouter",
+      "model_name": "x-ai/grok-4-fast",
+      "prediction": "YES",
+      "probability_estimate": 0.2,
+      "confidence": 0.6,
+      "reasoning": "The current ETH price is approximately at the $2,100 threshold with only 3.1 hours remaining, making a slight upward movement feasible given crypto's volatility; the bullish +22.2% momentum in the YES",
+      "response_time": 12.36381196975708
+    }
+  ],
+  "market_question": "Will the price of Ethereum be above $2,100 on March 14?",
+  "market_symbol": "ETH"
+}

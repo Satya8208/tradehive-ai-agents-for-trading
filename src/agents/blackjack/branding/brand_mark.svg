@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 260" width="200" height="260">
+  <!-- The Purist - Outlined spade with A mark -->
+  <!-- Use for: watermarks, favicons, monochrome contexts -->
+
+  <!-- Outlined spade -->
+  <path d="M100 20
+           C100 20 20 90 20 140
+           C20 180 50 200 80 190
+           C70 220 55 245 45 260
+           L155 260
+           C145 245 130 220 120 190
+           C150 200 180 180 180 140
+           C180 90 100 20 100 20 Z"
+        fill="none"
+        stroke="#d4af37"
+        stroke-width="4"
+        stroke-linejoin="round"/>
+
+  <!-- A mark centered -->
+  <text x="100" y="155"
+        font-family="Cinzel, Georgia, serif"
+        font-size="70"
+        font-weight="700"
+        fill="#d4af37"
+        text-anchor="middle">A</text>
+</svg>

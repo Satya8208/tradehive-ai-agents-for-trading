@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <linearGradient id="cardGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4af37;stop-opacity:0.08"/>
+      <stop offset="100%" style="stop-color:#d4af37;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="400" fill="#050505"/>
+
+  <!-- Card Corner Frame -->
+  <g transform="translate(100, 60)">
+    <!-- Main border -->
+    <rect x="0" y="0" width="200" height="280" rx="12" ry="12"
+          fill="url(#cardGlow)" stroke="#d4af37" stroke-width="3"/>
+
+    <!-- Corner accents -->
+    <path d="M-6 -6 L-6 20 M-6 -6 L20 -6" stroke="#d4af37" stroke-width="2" fill="none"/>
+    <path d="M206 -6 L206 20 M206 -6 L180 -6" stroke="#d4af37" stroke-width="2" fill="none"/>
+    <path d="M-6 286 L-6 260 M-6 286 L20 286" stroke="#d4af37" stroke-width="2" fill="none"/>
+    <path d="M206 286 L206 260 M206 286 L180 286" stroke="#d4af37" stroke-width="2" fill="none"/>
+
+    <!-- Rank A -->
+    <text x="100" y="145"
+          font-family="Cinzel, Georgia, serif"
+          font-size="120"
+          font-weight="900"
+          fill="#d4af37"
+          text-anchor="middle"
+          style="filter: drop-shadow(0 0 30px rgba(212,175,55,0.4))">A</text>
+
+    <!-- Spade suit -->
+    <g transform="translate(100, 200)">
+      <path d="M0 -35 C0 -35 -35 0 -35 18 C-35 35 -20 42 -8 37 C-14 50 -22 58 -22 58 L22 58 C22 58 14 50 8 37 C20 42 35 35 35 18 C35 0 0 -35 0 -35 Z"
+            fill="#d4af37"/>
+    </g>
+  </g>
+</svg>

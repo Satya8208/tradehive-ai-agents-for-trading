@@ -1,0 +1,111 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		// Python Configuration
+		"python.defaultInterpreterPath": "${env:HOME}/miniconda3/bin/python",
+		"python.condaPath": "${env:HOME}/miniconda3/bin/conda",
+		"python.terminal.activateEnvironment": true,
+		"python.terminal.activateEnvInCurrentTerminal": true,
+
+		// Python Analysis
+		"python.analysis.typeCheckingMode": "basic",
+		"python.analysis.autoImportCompletions": true,
+		"python.analysis.extraPaths": [
+			"${workspaceFolder}/src"
+		],
+
+		// Formatting
+		"editor.formatOnSave": false,
+		"python.formatting.provider": "none",
+
+		// Linting (disabled by default to avoid noise)
+		"python.linting.enabled": false,
+		"python.linting.pylintEnabled": false,
+
+		// File Associations
+		"files.associations": {
+			"*.env": "properties",
+			"*.txt": "plaintext"
+		},
+
+		// Terminal
+		"terminal.integrated.defaultProfile.windows": "Command Prompt",
+		"terminal.integrated.cwd": "${workspaceFolder}",
+
+		// File Exclusions (reduce clutter)
+		"files.exclude": {
+			"**/__pycache__": true,
+			"**/*.pyc": true,
+			"**/.pytest_cache": true,
+			"**/.mypy_cache": true,
+			"**/.ipynb_checkpoints": true
+		},
+
+		// Search Exclusions
+		"search.exclude": {
+			"**/__pycache__": true,
+			"**/*.pyc": true,
+			"**/node_modules": true,
+			"**/.git": true
+		},
+
+		// Editor Settings
+		"editor.tabSize": 4,
+		"editor.insertSpaces": true,
+		"editor.rulers": [88, 120],
+		"files.trimTrailingWhitespace": true,
+		"files.insertFinalNewline": true,
+
+		// Git
+		"git.enabled": true,
+		"git.autofetch": true
+	},
+	"extensions": {
+		"recommendations": [
+			"ms-python.python",
+			"ms-python.vscode-pylance",
+			"ms-toolsai.jupyter",
+			"ms-toolsai.jupyter-keymap",
+			"ms-toolsai.jupyter-renderers",
+			"donjayamanne.githistory",
+			"eamodio.gitlens",
+			"visualstudioexptteam.vscodeintellicode"
+		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Python: Current File",
+				"type": "debugpy",
+				"request": "launch",
+				"program": "${file}",
+				"console": "integratedTerminal",
+				"cwd": "${workspaceFolder}",
+				"env": {
+					"PYTHONPATH": "${workspaceFolder}/src"
+				}
+			},
+			{
+				"name": "Trading Agent",
+				"type": "debugpy",
+				"request": "launch",
+				"program": "${workspaceFolder}/src/agents/trading_agent.py",
+				"console": "integratedTerminal",
+				"cwd": "${workspaceFolder}"
+			},
+			{
+				"name": "RBI Agent (Backtesting)",
+				"type": "debugpy",
+				"request": "launch",
+				"program": "${workspaceFolder}/src/agents/rbi_agent_pp_multi.py",
+				"console": "integratedTerminal",
+				"cwd": "${workspaceFolder}"
+			}
+		]
+	}
+}

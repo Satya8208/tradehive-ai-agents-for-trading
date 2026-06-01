@@ -1,0 +1,12 @@
+{
+  "vpip": 45,
+  "pfr": 30,
+  "three_bet": 10,
+  "fold_to_3bet": 0.0,
+  "cbet_flop": 0.0,
+  "fold_to_cbet": 0.0,
+  "aggression_factor": 60,
+  "wtsd": 0.0,
+  "won_at_sd": 0.0,
+  "hands_played": 0
+}

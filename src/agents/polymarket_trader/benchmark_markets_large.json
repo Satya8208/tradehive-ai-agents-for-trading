@@ -1,0 +1,2002 @@
+[
+  {
+    "question": "Will Bitcoin reach $1,000,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.033,
+    "time_remaining_hours": 19.34,
+    "yes_resolved": false,
+    "volume": 31394607.52,
+    "condition_id": "0xd8b9ff369452daebce1ac8cb6a29d6817903e85168356c72812317f38e317613"
+  },
+  {
+    "question": "Will Bitcoin reach $250,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.085,
+    "time_remaining_hours": 19.34,
+    "yes_resolved": false,
+    "volume": 15857522.58,
+    "condition_id": "0xac2be3a5471b343d43b9f0d3f141611b91feb8c66aed8e286cd3d2540714aaba"
+  },
+  {
+    "question": "Will Bitcoin reach $200,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.14,
+    "time_remaining_hours": 19.27,
+    "yes_resolved": false,
+    "volume": 19275707.74,
+    "condition_id": "0x4e2887e913cd6e091c9b07b5e4013b24f372453efa6f11a0b0c5f65371729cf4"
+  },
+  {
+    "question": "Will Bitcoin reach $150,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.325,
+    "time_remaining_hours": 19.34,
+    "yes_resolved": false,
+    "volume": 16414060.38,
+    "condition_id": "0x9aa6086535a4b3145e9f7378dd58a7a8c30c4b15bd4fe17eb6990817f5cd3cd9"
+  },
+  {
+    "question": "Will Bitcoin reach $130,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.56,
+    "time_remaining_hours": 19.32,
+    "yes_resolved": false,
+    "volume": 13211425.23,
+    "condition_id": "0xe84b1fdc087f4153ebf15cfc07f065dd5a66f3caf370b4547ea8e02100be95be"
+  },
+  {
+    "question": "Will Bitcoin reach $120,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.71,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 1924730.06,
+    "condition_id": "0x806963fb1a01b90ba87711a2f996ba125c934ed3c5a1e39e0836c94af69120ef"
+  },
+  {
+    "question": "Will Bitcoin reach $110,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.746,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 1893687.49,
+    "condition_id": "0x63e3c9432d9e3a0e9665d1152fc0a05f6ed17c9033eb9290062d25d2afb2bed5"
+  },
+  {
+    "question": "Will Bitcoin reach $100,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.9685,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 103063.9,
+    "condition_id": "0x3e464d7dfada6c9ae876643e02f6d0aa79ba56380a7c54cffa2a1948dfe89fbe"
+  },
+  {
+    "question": "Will Bitcoin dip to $50,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.125,
+    "time_remaining_hours": 19.29,
+    "yes_resolved": false,
+    "volume": 4969076.58,
+    "condition_id": "0x5e8e585d855c4288c3805064e74fc7ea1dab47dc0e9b42a0dbd9ca5f49c997f9"
+  },
+  {
+    "question": "Will Bitcoin dip to $90,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.9,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 171499.23,
+    "condition_id": "0xf4c1021e364293816584f1f73d5c45d03da5490570ae4d1c7bf304b6a02752af"
+  },
+  {
+    "question": "Will Bitcoin dip to $80,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.68,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 236627.7,
+    "condition_id": "0xc6d2da0bf8a79794daebc24e43f67e8ef9b09c0577b2be5392d3f210a57dd039"
+  },
+  {
+    "question": "Will Bitcoin dip to $70,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.255,
+    "time_remaining_hours": 19.29,
+    "yes_resolved": false,
+    "volume": 8605610.76,
+    "condition_id": "0x0aeb566c973d193ef7f77d2532ba6bffe4f76d5f6b7c5422ceaa966536b7ef90"
+  },
+  {
+    "question": "Will Bitcoin dip to $20,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.0465,
+    "time_remaining_hours": 19.25,
+    "yes_resolved": false,
+    "volume": 4003570.19,
+    "condition_id": "0x86f01fcc4fa9ca9871189d8f4a1121bb31784c889d78f82e2f6de32381e3d894"
+  },
+  {
+    "question": "Will Bitcoin reach $125,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.7535,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 775640.69,
+    "condition_id": "0x91b035e9f1e7c5df6e7ead5828ee46fccf878ffc030d2c7debe75149753fe079"
+  },
+  {
+    "question": "Will Bitcoin reach $140,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.325,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": false,
+    "volume": 8804123.73,
+    "condition_id": "0x9322e033c6dc8be6d8495cc44ac578abaa28a8cccdb783de1bff0026066d1d05"
+  },
+  {
+    "question": "Will Bitcoin reach $170,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.11,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": false,
+    "volume": 7721957.29,
+    "condition_id": "0x0c23ad7af38087ab27f94fd35eec62b4f53c0d6edd16bf04d85b7c456dc777de"
+  },
+  {
+    "question": "Will Bitcoin dip to $80,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.179,
+    "time_remaining_hours": 3.0,
+    "yes_resolved": false,
+    "volume": 8066294.94,
+    "condition_id": "0xffcbecbfa6983b3cdd5e91d078088beb5738d0c746bcedceb62f7bfed0470af5"
+  },
+  {
+    "question": "Will Bitcoin dip to $90,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.305,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 2161434.09,
+    "condition_id": "0xfb0c98ef42c5c48b5ecca31e555aa0565a31958261e2d6c7b4cb15bbd417cbba"
+  },
+  {
+    "question": "Will Bitcoin reach $100,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.365,
+    "time_remaining_hours": 3.0,
+    "yes_resolved": false,
+    "volume": 9479018.6,
+    "condition_id": "0xd3cfc885ca1a482af4057f39937398fa5adc7a0b61e2381956384af1bf59ce6f"
+  },
+  {
+    "question": "Will Bitcoin reach $110,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.14,
+    "time_remaining_hours": 3.01,
+    "yes_resolved": false,
+    "volume": 6056873.98,
+    "condition_id": "0x9e8440830c8cdccb524700bf0be33f35df2f0278bff7b843f8073235c96da886"
+  },
+  {
+    "question": "Will Bitcoin dip to $100,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.665,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 31656.1,
+    "condition_id": "0x06e59d1a34c899b5fa814aff3c1cdf884f4341b48a9da5cc48542f12c9f3c3d6"
+  },
+  {
+    "question": "Will Bitcoin reach $120,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.085,
+    "time_remaining_hours": 3.01,
+    "yes_resolved": false,
+    "volume": 8257060.3,
+    "condition_id": "0x22c3ce96a88bf01d0c5e320d029e7f8418c81d5be28f025b6ab07465bb508fb1"
+  },
+  {
+    "question": "Will Bitcoin reach $105,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.115,
+    "time_remaining_hours": 3.03,
+    "yes_resolved": false,
+    "volume": 4250036.08,
+    "condition_id": "0x4fbbb85445aaafada34e5d94c50b787038729a26b8aa995e0f18158e2019d94e"
+  },
+  {
+    "question": "Will Bitcoin dip to $100,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.77,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 634635.81,
+    "condition_id": "0x211805aa03ebc98fb636018cb6f8a10bed58892dc9e626da5a6976f0efdbbeaa"
+  },
+  {
+    "question": "Will Bitcoin reach $95,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.325,
+    "time_remaining_hours": 3.04,
+    "yes_resolved": false,
+    "volume": 8136573.74,
+    "condition_id": "0xe1efac87d70a9556b222624def73e3d7adc7b4513c781867c6c7aa105ff1d9b5"
+  },
+  {
+    "question": "Will Bitcoin reach $115,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.055,
+    "time_remaining_hours": 2.95,
+    "yes_resolved": false,
+    "volume": 2436907.21,
+    "condition_id": "0xc8f19832fd11ad8968e947c4e4fbed6059075efb73f9d1c9133ce6235a291fd0"
+  },
+  {
+    "question": "Will Bitcoin dip to $65,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.03,
+    "time_remaining_hours": 2.66,
+    "yes_resolved": false,
+    "volume": 1734088.15,
+    "condition_id": "0x03a914dc0a98b109dfbcb6e8f8acfdf46c9a06fc6eac38f842b354983541a9e2"
+  },
+  {
+    "question": "Will Bitcoin dip to $75,000 by December 31, 2025?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.125,
+    "time_remaining_hours": 2.95,
+    "yes_resolved": false,
+    "volume": 2145764.06,
+    "condition_id": "0x4f20debe0c978a8cfffa20cc3019dd3740c945bb577f12c0d4b8c82c4bf0647f"
+  },
+  {
+    "question": "Will Bitcoin reach $150,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 3.12,
+    "yes_resolved": false,
+    "volume": 28829221.51,
+    "condition_id": "0x5e5c9dfaf695371a0cc321b47b35f66a6dbd1482f0503526603d2bd2a91bfdc7"
+  },
+  {
+    "question": "Will Bitcoin reach $120,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.027,
+    "time_remaining_hours": 3.14,
+    "yes_resolved": false,
+    "volume": 3328347.52,
+    "condition_id": "0xee97e9edec0727d16dcfe4040dca1c949d45e4010de05569fb5a4e7a9873a83d"
+  },
+  {
+    "question": "Will Bitcoin reach $125,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.0215,
+    "time_remaining_hours": 3.13,
+    "yes_resolved": false,
+    "volume": 4451426.16,
+    "condition_id": "0x32a238c48ede8bc6386efceae61286deeb8528aec51d312e01082cf962280b4e"
+  },
+  {
+    "question": "Will Bitcoin dip to $60,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.15,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 3982230.89,
+    "condition_id": "0xa5462af7767e134a0250b45638d0211ac52931bc8c2f2e8dc40ae10b66b110e4"
+  },
+  {
+    "question": "Will Bitcoin reach $115,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.025,
+    "time_remaining_hours": 3.15,
+    "yes_resolved": false,
+    "volume": 3486531.58,
+    "condition_id": "0xbb48a12a054500a965d2e62f4bc2d980963972895fa8586d9b1a90c13a803402"
+  },
+  {
+    "question": "Will Bitcoin dip to $55,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.0855,
+    "time_remaining_hours": 3.21,
+    "yes_resolved": false,
+    "volume": 7296072.02,
+    "condition_id": "0xee483d462c5ef89bfb5e7662abb62714354a0f6f3a6c6c0df74933607ae9b81b"
+  },
+  {
+    "question": "Will Bitcoin dip to $70,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.465,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 3028856.66,
+    "condition_id": "0x22e4572de2b7b70bf1b2dd0bbf05cc2b1e9dd1258cba4b23012e394e003645f7"
+  },
+  {
+    "question": "Will Bitcoin reach $110,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.0355,
+    "time_remaining_hours": 3.15,
+    "yes_resolved": false,
+    "volume": 2620430.96,
+    "condition_id": "0x3366d7294044d8d8f91ced866b806226e6964259aa9053f8145a500d87c30d6f"
+  },
+  {
+    "question": "Will Bitcoin dip to $50,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.0425,
+    "time_remaining_hours": 3.22,
+    "yes_resolved": false,
+    "volume": 5541582.15,
+    "condition_id": "0xa31754e4e3d25202e95d88d99c52340ab5f4fcf03deb3006972fb2102af12c8d"
+  },
+  {
+    "question": "Will Bitcoin reach $105,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.0325,
+    "time_remaining_hours": 3.16,
+    "yes_resolved": false,
+    "volume": 3356963.08,
+    "condition_id": "0x85cd8c640cd4a0b7018dc36523d097390a8ec1aa185a8fb0f1b37e20195db4de"
+  },
+  {
+    "question": "Will Bitcoin reach $100,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.0405,
+    "time_remaining_hours": 3.17,
+    "yes_resolved": false,
+    "volume": 3901725.76,
+    "condition_id": "0xa1ab45628b9938d5d9365291740e9833fc112d9a52b61c9b6a2e623cf3fe5275"
+  },
+  {
+    "question": "Will Bitcoin dip to $80,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 2080615.96,
+    "condition_id": "0x47e096666527c65a18828f842366ae823bb72e529eeb33b4ec65527f6b7eae81"
+  },
+  {
+    "question": "Will Bitcoin reach $95,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.065,
+    "time_remaining_hours": 3.18,
+    "yes_resolved": false,
+    "volume": 3511077.34,
+    "condition_id": "0x9ff22d820361bad5005ee7c3e25962c7d68106b0674f1c10c34d0bee2fd284b8"
+  },
+  {
+    "question": "Will Bitcoin reach $90,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.0585,
+    "time_remaining_hours": 3.18,
+    "yes_resolved": false,
+    "volume": 4835100.52,
+    "condition_id": "0x2e150ddea5674a8cf543f90a9bf1c3552aa9c3f784d82d24e21a522a391534fb"
+  },
+  {
+    "question": "Will Bitcoin dip to $40,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.0285,
+    "time_remaining_hours": 3.23,
+    "yes_resolved": false,
+    "volume": 2957659.74,
+    "condition_id": "0xa09a7b2a5bca7df1c3dfcb7b597592798f417ae1f772dda909d92e9c1a3f2530"
+  },
+  {
+    "question": "Will Bitcoin reach $85,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.125,
+    "time_remaining_hours": 3.19,
+    "yes_resolved": false,
+    "volume": 7551511.59,
+    "condition_id": "0x7f72e2af09127b4ffd41b7b83d2d6c92fd8238e638d1bfaacbbdae356b4bf720"
+  },
+  {
+    "question": "Will Bitcoin dip to $75,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.83,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 474776.88,
+    "condition_id": "0xccc4ab56db6caab92d59cf5d4c0cfa6ffe781d373c337540a867c809df6205ab"
+  },
+  {
+    "question": "Will Bitcoin dip to $65,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.225,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 1755832.97,
+    "condition_id": "0x7089de8cf7217169574e5f8d685ab28bdb95e155eb581315ded106c8678cdb2e"
+  },
+  {
+    "question": "Will Bitcoin dip to $45,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.0385,
+    "time_remaining_hours": 3.23,
+    "yes_resolved": false,
+    "volume": 3710665.65,
+    "condition_id": "0xb08e5d3c35323aaef8b46c7bb3466df0b51ee87e1c38faa2ccc5c1a00e88c9a5"
+  },
+  {
+    "question": "Will Bitcoin dip to $35,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.0235,
+    "time_remaining_hours": 3.24,
+    "yes_resolved": false,
+    "volume": 4546147.26,
+    "condition_id": "0x2c77b523cc7e57c0a09155f99dc2117781be470148616eedabd162f228da9870"
+  },
+  {
+    "question": "Will Bitcoin reach $75,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.315,
+    "time_remaining_hours": 3.2,
+    "yes_resolved": false,
+    "volume": 7913769.2,
+    "condition_id": "0xddcfd0baea9146bf38a67b32d9115e65784d881308f1799b531d9f237e271c2f"
+  },
+  {
+    "question": "Will Bitcoin reach $80,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.14,
+    "time_remaining_hours": 3.2,
+    "yes_resolved": false,
+    "volume": 4831697.13,
+    "condition_id": "0xbfccf9f1597b7c4a06d72f39ddb81f0347c4555b98e578f546bdfb2d5af6b18e"
+  },
+  {
+    "question": "Will Bitcoin dip to $60,000 in February?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.255,
+    "time_remaining_hours": 3.21,
+    "yes_resolved": false,
+    "volume": 7282065.83,
+    "condition_id": "0xe00d6ce6106b54b8f13fbe935e529ea7aab9e3ace9ae3fcc4f7c65372eb0b8ef"
+  },
+  {
+    "question": "Will Bitcoin reach $150,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 2.8,
+    "yes_resolved": false,
+    "volume": 26660909.27,
+    "condition_id": "0x9708334534b504e2025a5a6af92f8600808c10be577e5066f920c40625fbec16"
+  },
+  {
+    "question": "Will Bitcoin dip to $50,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 2.73,
+    "yes_resolved": false,
+    "volume": 838971.85,
+    "condition_id": "0x95b3b27c066f30dcfe23803e5882c5b72bc8de77f9a4c219e5848bc27b3e1840"
+  },
+  {
+    "question": "Will Bitcoin reach $130,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 2.78,
+    "yes_resolved": false,
+    "volume": 4218206.46,
+    "condition_id": "0x615fa45b6d689d701c549190f9f3b0908ee58440ae3726fbfb62bbd7c5143693"
+  },
+  {
+    "question": "Will Bitcoin reach $125,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 2.77,
+    "yes_resolved": false,
+    "volume": 7080988.61,
+    "condition_id": "0xddf42243d621feb727bd250e913fdaaa5fd9fa3a6b73ac0d25113472a8bf5689"
+  },
+  {
+    "question": "Will Bitcoin reach $120,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.023,
+    "time_remaining_hours": 2.86,
+    "yes_resolved": false,
+    "volume": 4349534.84,
+    "condition_id": "0xdddfa2562bb9eb994c6d0a6e02f086f3ae821db1e00c58cb515ccb07052679e6"
+  },
+  {
+    "question": "Will Bitcoin reach $115,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.036,
+    "time_remaining_hours": 2.85,
+    "yes_resolved": false,
+    "volume": 3483467.35,
+    "condition_id": "0xa7794cc1f02beaee1ce520357d18989927c5dd3517621125160786561e776e46"
+  },
+  {
+    "question": "Will Bitcoin reach $105,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.14,
+    "time_remaining_hours": 2.86,
+    "yes_resolved": false,
+    "volume": 6931678.68,
+    "condition_id": "0x542fb07feb00feddb87c1d9e93ebf439a692c6b12e81e935ef2a5cda7de70dfb"
+  },
+  {
+    "question": "Will Bitcoin reach $100,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.28,
+    "time_remaining_hours": 2.85,
+    "yes_resolved": false,
+    "volume": 13025594.7,
+    "condition_id": "0x2603d5576c488e4f2a4fa41677917044e796917b2ff251d639b635062fe6b068"
+  },
+  {
+    "question": "Will Bitcoin reach $110,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.056,
+    "time_remaining_hours": 2.8,
+    "yes_resolved": false,
+    "volume": 5848826.62,
+    "condition_id": "0x0ca11fd21b75f9547c1e0e65a590fb003e9d2ec9767fa82160df8591f09c6757"
+  },
+  {
+    "question": "Will Bitcoin dip to $55,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 2.73,
+    "yes_resolved": false,
+    "volume": 877562.93,
+    "condition_id": "0xdccec494008c9af26950344892d67984a045a7e96a6e7d3cd8e57d5bbbc38841"
+  },
+  {
+    "question": "Will Bitcoin reach $95,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.625,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 2243197.98,
+    "condition_id": "0x2562563c9c1455fba74ad85da6051d5d477115b6ed8f9479d138305e83c8ae72"
+  },
+  {
+    "question": "Will Bitcoin dip to $40,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 2.75,
+    "yes_resolved": false,
+    "volume": 3173872.72,
+    "condition_id": "0x45f5b74ab9b74fd8a385dd7eba75a2fc7fb449a477d494adaadecdc54a3d7ec1"
+  },
+  {
+    "question": "Will Bitcoin reach $90,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.895,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 206885.06,
+    "condition_id": "0x9dc16443879954ee2c29e3bcb83f501ba66ee23ef66969686760c1b75cd0a23b"
+  },
+  {
+    "question": "Will Bitcoin dip to $85,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.32,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 8583813.35,
+    "condition_id": "0x62f01109c53d585406b4545e5538b52d76f2895affd933da75190be788afc6ab"
+  },
+  {
+    "question": "Will Bitcoin dip to $80,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.098,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 6752276.85,
+    "condition_id": "0x17a2466c34d9a93dbef8bda91bc56005b4162666901df319bcddb063d6bd8991"
+  },
+  {
+    "question": "Will Bitcoin dip to $65,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.031,
+    "time_remaining_hours": 2.73,
+    "yes_resolved": false,
+    "volume": 2135347.55,
+    "condition_id": "0x4ebb5f5533f364893e9267876210c62660b876c3176bb5fa725e06646c507194"
+  },
+  {
+    "question": "Will Bitcoin dip to $75,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.055,
+    "time_remaining_hours": 2.85,
+    "yes_resolved": false,
+    "volume": 5040901.87,
+    "condition_id": "0x18d518a1f37ed8a510c174a8d79b228e0745cf4372f9a5d9c327e6576abc25db"
+  },
+  {
+    "question": "Will Bitcoin dip to $70,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.0315,
+    "time_remaining_hours": 2.82,
+    "yes_resolved": false,
+    "volume": 4150722.77,
+    "condition_id": "0xc9575178b26a14814e6a9408339911773684d422271c9a542a1402b84f242e69"
+  },
+  {
+    "question": "Will Bitcoin dip to $60,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.0205,
+    "time_remaining_hours": 2.71,
+    "yes_resolved": false,
+    "volume": 1310835.14,
+    "condition_id": "0xf1baaf229312ef8b9d910151a75ad4d6fcb28a6892555cabc925e89106fc40ff"
+  },
+  {
+    "question": "Will Bitcoin dip to $45,000 in January?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 2.73,
+    "yes_resolved": false,
+    "volume": 832839.48,
+    "condition_id": "0xcfce52472228892e54755443c552fbed367ca8701c78610f28ada744b53ebb37"
+  },
+  {
+    "question": "Will Ethereum hit $7,000 by December 31?",
+    "symbol": "ETH",
+    "market_type": "bullish",
+    "market_price_yes": 0.14,
+    "time_remaining_hours": 19.26,
+    "yes_resolved": false,
+    "volume": 7570762.53,
+    "condition_id": "0xb7f9d3f61910ecf7a5e6e46f487a039e91a92b68585f05ec9b22cb34d3804bbd"
+  },
+  {
+    "question": "Will Ethereum hit $10,000 by December 31?",
+    "symbol": "ETH",
+    "market_type": "bullish",
+    "market_price_yes": 0.071,
+    "time_remaining_hours": 19.31,
+    "yes_resolved": false,
+    "volume": 9488801.52,
+    "condition_id": "0x3d0a731ba69f087ccde2a2287ffc5fda1f8228a133711a068c96dbe428f5d30f"
+  },
+  {
+    "question": "Will Ethereum hit $8,000 by December 31?",
+    "symbol": "ETH",
+    "market_type": "bullish",
+    "market_price_yes": 0.105,
+    "time_remaining_hours": 19.31,
+    "yes_resolved": false,
+    "volume": 5745770.45,
+    "condition_id": "0xc969cb252af1842b5de6a3edd0557835e7a6a7e737cae320b6bae6faccf35715"
+  },
+  {
+    "question": "Will Ethereum hit $6,000 by December 31?",
+    "symbol": "ETH",
+    "market_type": "bullish",
+    "market_price_yes": 0.19,
+    "time_remaining_hours": 19.31,
+    "yes_resolved": false,
+    "volume": 9995564.2,
+    "condition_id": "0x9c08beafa73308625ad24e270e44d9edd634585f2424eea8df262a05a2337613"
+  },
+  {
+    "question": "Will Ethereum hit $5,000 by December 31?",
+    "symbol": "ETH",
+    "market_type": "bullish",
+    "market_price_yes": 0.29,
+    "time_remaining_hours": 19.31,
+    "yes_resolved": false,
+    "volume": 18467737.4,
+    "condition_id": "0xeeb92ddd77d671d1f9ea1f5727208d1fa91896a6d1f657fdcd7c9d578fe5c46c"
+  },
+  {
+    "question": "Will Ethereum hit $4,000 by December 31?",
+    "symbol": "ETH",
+    "market_type": "bullish",
+    "market_price_yes": 0.385,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 3572826.57,
+    "condition_id": "0x8d56032a70551b17890cf2b31d3ecbfae25e40a6ca48d60165bd0869b67ca74d"
+  },
+  {
+    "question": "Will Ethereum dip to $3,000 by December 31?",
+    "symbol": "ETH",
+    "market_type": "bearish",
+    "market_price_yes": 0.84,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 170966.41,
+    "condition_id": "0xc8fa240c93cf58a165b94d9a6fa04ac04ff06008861e23f500d59cb59ee466bd"
+  },
+  {
+    "question": "Will Ethereum dip to $2,500 by December 31?",
+    "symbol": "ETH",
+    "market_type": "bearish",
+    "market_price_yes": 0.645,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 175483.38,
+    "condition_id": "0x36e84c2a3ba876c119249ec65db871734fc99a4235bb54797b642d0a42029a99"
+  },
+  {
+    "question": "Will Ethereum dip to $2,000 by December 31?",
+    "symbol": "ETH",
+    "market_type": "bearish",
+    "market_price_yes": 0.49,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 323442.77,
+    "condition_id": "0x4b1aa5ae9427bf4502cc082bced08eb23fef0776649b0e13cc3db6d5e578b725"
+  },
+  {
+    "question": "Will Ethereum dip to $1,500 by December 31?",
+    "symbol": "ETH",
+    "market_type": "bearish",
+    "market_price_yes": 0.365,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 500584.61,
+    "condition_id": "0xad9107c82737d1be8f5a5119a5cd582423f126e8884c78c53ac687699c4bc668"
+  },
+  {
+    "question": "Will Ethereum dip to $1,000 by December 31?",
+    "symbol": "ETH",
+    "market_type": "bearish",
+    "market_price_yes": 0.105,
+    "time_remaining_hours": 19.31,
+    "yes_resolved": false,
+    "volume": 3105396.35,
+    "condition_id": "0x15e731302e61491cc8aafbcfb77febb1fdd58ea1525737a01f5e763d29e4588e"
+  },
+  {
+    "question": "Will Ethereum dip to $1,300 by December 31?",
+    "symbol": "ETH",
+    "market_type": "bearish",
+    "market_price_yes": 0.0395,
+    "time_remaining_hours": 31.31,
+    "yes_resolved": false,
+    "volume": 1913038.55,
+    "condition_id": "0x2688412dbb15d62fdf0257598665870343847a902add909a7e95a373870598b6"
+  },
+  {
+    "question": "Will Ethereum hit $4,400 by December 31?",
+    "symbol": "ETH",
+    "market_type": "bullish",
+    "market_price_yes": 0.93,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 77955.1,
+    "condition_id": "0x687404dfc54ed1ec45bff35ce275f4948951162137f872b3271dccea1bec6a67"
+  },
+  {
+    "question": "Will Ethereum hit $14,000 by December 31?",
+    "symbol": "ETH",
+    "market_type": "bullish",
+    "market_price_yes": 0.044,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": false,
+    "volume": 5145125.77,
+    "condition_id": "0x93621441f16eda493eace04900e1323e50e0b0a93c83d8f71d9d5ac9e4e77b44"
+  },
+  {
+    "question": "Will Ethereum dip to $800 by December 31?",
+    "symbol": "ETH",
+    "market_type": "bearish",
+    "market_price_yes": 0.0205,
+    "time_remaining_hours": 31.32,
+    "yes_resolved": false,
+    "volume": 1730881.18,
+    "condition_id": "0x5d8215ee4f2277a84a4f9fc06768f725093d602e4993d2a7714c123691811bd9"
+  },
+  {
+    "question": "Will Ethereum hit $17,000 by December 31?",
+    "symbol": "ETH",
+    "market_type": "bullish",
+    "market_price_yes": 0.0275,
+    "time_remaining_hours": 3.25,
+    "yes_resolved": false,
+    "volume": 6416296.56,
+    "condition_id": "0xfe8911cbf25e9e359396faf1c0fcd31a9f2a3c3bb35d299e83f1cd200063cf34"
+  },
+  {
+    "question": "Will Ethereum dip to $4,000 by December 31?",
+    "symbol": "ETH",
+    "market_type": "bearish",
+    "market_price_yes": 0.69,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 57286.87,
+    "condition_id": "0x67460a6ebe7d71caf6f799de99a061d032dde7db26dde7a3d5b8bd4f8b996938"
+  },
+  {
+    "question": "Will Ethereum dip to $3,000 by December 31?",
+    "symbol": "ETH",
+    "market_type": "bearish",
+    "market_price_yes": 0.335,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 1435411.07,
+    "condition_id": "0xff7c9119d5e07b73140a6145b2032e7ecf6f0ca59d7ade84834a145a09e1d71f"
+  },
+  {
+    "question": "Will Bitcoin reach $150,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 2.38,
+    "yes_resolved": false,
+    "volume": 2803160.41,
+    "condition_id": "0xd7a6eebc3e8f20d4605554e1748ef1e0a28fc5207a1e83f8be7bd456afc518b3"
+  },
+  {
+    "question": "Will Bitcoin reach $140,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.0315,
+    "time_remaining_hours": 2.4,
+    "yes_resolved": false,
+    "volume": 1216788.81,
+    "condition_id": "0x3e348ea492ffdceb505d1b51828c2a9e5e9f90f31692dc2c59c2ff75cdf32b54"
+  },
+  {
+    "question": "Will Bitcoin reach $130,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.0485,
+    "time_remaining_hours": 2.4,
+    "yes_resolved": false,
+    "volume": 2055404.31,
+    "condition_id": "0x84f6cfe7dcbc9433460702a3597a581ba93113ef4ddbe8af51f8106e4650c011"
+  },
+  {
+    "question": "Will Bitcoin reach $120,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.1,
+    "time_remaining_hours": 2.46,
+    "yes_resolved": false,
+    "volume": 2501166.3,
+    "condition_id": "0xb4318f8d1bf6ae35386b0614dc1528731d3f5ea27ecdc54fa53ff8e4f94c291b"
+  },
+  {
+    "question": "Will Bitcoin reach $110,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 148659.28,
+    "condition_id": "0x85ddb0ba367737a56506b2c57f41ee72eebbb110ace383084cc1ec30d98aba9a"
+  },
+  {
+    "question": "Will Bitcoin dip to $100,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.37,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 641761.06,
+    "condition_id": "0x0aff0e3807e6c5950138969d5abc115144e746124f7110b45968c79e57d313fe"
+  },
+  {
+    "question": "Will Bitcoin dip to $90,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.195,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 2661306.01,
+    "condition_id": "0x29d884539571f848c16abc91c49dbae8a428714f0a57bcc29bd557707d9dd0b2"
+  },
+  {
+    "question": "Will Bitcoin dip to $80,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.0735,
+    "time_remaining_hours": 2.01,
+    "yes_resolved": false,
+    "volume": 3718522.02,
+    "condition_id": "0xd31956675172dc796c5f458425b9a11eb8179c6ce128e393535c0485871fea45"
+  },
+  {
+    "question": "Will Bitcoin dip to $70,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.0285,
+    "time_remaining_hours": 2.48,
+    "yes_resolved": false,
+    "volume": 1629282.22,
+    "condition_id": "0x0248bcacfbef172a6ebe7ab8428b5de9ab1d8a8527c85e1126fcf9ccfff0195e"
+  },
+  {
+    "question": "Will Bitcoin dip to $60,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.0275,
+    "time_remaining_hours": 2.48,
+    "yes_resolved": false,
+    "volume": 1445095.67,
+    "condition_id": "0x2a2d5924e502f9ebe8cfe64c39f01124980f27c17509c62e775855e78d4a40a9"
+  },
+  {
+    "question": "Will Bitcoin reach $200,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 2.38,
+    "yes_resolved": false,
+    "volume": 13588620.83,
+    "condition_id": "0xdc58d566cbbe1514a13d07692463a16ae0024fa20811a1bb8f48228884895355"
+  },
+  {
+    "question": "Will Bitcoin reach $145,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.0215,
+    "time_remaining_hours": 2.4,
+    "yes_resolved": false,
+    "volume": 894084.56,
+    "condition_id": "0xbc19b7dee8883e27c2e617cfa9a8875c5f014643f760f72121f4a769b19536c6"
+  },
+  {
+    "question": "Will Bitcoin reach $135,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.034,
+    "time_remaining_hours": 2.4,
+    "yes_resolved": false,
+    "volume": 1745959.57,
+    "condition_id": "0x5b81240bc028d9b189df4569b1b85aabc086e8a936596490eca41fd2cc705bf8"
+  },
+  {
+    "question": "Will Bitcoin reach $125,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.07,
+    "time_remaining_hours": 2.46,
+    "yes_resolved": false,
+    "volume": 1927331.35,
+    "condition_id": "0xa9bf630d1759ddd20bac24396935a006df8a41f96beb647fbab89467c668ff83"
+  },
+  {
+    "question": "Will Bitcoin reach $115,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.26,
+    "time_remaining_hours": 2.46,
+    "yes_resolved": false,
+    "volume": 5622333.16,
+    "condition_id": "0xd2851fb8720ad0ac44bcf4b7c74bba966f72f5da36190ddbe6cb867b6a92fd35"
+  },
+  {
+    "question": "Will Bitcoin dip to $105,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.64,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 274661.3,
+    "condition_id": "0x41c94c25593a436044277d238305c6535f3b1aa41a738f83290c12f0cbe27709"
+  },
+  {
+    "question": "Will Bitcoin dip to $95,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.345,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 2463285.84,
+    "condition_id": "0x59d23ae7e73f832a4da03dc4ee5c2692119cbecd97f8d47776fb5a80c2e4ce62"
+  },
+  {
+    "question": "Will Bitcoin dip to $85,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.13,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 3379197.82,
+    "condition_id": "0x1aa59a452392b11ce0cd61bf2687c09a347b5ce07cae9338ee55d79618f3b6fc"
+  },
+  {
+    "question": "Will Bitcoin dip to $75,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.0345,
+    "time_remaining_hours": 2.46,
+    "yes_resolved": false,
+    "volume": 2748161.64,
+    "condition_id": "0x993abfacc936951426dc636b44fde63be24dc2c59f2b5f878a6a2cd0412f8570"
+  },
+  {
+    "question": "Will Bitcoin dip to $65,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.0345,
+    "time_remaining_hours": 2.48,
+    "yes_resolved": false,
+    "volume": 1558733.66,
+    "condition_id": "0x8e147ecbed87cf86eba2c79590a1b32ec5d5bb8d59a3d5668844715f8ab4f2a1"
+  },
+  {
+    "question": "Will Bitcoin dip to $90,000 by March 31?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.765,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 1164316.97,
+    "condition_id": "0x54789d52943aecb23f549a290b852c43516b0197c1d90d3a85ceb1338fb0a1e1"
+  },
+  {
+    "question": "Will Bitcoin reach $200,000 by March 31?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.065,
+    "time_remaining_hours": 20.02,
+    "yes_resolved": false,
+    "volume": 6211260.14,
+    "condition_id": "0x39bc347a1bb74a3f410ea850a46962572e3d932bf00f0f99b7a3d2b4141fa87a"
+  },
+  {
+    "question": "Will Bitcoin reach $150,000 by March 31?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.14,
+    "time_remaining_hours": 19.86,
+    "yes_resolved": false,
+    "volume": 4273926.84,
+    "condition_id": "0x9d2399f73bcf8a21d50a4f148cb821958aaf3b66104cd51b472f9c7fcef16a66"
+  },
+  {
+    "question": "Will Bitcoin reach $130,000 by March 31?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.295,
+    "time_remaining_hours": 19.86,
+    "yes_resolved": false,
+    "volume": 3368945.25,
+    "condition_id": "0xc85fe2698d8434f9ebd0fa82d75fe2da36edfc81a354b85fef1582d889e5655f"
+  },
+  {
+    "question": "Will Bitcoin reach $120,000 by March 31?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.425,
+    "time_remaining_hours": 19.86,
+    "yes_resolved": false,
+    "volume": 4250183.44,
+    "condition_id": "0x3b781ece48b1fb8090db7881c8d29956e8e784fc558ada927800c42586a39a4b"
+  },
+  {
+    "question": "Will Bitcoin dip to $80,000 by March 31?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.335,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 2309073.41,
+    "condition_id": "0x08b0d420868aa420fdef3c8767abf3189948a1d114e2972727ab19b71059c337"
+  },
+  {
+    "question": "Will Bitcoin reach $110,000 by March 31?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.625,
+    "time_remaining_hours": 19.78,
+    "yes_resolved": false,
+    "volume": 6976571.86,
+    "condition_id": "0x1f44bd0ee7132279c4f0a4db305650f84a3abccdf5d6bf3f96bdcbcd7119ff64"
+  },
+  {
+    "question": "Will Bitcoin dip to $70,000 by March 31?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.175,
+    "time_remaining_hours": 19.86,
+    "yes_resolved": false,
+    "volume": 5033087.3,
+    "condition_id": "0x98d9781facbf448a67bd1e1e0d538b2afca6e538d73f278308d0211fbfc87c94"
+  },
+  {
+    "question": "Will Bitcoin dip to $60,000 by March 31?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.054,
+    "time_remaining_hours": 19.86,
+    "yes_resolved": false,
+    "volume": 2348716.07,
+    "condition_id": "0x53d0824db2861b017d4192679a4d7c15337225c20b9e3079b66bcef8432af559"
+  },
+  {
+    "question": "Will Bitcoin reach $85,000 by March 31?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.91,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 37188.47,
+    "condition_id": "0x6ed47278543bea993c7f1ae2d9be062719abeab5f3d21e55fc70da7397b52462"
+  },
+  {
+    "question": "Will Bitcoin dip to $75,000 by March 31?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.285,
+    "time_remaining_hours": 19.85,
+    "yes_resolved": false,
+    "volume": 4097021.61,
+    "condition_id": "0xf8c816fdaa7f2b2066ffe715779307e291b0714358d54c280fb24cd0d2b2cff1"
+  },
+  {
+    "question": "Will Bitcoin dip to $40,000 by March 31?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.0215,
+    "time_remaining_hours": 19.86,
+    "yes_resolved": false,
+    "volume": 762020.83,
+    "condition_id": "0x72efdfc3728eea77a3d60b21314b5a68d01daa2c7f8825d328d65a0fc4ef7bf8"
+  },
+  {
+    "question": "Will Bitcoin dip to $50,000 by March 31?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.028,
+    "time_remaining_hours": 19.86,
+    "yes_resolved": false,
+    "volume": 1146898.61,
+    "condition_id": "0xc2ac9f184ff40e2ba6c90602aa774bd5187d46180571752aad704368dc4644e3"
+  },
+  {
+    "question": "Will Bitcoin reach $105,000 again by March 31?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.055,
+    "time_remaining_hours": 19.77,
+    "yes_resolved": false,
+    "volume": 1875628.66,
+    "condition_id": "0x5cb32b9b95e450fc799f8656f5cfc0be2804adc2aadaeb9a6ee15388dbb5ece0"
+  },
+  {
+    "question": "Will Bitcoin dip to $80,000 again by March 31?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.58,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 1093314.39,
+    "condition_id": "0x5407c33f7e0e2068a0a8f5ad079fbda381263bf273e0a0a42a78a44b3b01d21b"
+  },
+  {
+    "question": "Will Bitcoin reach $90,000 again by March 31?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.83,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 206807.7,
+    "condition_id": "0x1ea20ea57d089cb389e216cb607e8efe734bec18cc78089c111a49691252e958"
+  },
+  {
+    "question": "Will Bitcoin reach $95,000 again by March 31?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.195,
+    "time_remaining_hours": 19.78,
+    "yes_resolved": false,
+    "volume": 2897893.68,
+    "condition_id": "0xe278e6b1ccdad64ff8ae289890cccd8ecd5528144109906273fdd95f36cbed3b"
+  },
+  {
+    "question": "Will Bitcoin reach $100,000 again by March 31?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.095,
+    "time_remaining_hours": 19.85,
+    "yes_resolved": false,
+    "volume": 2253485.55,
+    "condition_id": "0x30a8c65202c88eb1530264af3052a988db328145b2cb9c661ef160d53d15781e"
+  },
+  {
+    "question": "Will Bitcoin reach $200k in October?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 2.11,
+    "yes_resolved": false,
+    "volume": 15617197.16,
+    "condition_id": "0x25e73d2f118e87fc15df7cf736172737f0b82b7ec6ca6a24cd67ae341ed760fb"
+  },
+  {
+    "question": "Will Bitcoin reach $135k in October?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.125,
+    "time_remaining_hours": 2.15,
+    "yes_resolved": false,
+    "volume": 3665860.3,
+    "condition_id": "0x6f60575dd5f291035366298dedb7cdf643d069dbf0007ccd7ad08b55351a6b25"
+  },
+  {
+    "question": "Will Bitcoin reach $126k in October?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.735,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 872195.9,
+    "condition_id": "0xb1534ab8323c7aa610e5d6248ff0250ce39649187a09e0e582b92a4930f91d17"
+  },
+  {
+    "question": "Will Bitcoin reach $122k in October?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.895,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 141403.15,
+    "condition_id": "0x3623473139ad9831dfa9d523b9c3b35ceaa9b2c3e1dde9cfbbe5f06acd2ad809"
+  },
+  {
+    "question": "Will Bitcoin reach $118k in October?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 161794.0,
+    "condition_id": "0x9cafaef89e2dffbc08df07cbf0fe8d1ca8437373f6de37314da39fa6ba545919"
+  },
+  {
+    "question": "Will Bitcoin dip to $114k in October?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.385,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 374670.46,
+    "condition_id": "0x6b6e171fdc46ebdecb642a6c41c7afd2e3d703c3a90fe9fa94dcb9d239add389"
+  },
+  {
+    "question": "Will Bitcoin dip to $110k in October?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.21,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 284233.24,
+    "condition_id": "0x3013d70f3c3bfc7352ab90dcb9322092d8fdc9b35483772f72e6ec08d9bebb21"
+  },
+  {
+    "question": "Will Bitcoin dip to $106k in October?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.115,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 409660.02,
+    "condition_id": "0x76d4e6e7dec287042739c3e757dd5c506887f88bc296143114f8bdea27bc8714"
+  },
+  {
+    "question": "Will Bitcoin dip to $100k in October?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.085,
+    "time_remaining_hours": 2.31,
+    "yes_resolved": false,
+    "volume": 4135952.55,
+    "condition_id": "0x88bc3d9afd1350305251fb3a8000349872d90c7f2d67fc686c12372d4d6f850a"
+  },
+  {
+    "question": "Will Bitcoin dip to $90k in October?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.0425,
+    "time_remaining_hours": 2.35,
+    "yes_resolved": false,
+    "volume": 1245042.84,
+    "condition_id": "0xbadc6cd0d0ea4a71e3cab24b4856311a5720866c2a62d805f2aeb1ddd0dba990"
+  },
+  {
+    "question": "Will Bitcoin dip to $70k in October?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 2.25,
+    "yes_resolved": false,
+    "volume": 1084418.34,
+    "condition_id": "0x63acbbba9980ff5a8dc8a8514e7904e35889a9051f455521b51971e96173554d"
+  },
+  {
+    "question": "Will Bitcoin reach $150k in October?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.0475,
+    "time_remaining_hours": 2.22,
+    "yes_resolved": false,
+    "volume": 5109930.29,
+    "condition_id": "0x69398b7966c5ab8d939ecce115abf510f160e9b3db1a1db2ccadc83c249e5fdb"
+  },
+  {
+    "question": "Will Bitcoin reach $130k in October?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.155,
+    "time_remaining_hours": 2.15,
+    "yes_resolved": false,
+    "volume": 5978400.52,
+    "condition_id": "0xe2af0531042c245f85e9605cc87aa40828fdc0d04e3c3c86ee0f2441b189b524"
+  },
+  {
+    "question": "Will Bitcoin reach $124k in October?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.877,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 247727.27,
+    "condition_id": "0x55bfef658fffd3c96da9f5bc3c37139770a293da13536adb91558fab1dc03693"
+  },
+  {
+    "question": "Will Bitcoin reach $120k in October?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.87,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 266388.41,
+    "condition_id": "0x6e56e98c2ee87ae645aa57389e5274ca55216c6bc9d701f3f6553e91c16ca1b5"
+  },
+  {
+    "question": "Will Bitcoin reach $116k in October?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 920.0,
+    "condition_id": "0xfba140a9518026fbafc27e718c84cfb5137d30992a70fb3948a6286cbddc0437"
+  },
+  {
+    "question": "Will Bitcoin dip to $112k in October?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.275,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 258874.84,
+    "condition_id": "0xb1fb10d7f1f131e35a8d58772540437e1305b4ed5b710b2bc65354bf025bb927"
+  },
+  {
+    "question": "Will Bitcoin dip to $108k in October?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.165,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 397224.27,
+    "condition_id": "0xc0c4a61d697c6dee2d80c51fc2789008860c9921b75779517537dcadd7b04680"
+  },
+  {
+    "question": "Will Bitcoin dip to $104k in October?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.08,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 437539.71,
+    "condition_id": "0x6dfa5362fd917d9fe5ed7d3103ab847172f9e1ce0d67453eb1ea6f829292eb94"
+  },
+  {
+    "question": "Will Bitcoin dip to $95k in October?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.06,
+    "time_remaining_hours": 2.27,
+    "yes_resolved": false,
+    "volume": 1418195.2,
+    "condition_id": "0x55ae315b3db2a759861a758f2448e80817f6558b5f76f02252e0a27a79f907b6"
+  },
+  {
+    "question": "Will Bitcoin dip to $80k in October?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.0225,
+    "time_remaining_hours": 2.25,
+    "yes_resolved": false,
+    "volume": 1479008.66,
+    "condition_id": "0x82734fdd42905bcb4cc8594ec5083430cd9a266d02a92cb8c0a96937fbfb80eb"
+  },
+  {
+    "question": "Will Bitcoin reach $85,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.365,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 2024970.87,
+    "condition_id": "0xe3cd2ea91498938a562fa11cdfe790bb2a8957c524666fadc5a178b566b3d1bd"
+  },
+  {
+    "question": "Will Bitcoin reach $72,500 in November? ",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.78,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 71530.06,
+    "condition_id": "0x803a5e1339b2c11412138ba88d88580f6a823f128101f49054a159dddd53a9b9"
+  },
+  {
+    "question": "Will Bitcoin reach $75,000 in November? ",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.645,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 91102.07,
+    "condition_id": "0xd1900f8d3c6c73553e85b5d33e9ba59920a16e35335e0b5d12a9fea6c4961dcb"
+  },
+  {
+    "question": "Will Bitcoin reach $90,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.165,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 6310335.34,
+    "condition_id": "0x952e8d6dcd67c7d28720491a798e96a2729a57598cb04b4de6f6c2e6f75fd12b"
+  },
+  {
+    "question": "Will Bitcoin reach $77,500 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.53,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 1332611.26,
+    "condition_id": "0x631f7cad06d34d8aecc117359de6054ff5b2b3db450738e5dbdb2bb879d7acbc"
+  },
+  {
+    "question": "Will Bitcoin reach $80,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.395,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 1109121.19,
+    "condition_id": "0xeb570dcb44ceaecef75db36f5c0768ccf4fa71a6de5df07a9946ae46895b6f1d"
+  },
+  {
+    "question": "Will Bitcoin reach $67,500 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.85,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 299005.81,
+    "condition_id": "0x3cf39d3134dfe5056fe333089af5dbece583a6ff64a71fe7a53e7c7866a278f0"
+  },
+  {
+    "question": "Will Bitcoin reach $65,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.095,
+    "time_remaining_hours": 19.34,
+    "yes_resolved": false,
+    "volume": 2106236.88,
+    "condition_id": "0x368667274d5db66bc646fe86d55a1c2813a0ff5847b480741a6e40bf2310d279"
+  },
+  {
+    "question": "Will Bitcoin reach $60,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.046,
+    "time_remaining_hours": 19.18,
+    "yes_resolved": false,
+    "volume": 1291945.08,
+    "condition_id": "0xb17afaf0b055d9d8afc73336b751a61172e5bf32566b45f67f6914d1bf2de107"
+  },
+  {
+    "question": "Will Bitcoin reach $82,500 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.545,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 1267553.34,
+    "condition_id": "0x5198531fb8c3787a65a0d3844afa82ed06e90711ff9b1ccd63c3bf52818bddb4"
+  },
+  {
+    "question": "Will Bitcoin reach $87,500 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.275,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 1074424.54,
+    "condition_id": "0x769abd20ec9a26f773db72cf0bda90ee2b4be046cd596ea196f55b30c108c7f9"
+  },
+  {
+    "question": "Will Bitcoin reach $95,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.705,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 7758070.26,
+    "condition_id": "0x7fd6b916e92d0ef96ca9f92098cd572024975b84bbcc742255ceec4e958fca10"
+  },
+  {
+    "question": "Will Bitcoin reach $105,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.275,
+    "time_remaining_hours": 19.25,
+    "yes_resolved": false,
+    "volume": 8039368.33,
+    "condition_id": "0x7d72074a017bb2b409b5291e417034b5c6203d420e068b3edbf5ad5ca0cd589a"
+  },
+  {
+    "question": "Will Bitcoin reach $110,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.11,
+    "time_remaining_hours": 19.18,
+    "yes_resolved": false,
+    "volume": 2304946.82,
+    "condition_id": "0x00c1feb338168a90e372f6ae720f087d3182d8157d3879e95e20524b667c5a62"
+  },
+  {
+    "question": "Will Bitcoin reach $120,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.065,
+    "time_remaining_hours": 19.17,
+    "yes_resolved": false,
+    "volume": 1476721.05,
+    "condition_id": "0x58f0c5174fa07cd68767be6820359bcd33972243cba27a9e920f20a3c4c4a32f"
+  },
+  {
+    "question": "Will Bitcoin reach $130,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.032,
+    "time_remaining_hours": 19.18,
+    "yes_resolved": false,
+    "volume": 721440.74,
+    "condition_id": "0x384ff4269ba9f43e9f5b553e6b7fc3cb78176e9537e1a2b09b06c0c0baeac810"
+  },
+  {
+    "question": "Will Bitcoin reach $140,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.0255,
+    "time_remaining_hours": 19.08,
+    "yes_resolved": false,
+    "volume": 607237.7,
+    "condition_id": "0x926d89bf504fd0c5d08a6e51748d4df3369f9ea7084258147b93e132d3511b59"
+  },
+  {
+    "question": "Will Bitcoin reach $150,000 in November?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.035,
+    "time_remaining_hours": 19.18,
+    "yes_resolved": false,
+    "volume": 1570431.43,
+    "condition_id": "0x778b49bdff1d310cf7c6f7abd15a9247d1e7f118215756195ad43540cb3b1a8a"
+  },
+  {
+    "question": "Will Bitcoin reach $100,000 in December?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.68,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 213981.71,
+    "condition_id": "0x9621f12e621ac9ec3d556accb7e1af020d04f62538873e7f1f9630aa246b5470"
+  },
+  {
+    "question": "Will Bitcoin reach $105,000 in December?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.725,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 3709240.01,
+    "condition_id": "0xc54c0a7a9914e36e4b369ce6d5dae60eed4c8c9c6a5d78599d9d65804b2c947d"
+  },
+  {
+    "question": "Will Bitcoin reach $110,000 in December?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.395,
+    "time_remaining_hours": 19.37,
+    "yes_resolved": false,
+    "volume": 10676794.97,
+    "condition_id": "0xc3af3780145b55e1c2357cb208565f2ab2986db46184929978b79d7536bbe6ed"
+  },
+  {
+    "question": "Will Bitcoin reach $120,000 in December?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.17,
+    "time_remaining_hours": 19.55,
+    "yes_resolved": false,
+    "volume": 5031605.04,
+    "condition_id": "0x6b8a66b95e7bc212ff6033bd8a38b1611dfa791d149d80656e880f4a84d596a0"
+  },
+  {
+    "question": "Will Bitcoin reach $130,000 in December?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.085,
+    "time_remaining_hours": 19.54,
+    "yes_resolved": false,
+    "volume": 6174845.91,
+    "condition_id": "0xf59ab9ea10ad31d32596c2107b29bec13770b5ee142a70784327c2ffea916f69"
+  },
+  {
+    "question": "Will Bitcoin reach $90,000 in December?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.32,
+    "time_remaining_hours": 19.46,
+    "yes_resolved": false,
+    "volume": 8400868.2,
+    "condition_id": "0xaba66851cb5937ef54bcf5803d78b52297fe99d8142f82792cb588a62e2b71a2"
+  },
+  {
+    "question": "Will Bitcoin reach $85,000 in December?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.16,
+    "time_remaining_hours": 19.46,
+    "yes_resolved": false,
+    "volume": 3023174.32,
+    "condition_id": "0xdb09617d329e637cc2a4937b7f07805c5aaa1f99b7c265b7c29359ed4c38fbf8"
+  },
+  {
+    "question": "Will Bitcoin reach $200k in May?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 19.85,
+    "yes_resolved": false,
+    "volume": 4586719.35,
+    "condition_id": "0xf23ebfcbcbf1648c1c8b03bba6468f1ff34e417dd0988a935c6fb863a7787d1d"
+  },
+  {
+    "question": "Will Bitcoin reach $150k in May?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.0245,
+    "time_remaining_hours": 18.9,
+    "yes_resolved": false,
+    "volume": 3189194.27,
+    "condition_id": "0x4bae820b8811a079698039321711b96999dede02ab30e3f59b388697c3f3571d"
+  },
+  {
+    "question": "Will Bitcoin reach $125k in May?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.0425,
+    "time_remaining_hours": 19.43,
+    "yes_resolved": false,
+    "volume": 4863907.52,
+    "condition_id": "0x72deaf5803ca40207a12937b90108334a75cff4ae0124c6b86ff743b28835375"
+  },
+  {
+    "question": "Will Bitcoin reach $115k in May?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.225,
+    "time_remaining_hours": 19.85,
+    "yes_resolved": false,
+    "volume": 4748065.9,
+    "condition_id": "0x944c7815453212389efdb9226a0ec5f1d91728ff4c9ea4debd2666e6aeeded01"
+  },
+  {
+    "question": "Will Bitcoin reach $110k in May?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.425,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 3962389.9,
+    "condition_id": "0x23d50565eb42fc604e7b0d32ae523076f9ee6b0e293615f60a002ad6147da5bf"
+  },
+  {
+    "question": "Will Bitcoin reach $105k in May?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.48,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 956036.42,
+    "condition_id": "0xa85c53df275da255aa0286fe083e8404c37be7ee9df0e99c338c5aea574526c8"
+  },
+  {
+    "question": "Will Bitcoin reach $100k in May?",
+    "symbol": "BTC",
+    "market_type": "bullish",
+    "market_price_yes": 0.775,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 666703.47,
+    "condition_id": "0x40c1f18c40292aa133172ca4ea6f193fa0bb448e356dd45d0cab787f9ffeba4b"
+  },
+  {
+    "question": "Will Bitcoin dip to $90k in May?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.175,
+    "time_remaining_hours": 19.43,
+    "yes_resolved": false,
+    "volume": 8925263.98,
+    "condition_id": "0x59545b23eef07c1a2752ecfc159eceee120b38a2090b72b156722a24b6cd026b"
+  },
+  {
+    "question": "Will Bitcoin dip to $85k in May?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.085,
+    "time_remaining_hours": 18.82,
+    "yes_resolved": false,
+    "volume": 1084388.29,
+    "condition_id": "0x12fc2e334e4e16b266937550b782313cf4faef5f4be259145dabf1e7326f326c"
+  },
+  {
+    "question": "Will Bitcoin dip to $80k in May?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.055,
+    "time_remaining_hours": 19.68,
+    "yes_resolved": false,
+    "volume": 667149.59,
+    "condition_id": "0x80a4e4b098c992662461cc1d791a62c7846cfb697ebf05b562e70815a5d4506c"
+  },
+  {
+    "question": "Will Bitcoin dip to $75k in May?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.06,
+    "time_remaining_hours": 18.82,
+    "yes_resolved": false,
+    "volume": 1735642.39,
+    "condition_id": "0x3596e0850b7084194636759c918efa572879cc6b3a5c5889872061c4fbf5e031"
+  },
+  {
+    "question": "Will Bitcoin dip to $70k in May?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.039,
+    "time_remaining_hours": 19.85,
+    "yes_resolved": false,
+    "volume": 636604.04,
+    "condition_id": "0x27975f147cdf18f3cf6f249bbae2990f866955d8dcce19a20e1a7e9f14ea69f9"
+  },
+  {
+    "question": "Will Bitcoin dip to $60k in May?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.035,
+    "time_remaining_hours": 19.85,
+    "yes_resolved": false,
+    "volume": 420674.42,
+    "condition_id": "0xc9e2d0a13cfc442fc4d1b280648b84714d6957a02e39375b14500d99bd4da1ba"
+  },
+  {
+    "question": "Will Bitcoin dip to $50k in May?",
+    "symbol": "BTC",
+    "market_type": "bearish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 18.99,
+    "yes_resolved": false,
+    "volume": 566075.84,
+    "condition_id": "0x8c664d813ae93cc3806bd9e93c90b0bd9614612163cc4a638f15d51b094a897f"
+  },
+  {
+    "question": "Will Ethereum reach $5,000 in February?",
+    "symbol": "ETH",
+    "market_type": "bullish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 4.38,
+    "yes_resolved": false,
+    "volume": 7971673.12,
+    "condition_id": "0x113263410d37b2256691b62d76b09a97d4ecd75bdcb0df37ff14a7adf53039bb"
+  },
+  {
+    "question": "Will Ethereum dip to $2,000 in February?",
+    "symbol": "ETH",
+    "market_type": "bearish",
+    "market_price_yes": 0.48,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 746838.02,
+    "condition_id": "0x0ec7771c6c7aa4403d05975c0c042f43c338a9fd9a2ddaf53b0fb856b44b6b79"
+  },
+  {
+    "question": "Will Ethereum dip to $2,400 in February?",
+    "symbol": "ETH",
+    "market_type": "bearish",
+    "market_price_yes": 0.916,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 147700.52,
+    "condition_id": "0x512b6703e28665f8c2739b9f28410afa65576a5f4ebbf5c926ce87aac3af66c8"
+  },
+  {
+    "question": "Will Ethereum reach $4,400 in February?",
+    "symbol": "ETH",
+    "market_type": "bullish",
+    "market_price_yes": 0.5,
+    "time_remaining_hours": 4.39,
+    "yes_resolved": false,
+    "volume": 8802970.9,
+    "condition_id": "0x73acf1ef075d83bedb89e5c32e9083477adbde563cd0d76b78b56defdf2d6438"
+  },
+  {
+    "question": "Will Ethereum dip to $2,600 in February?",
+    "symbol": "ETH",
+    "market_type": "bearish",
+    "market_price_yes": 0.9035,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 61975.07,
+    "condition_id": "0x4ea7dc5eeba6f7d26f08d9e804e8cd44fc177c94d7ac7d56d97874c264cac1d7"
+  },
+  {
+    "question": "Will Ethereum reach $3,600 in February?",
+    "symbol": "ETH",
+    "market_type": "bullish",
+    "market_price_yes": 0.03,
+    "time_remaining_hours": 4.57,
+    "yes_resolved": false,
+    "volume": 857239.95,
+    "condition_id": "0x255d3c6a04db129d6435b22724a466fccff4441fb1370339dd3fb6631b139801"
+  },
+  {
+    "question": "Will Ethereum dip to $1,200 in February?",
+    "symbol": "ETH",
+    "market_type": "bearish",
+    "market_price_yes": 0.042,
+    "time_remaining_hours": 4.58,
+    "yes_resolved": false,
+    "volume": 1573364.63,
+    "condition_id": "0x2627b040596d0da6702bac3368c5ffa5801e2f21c5c488f66f712079f66b32ce"
+  },
+  {
+    "question": "Will Ethereum reach $4,200 in February?",
+    "symbol": "ETH",
+    "market_type": "bullish",
+    "market_price_yes": 0.0225,
+    "time_remaining_hours": 4.4,
+    "yes_resolved": false,
+    "volume": 1919956.92,
+    "condition_id": "0xe2f7f42fa92639d8deedb75255f59f0e93bdf02abb10e9241ba8eec7612c5740"
+  },
+  {
+    "question": "Will Ethereum reach $4,000 in February?",
+    "symbol": "ETH",
+    "market_type": "bullish",
+    "market_price_yes": 0.025,
+    "time_remaining_hours": 4.4,
+    "yes_resolved": false,
+    "volume": 1201392.35,
+    "condition_id": "0x7161264943b92e022c90e94bde6a703c50521a866f679fe8e7917ae1e93474dd"
+  },
+  {
+    "question": "Will Ethereum dip to $800 in February?",
+    "symbol": "ETH",
+    "market_type": "bearish",
+    "market_price_yes": 0.0475,
+    "time_remaining_hours": 4.34,
+    "yes_resolved": false,
+    "volume": 1018551.76,
+    "condition_id": "0xe40cfe88ad95a4d1c83bf6b022c7e77e8a658d25166645f36d0b7275cfaf1767"
+  },
+  {
+    "question": "Will Ethereum reach $3,800 in February?",
+    "symbol": "ETH",
+    "market_type": "bullish",
+    "market_price_yes": 0.0355,
+    "time_remaining_hours": 4.55,
+    "yes_resolved": false,
+    "volume": 1292877.38,
+    "condition_id": "0xffe8fc70af7d343aa76a4da0dd2f43bf68a02c9728827d38089b44595a7cb710"
+  },
+  {
+    "question": "Will Ethereum dip to $1,800 in February?",
+    "symbol": "ETH",
+    "market_type": "bearish",
+    "market_price_yes": 0.315,
+    "time_remaining_hours": 24.0,
+    "yes_resolved": true,
+    "volume": 532855.52,
+    "condition_id": "0x99d84f4578545f4c2fafbe790e28c7ef6bfd715934fec2dd4abb747fb876e46e"
+  },
+  {
+    "question": "Will Ethereum dip to $1,400 in February?",
+    "symbol": "ETH",
+    "market_type": "bearish",
+    "market_price_yes": 0.066,
+    "time_remaining_hours": 4.6,
+    "yes_resolved": false,
+    "volume": 1310089.99,
+    "condition_id": "0xfb4d49cc8dee48431b1c169fa387b58e089b960036f194ac0ee455dbad8f383d"
+  }
+]

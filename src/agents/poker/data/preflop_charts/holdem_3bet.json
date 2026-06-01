@@ -1,0 +1,85 @@
+{
+  "_comment": "Hold'em 3-bet ranges - defender vs opener by position",
+  "_version": "1.0",
+  "_source": "Poker God Agent by TradeHive",
+  
+  "BTN_vs_UTG": {
+    "value": "AA-QQ,AKs,AKo",
+    "bluff": "A5s,A4s",
+    "sizing_multiplier": 3.0,
+    "description": "Very tight vs UTG"
+  },
+  "BTN_vs_MP": {
+    "value": "AA-JJ,AKs-AQs,AKo",
+    "bluff": "A5s-A4s,76s",
+    "sizing_multiplier": 3.0,
+    "description": "Slightly wider vs MP"
+  },
+  "BTN_vs_CO": {
+    "value": "AA-TT,AKs-AJs,KQs,AKo-AQo",
+    "bluff": "A5s-A3s,76s,65s,54s",
+    "sizing_multiplier": 3.0,
+    "description": "Wide vs CO steals"
+  },
+  
+  "SB_vs_UTG": {
+    "value": "AA-QQ,AKs",
+    "bluff": "A5s",
+    "sizing_multiplier": 3.5,
+    "description": "Premium only vs UTG"
+  },
+  "SB_vs_MP": {
+    "value": "AA-JJ,AKs,AKo",
+    "bluff": "A5s,A4s",
+    "sizing_multiplier": 3.5,
+    "description": "Tight value range"
+  },
+  "SB_vs_CO": {
+    "value": "AA-TT,AKs-AQs,AKo",
+    "bluff": "A5s-A3s,76s,65s",
+    "sizing_multiplier": 3.5,
+    "description": "Wider vs CO"
+  },
+  "SB_vs_BTN": {
+    "value": "AA-99,AKs-ATs,KQs-KJs,AKo-AJo",
+    "bluff": "A5s-A2s,K5s-K4s,76s-65s,54s",
+    "sizing_multiplier": 3.5,
+    "description": "Wide vs BTN steals"
+  },
+  
+  "BB_vs_UTG": {
+    "value": "AA-JJ,AKs,AKo",
+    "bluff": "A5s,A4s",
+    "sizing_multiplier": 3.5,
+    "description": "Tight vs UTG open"
+  },
+  "BB_vs_MP": {
+    "value": "AA-TT,AKs-AQs,AKo",
+    "bluff": "A5s-A3s,76s",
+    "sizing_multiplier": 3.5,
+    "description": "Solid value range"
+  },
+  "BB_vs_CO": {
+    "value": "AA-88,AKs-ATs,KQs,AKo-AJo",
+    "bluff": "A5s-A2s,K5s-K3s,76s-65s,54s",
+    "sizing_multiplier": 3.5,
+    "description": "Wider vs late position"
+  },
+  "BB_vs_BTN": {
+    "value": "AA-77,AKs-A9s,KQs-KTs,QJs,AKo-ATo,KQo",
+    "bluff": "A5s-A2s,K6s-K3s,Q6s-Q5s,76s-54s,43s",
+    "sizing_multiplier": 3.5,
+    "description": "Very wide vs BTN"
+  },
+  "BB_vs_SB": {
+    "value": "AA-55,AKs-A7s,KQs-K9s,QJs-QTs,JTs,AKo-A9o,KQo-KJo,QJo",
+    "bluff": "A6s-A2s,K8s-K3s,Q9s-Q5s,J9s-J7s,T8s-T6s,97s-95s,86s-84s,75s-74s,64s-63s,54s-53s,43s",
+    "sizing_multiplier": 4.0,
+    "description": "Widest 3-bet range vs SB complete"
+  },
+  
+  "4bet_value": "AA,KK,QQ,AKs",
+  "4bet_bluff": "A5s,A4s,76s,65s",
+  "5bet_value": "AA,KK",
+  "5bet_mixed": "AKs,QQ"
+}

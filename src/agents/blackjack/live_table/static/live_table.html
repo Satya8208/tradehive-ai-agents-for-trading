@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Live Blackjack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+html, body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background: #06100a;
+  color: #f6edc8;
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#topbar,
+.stats,
+.topbar-right,
+.aid-panel,
+#bet-builder,
+#action-buttons,
+#between-round {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#topbar {
+  justify-content: space-between;
+  gap: 12px 20px;
+}
+
+.stats,
+.topbar-right,
+.aid-panel,
+#bet-builder,
+#action-buttons,
+#between-round {
+  gap: 12px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 88px;
+}
+
+#table {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 760px;
+}
+
+#seats {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.seat,
+.hand-group,
+.hand-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.card {
+  position: relative;
+}
+
+.card .rank-br {
+  position: absolute;
+  right: 6px;
+  bottom: 4px;
+  transform: rotate(180deg);
+}
+
+.card .suit-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#action-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  min-height: 164px;
+}
+
+#table-status {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(92vw, 540px);
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(81, 18, 18, 0.94);
+  color: #ffd8d8;
+  border: 1px solid rgba(255, 170, 170, 0.45);
+  text-align: center;
+  z-index: 8;
+}
+</style>
+<link rel="stylesheet" href="/static/live_table.css" />
+</head>
+<body>
+
+<header id="topbar">
+  <div class="brand">
+    <span class="suit red">♥</span>
+    <span class="brand-name">BLACKJACK</span>
+    <span class="suit">♠</span>
+  </div>
+  <div class="stats">
+    <div class="stat"><label>HAND</label><span id="stat-hand">—</span></div>
+    <div class="stat"><label>YOUR BET</label><span id="stat-bet">$0</span></div>
+    <div class="stat stat-shoe">
+      <label>SHOE</label>
+      <span id="stat-shoe">8D LIVE SHOE</span>
+      <div class="shoe-meter">
+        <div id="shoe-meter-fill"></div>
+        <div id="shoe-cut-marker"></div>
+      </div>
+    </div>
+    <div class="stat"><label>P&amp;L</label><span id="stat-pnl">$0</span></div>
+    <div class="stat"><label>BANKROLL</label><span id="stat-bank">$0</span></div>
+  </div>
+  <div class="topbar-right">
+    <div id="table-tag" class="table-tag">US FLOOR SHOE</div>
+    <div class="aid-panel">
+      <button id="btn-toggle-totals" class="ghost-btn ghost-btn-small">TOTALS OFF</button>
+      <button id="btn-toggle-shoe" class="ghost-btn ghost-btn-small">SHOE DATA OFF</button>
+    </div>
+    <button id="btn-reset" class="ghost-btn">RESET</button>
+  </div>
+</header>
+
+<div id="game-shell">
+<main id="table-stage">
+<section id="table">
+
+  <!-- Outer oval frame (wood rail) -->
+  <div class="table-rail"></div>
+  <!-- Inner felt surface -->
+  <div class="table-felt">
+    <div class="felt-vignette"></div>
+  </div>
+
+  <!-- Dealer pedestal -->
+  <div id="dealer-area">
+    <div class="dealer-label">DEALER</div>
+    <div id="dealer-cards" class="cards"></div>
+    <div id="dealer-value" class="hand-value"></div>
+  </div>
+
+  <!-- Curved rule text between dealer and players -->
+  <svg class="rules-arc" viewBox="0 0 1400 260" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <defs>
+      <path id="rulesArcTop" d="M 260,200 A 700,220 0 0 1 1140,200" />
+      <path id="rulesArcBot" d="M 330,240 A 600,200 0 0 1 1070,240" />
+    </defs>
+    <text class="rules-main">
+      <textPath id="rules-main-copy" href="#rulesArcTop" startOffset="50%" text-anchor="middle">
+        BLACKJACK PAYS 3 TO 2
+      </textPath>
+    </text>
+    <text class="rules-sub">
+      <textPath id="rules-sub-copy" href="#rulesArcBot" startOffset="50%" text-anchor="middle">
+        8 DECK SHOE · H17 · DAS · LATE SURRENDER
+      </textPath>
+    </text>
+  </svg>
+
+  <!-- Dealer speech bubble -->
+  <div id="speech">Welcome to the table.</div>
+  <div id="table-status" class="hidden" role="status" aria-live="polite"></div>
+
+  <!-- Player seats (populated by JS) -->
+  <div id="seats"></div>
+
+  <!-- Action bar (rail) -->
+  <div id="action-bar">
+    <div class="rail-frame"></div>
+
+    <div id="bet-builder">
+      <div id="bet-display">
+        <label>YOUR BET</label>
+        <span id="bet-amount">$0</span>
+      </div>
+      <div class="chips">
+        <button class="chip c5" data-val="5"><span>5</span></button>
+        <button class="chip c25" data-val="25"><span>25</span></button>
+        <button class="chip c50" data-val="50"><span>50</span></button>
+        <button class="chip c100" data-val="100"><span>100</span></button>
+        <button class="chip c500" data-val="500"><span>500</span></button>
+        <button class="chip clear" data-val="clear"><span>CLR</span></button>
+      </div>
+      <button id="btn-deal" class="primary-btn">DEAL</button>
+    </div>
+
+    <div id="action-buttons" class="hidden">
+      <button id="btn-hit" class="action-btn">HIT</button>
+      <button id="btn-stand" class="action-btn">STAND</button>
+      <button id="btn-double" class="action-btn">DOUBLE</button>
+      <button id="btn-split" class="action-btn">SPLIT</button>
+      <button id="btn-surrender" class="action-btn">SURRENDER</button>
+    </div>
+
+    <div id="between-round" class="hidden">
+      <button id="btn-next" class="primary-btn">NEXT HAND</button>
+    </div>
+  </div>
+
+</section>
+</main>
+
+<aside id="coach-rail">
+  <section id="coach-panel" aria-live="polite">
+    <div class="coach-header">
+      <span class="coach-title">COUNT COACH</span>
+      <span class="coach-system" id="coach-system">HI-LO</span>
+    </div>
+    <div class="coach-stats">
+      <div class="coach-stat">
+        <label>RC</label>
+        <span id="coach-rc">+0</span>
+      </div>
+      <div class="coach-stat">
+        <label>TC</label>
+        <span id="coach-tc">+0.0</span>
+      </div>
+      <div class="coach-stat">
+        <label>EDGE</label>
+        <span id="coach-edge">-0.50%</span>
+      </div>
+      <div class="coach-stat">
+        <label>DECKS</label>
+        <span id="coach-decks">8.0D</span>
+      </div>
+    </div>
+    <div class="coach-callout">
+      <div class="coach-kicker" id="coach-kicker">WAITING</div>
+      <div class="coach-action" id="coach-action">NO ACTION</div>
+      <div class="coach-source" id="coach-source"></div>
+      <div class="coach-feedback hidden" id="coach-feedback"></div>
+    </div>
+  </section>
+</aside>
+</div>
+
+<div id="insurance-modal" class="modal hidden">
+  <div class="modal-card">
+    <div class="modal-crest">♦ ♠ ♥ ♣</div>
+    <h2>INSURANCE?</h2>
+    <p>Dealer is showing an Ace. Insurance pays 2 to 1 if the dealer has blackjack.</p>
+    <p class="insurance-amt">Your insurance bet: <span id="insurance-amount">$0</span></p>
+    <p id="insurance-coach" class="insurance-coach">Coach says no insurance right now.</p>
+    <div class="modal-buttons">
+      <button id="btn-insurance-yes" class="primary-btn">TAKE INSURANCE</button>
+      <button id="btn-insurance-no" class="ghost-btn">NO INSURANCE</button>
+    </div>
+  </div>
+</div>
+
+<script src="/static/live_table.js"></script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narada Muni — Twitter Cover Photo (1500x500)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background: #0d0520;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Playfair Display', serif;
+        }
+        .canvas-label {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+            letter-spacing: 0.15em;
+            font-family: monospace;
+        }
+        .canvas-instructions {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.3);
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas-label">NARADA MUNI — COVER PHOTO — 1500×500</div>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="1500" height="500" viewBox="0 0 1500 500">
+        <defs>
+            <!-- Deep space background -->
+            <linearGradient id="spaceBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#1a0a3e"/>
+                <stop offset="30%" stop-color="#110730"/>
+                <stop offset="70%" stop-color="#0d0520"/>
+                <stop offset="100%" stop-color="#080315"/>
+            </linearGradient>
+
+            <!-- Saffron nebula glow (left side) -->
+            <radialGradient id="nebulaLeft" cx="20%" cy="50%" r="30%">
+                <stop offset="0%" stop-color="#FF6B00" stop-opacity="0.15"/>
+                <stop offset="40%" stop-color="#E85D00" stop-opacity="0.06"/>
+                <stop offset="100%" stop-color="#FF6B00" stop-opacity="0"/>
+            </radialGradient>
+
+            <!-- Secondary nebula glow (right side, subtler) -->
+            <radialGradient id="nebulaRight" cx="85%" cy="40%" r="25%">
+                <stop offset="0%" stop-color="#6b21a8" stop-opacity="0.12"/>
+                <stop offset="50%" stop-color="#6b21a8" stop-opacity="0.04"/>
+                <stop offset="100%" stop-color="#6b21a8" stop-opacity="0"/>
+            </radialGradient>
+
+            <!-- Text glow -->
+            <filter id="textGlow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+                <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <!-- Subtle text outer glow -->
+            <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+                <feComposite in="blur" in2="SourceGraphic" operator="out" result="glow"/>
+                <feMerge>
+                    <feMergeNode in="glow"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <!-- Star twinkle -->
+            <filter id="starGlow" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="1.5"/>
+            </filter>
+
+            <!-- Noise texture -->
+            <filter id="noise" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch" result="noise"/>
+                <feColorMatrix type="saturate" values="0" in="noise" result="grey"/>
+                <feBlend in="SourceGraphic" in2="grey" mode="overlay"/>
+            </filter>
+
+            <!-- Vignette -->
+            <radialGradient id="vignette" cx="50%" cy="50%" r="60%">
+                <stop offset="50%" stop-color="black" stop-opacity="0"/>
+                <stop offset="100%" stop-color="black" stop-opacity="0.45"/>
+            </radialGradient>
+
+            <!-- Saffron gradient for accents -->
+            <linearGradient id="saffronGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="transparent"/>
+                <stop offset="30%" stop-color="#FF6B00"/>
+                <stop offset="70%" stop-color="#E85D00"/>
+                <stop offset="100%" stop-color="transparent"/>
+            </linearGradient>
+
+            <!-- Cosmic swirl gradient -->
+            <radialGradient id="swirl" cx="25%" cy="50%" r="20%">
+                <stop offset="0%" stop-color="#FF6B00" stop-opacity="0.2"/>
+                <stop offset="100%" stop-color="#FF6B00" stop-opacity="0"/>
+            </radialGradient>
+        </defs>
+
+        <!-- Base background -->
+        <rect width="1500" height="500" fill="url(#spaceBg)"/>
+
+        <!-- Nebula glows -->
+        <rect width="1500" height="500" fill="url(#nebulaLeft)"/>
+        <rect width="1500" height="500" fill="url(#nebulaRight)"/>
+
+        <!-- Cosmic swirl on left side -->
+        <ellipse cx="300" cy="250" rx="250" ry="180" fill="url(#swirl)" transform="rotate(-15, 300, 250)"/>
+
+        <!-- Star field -->
+        <g opacity="0.5">
+            <circle cx="50" cy="30" r="0.8" fill="#fbbf24"/>
+            <circle cx="120" cy="80" r="0.5" fill="white"/>
+            <circle cx="200" cy="45" r="0.7" fill="#fbbf24"/>
+            <circle cx="310" cy="20" r="0.5" fill="white"/>
+            <circle cx="420" cy="90" r="0.6" fill="#fbbf24"/>
+            <circle cx="530" cy="40" r="0.5" fill="white"/>
+            <circle cx="650" cy="70" r="0.8" fill="#fbbf24"/>
+            <circle cx="780" cy="30" r="0.5" fill="white"/>
+            <circle cx="890" cy="65" r="0.6" fill="white"/>
+            <circle cx="1000" cy="25" r="0.7" fill="#fbbf24"/>
+            <circle cx="1120" cy="55" r="0.5" fill="white"/>
+            <circle cx="1250" cy="35" r="0.6" fill="#fbbf24"/>
+            <circle cx="1380" cy="80" r="0.5" fill="white"/>
+            <circle cx="1460" cy="40" r="0.7" fill="#fbbf24"/>
+
+            <circle cx="80" cy="460" r="0.6" fill="white"/>
+            <circle cx="200" cy="430" r="0.5" fill="#fbbf24"/>
+            <circle cx="350" cy="470" r="0.7" fill="white"/>
+            <circle cx="500" cy="440" r="0.5" fill="#fbbf24"/>
+            <circle cx="680" cy="465" r="0.6" fill="white"/>
+            <circle cx="850" cy="445" r="0.5" fill="white"/>
+            <circle cx="1020" cy="470" r="0.7" fill="#fbbf24"/>
+            <circle cx="1180" cy="450" r="0.5" fill="white"/>
+            <circle cx="1340" cy="475" r="0.6" fill="#fbbf24"/>
+            <circle cx="1470" cy="440" r="0.5" fill="white"/>
+
+            <circle cx="40" cy="200" r="0.5" fill="white"/>
+            <circle cx="100" cy="350" r="0.6" fill="#fbbf24"/>
+            <circle cx="180" cy="150" r="0.5" fill="white"/>
+            <circle cx="250" cy="300" r="0.4" fill="white"/>
+            <circle cx="400" cy="180" r="0.6" fill="#fbbf24"/>
+            <circle cx="550" cy="350" r="0.5" fill="white"/>
+            <circle cx="700" cy="150" r="0.5" fill="white"/>
+            <circle cx="850" cy="320" r="0.6" fill="#fbbf24"/>
+            <circle cx="950" cy="180" r="0.5" fill="white"/>
+            <circle cx="1100" cy="350" r="0.5" fill="#fbbf24"/>
+            <circle cx="1200" cy="200" r="0.6" fill="white"/>
+            <circle cx="1350" cy="300" r="0.5" fill="white"/>
+            <circle cx="1420" cy="180" r="0.5" fill="#fbbf24"/>
+            <circle cx="1480" cy="300" r="0.6" fill="white"/>
+        </g>
+
+        <!-- Dimmer deep stars -->
+        <g opacity="0.2">
+            <circle cx="75" cy="130" r="0.3" fill="white"/>
+            <circle cx="160" cy="380" r="0.3" fill="white"/>
+            <circle cx="280" cy="120" r="0.3" fill="white"/>
+            <circle cx="460" cy="280" r="0.3" fill="white"/>
+            <circle cx="600" cy="400" r="0.3" fill="white"/>
+            <circle cx="740" cy="200" r="0.3" fill="white"/>
+            <circle cx="920" cy="380" r="0.3" fill="white"/>
+            <circle cx="1060" cy="120" r="0.3" fill="white"/>
+            <circle cx="1150" cy="420" r="0.3" fill="white"/>
+            <circle cx="1300" cy="180" r="0.3" fill="white"/>
+            <circle cx="1450" cy="380" r="0.3" fill="white"/>
+        </g>
+
+        <!-- Brighter accent stars with glow -->
+        <g>
+            <circle cx="150" cy="100" r="1.5" fill="#fbbf24" opacity="0.6" filter="url(#starGlow)"/>
+            <circle cx="1350" cy="90" r="1.2" fill="#fbbf24" opacity="0.5" filter="url(#starGlow)"/>
+            <circle cx="1420" cy="400" r="1.3" fill="#fbbf24" opacity="0.4" filter="url(#starGlow)"/>
+            <circle cx="80" cy="380" r="1.1" fill="#fbbf24" opacity="0.5" filter="url(#starGlow)"/>
+        </g>
+
+        <!-- Corner accent lines (saffron, delicate) -->
+        <!-- Top-left -->
+        <line x1="40" y1="30" x2="120" y2="30" stroke="#FF6B00" stroke-width="0.8" opacity="0.3"/>
+        <line x1="40" y1="30" x2="40" y2="90" stroke="#FF6B00" stroke-width="0.8" opacity="0.3"/>
+        <!-- Top-right -->
+        <line x1="1380" y1="30" x2="1460" y2="30" stroke="#FF6B00" stroke-width="0.8" opacity="0.3"/>
+        <line x1="1460" y1="30" x2="1460" y2="90" stroke="#FF6B00" stroke-width="0.8" opacity="0.3"/>
+        <!-- Bottom-left -->
+        <line x1="40" y1="470" x2="120" y2="470" stroke="#FF6B00" stroke-width="0.8" opacity="0.3"/>
+        <line x1="40" y1="410" x2="40" y2="470" stroke="#FF6B00" stroke-width="0.8" opacity="0.3"/>
+        <!-- Bottom-right -->
+        <line x1="1380" y1="470" x2="1460" y2="470" stroke="#FF6B00" stroke-width="0.8" opacity="0.3"/>
+        <line x1="1460" y1="410" x2="1460" y2="470" stroke="#FF6B00" stroke-width="0.8" opacity="0.3"/>
+
+        <!-- Main title: NARADA MUNI -->
+        <text x="750" y="225" text-anchor="middle" font-family="'Playfair Display', serif" font-size="72" font-weight="700" letter-spacing="0.25em" fill="#FF6B00" filter="url(#softGlow)">NARADA MUNI</text>
+
+        <!-- Warm saffron glow layer behind text -->
+        <text x="750" y="225" text-anchor="middle" font-family="'Playfair Display', serif" font-size="72" font-weight="700" letter-spacing="0.25em" fill="#FF6B00" opacity="0.6" filter="url(#textGlow)">NARADA MUNI</text>
+
+        <!-- Decorative line under title -->
+        <line x1="550" y1="252" x2="950" y2="252" stroke="url(#saffronGrad)" stroke-width="1" opacity="0.5"/>
+
+        <!-- Subtitle tagline -->
+        <text x="750" y="300" text-anchor="middle" font-family="'Playfair Display', serif" font-size="24" font-weight="400" font-style="italic" fill="#fbbf24" opacity="0.7" letter-spacing="0.08em">Narayan, Narayan. The chaos was the teaching.</text>
+
+        <!-- Noise texture overlay -->
+        <rect width="1500" height="500" filter="url(#noise)" opacity="0.03"/>
+
+        <!-- Vignette -->
+        <rect width="1500" height="500" fill="url(#vignette)"/>
+    </svg>
+
+    <div class="canvas-instructions">Right-click → Save Image As... or screenshot at 1500×500</div>
+</body>
+</html>

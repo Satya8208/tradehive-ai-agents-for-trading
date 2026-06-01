@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sutradhaar — Twitter Cover Photo (1500x500)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background: #050505;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Playfair Display', serif;
+        }
+        .canvas-label {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+            letter-spacing: 0.15em;
+            font-family: monospace;
+        }
+        .canvas-instructions {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.3);
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas-label">SUTRADHAAR — COVER PHOTO — 1500×500</div>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="1500" height="500" viewBox="0 0 1500 500">
+        <defs>
+            <!-- Deep black center -->
+            <linearGradient id="centerVoid" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#0a0a0a"/>
+                <stop offset="50%" stop-color="#050505"/>
+                <stop offset="100%" stop-color="#0a0a0a"/>
+            </linearGradient>
+
+            <!-- Left curtain gradient -->
+            <linearGradient id="curtainLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#8b0000"/>
+                <stop offset="30%" stop-color="#6b0000"/>
+                <stop offset="70%" stop-color="#3a0000"/>
+                <stop offset="100%" stop-color="#0a0a0a" stop-opacity="0"/>
+            </linearGradient>
+
+            <!-- Right curtain gradient -->
+            <linearGradient id="curtainRight" x1="100%" y1="0%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#8b0000"/>
+                <stop offset="30%" stop-color="#6b0000"/>
+                <stop offset="70%" stop-color="#3a0000"/>
+                <stop offset="100%" stop-color="#0a0a0a" stop-opacity="0"/>
+            </linearGradient>
+
+            <!-- Theatrical back-light glow (gold from behind curtains) -->
+            <radialGradient id="backLight" cx="50%" cy="40%" r="40%">
+                <stop offset="0%" stop-color="#d4a853" stop-opacity="0.08"/>
+                <stop offset="50%" stop-color="#b8941f" stop-opacity="0.03"/>
+                <stop offset="100%" stop-color="#d4a853" stop-opacity="0"/>
+            </radialGradient>
+
+            <!-- Crimson glow from curtain edges -->
+            <radialGradient id="curtainGlowLeft" cx="18%" cy="50%" r="15%">
+                <stop offset="0%" stop-color="#c41e3a" stop-opacity="0.12"/>
+                <stop offset="100%" stop-color="#c41e3a" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="curtainGlowRight" cx="82%" cy="50%" r="15%">
+                <stop offset="0%" stop-color="#c41e3a" stop-opacity="0.12"/>
+                <stop offset="100%" stop-color="#c41e3a" stop-opacity="0"/>
+            </radialGradient>
+
+            <!-- Gold text gradient -->
+            <linearGradient id="goldText" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#d4a853"/>
+                <stop offset="50%" stop-color="#f0d078"/>
+                <stop offset="100%" stop-color="#b8941f"/>
+            </linearGradient>
+
+            <!-- Gold string gradient (vertical) -->
+            <linearGradient id="goldString" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#d4a853" stop-opacity="0.6"/>
+                <stop offset="50%" stop-color="#b8941f" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#d4a853" stop-opacity="0.15"/>
+            </linearGradient>
+
+            <!-- Text glow -->
+            <filter id="textGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+                <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <!-- Softer outer glow for title -->
+            <filter id="outerGlow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"/>
+                <feComposite in="blur" in2="SourceGraphic" operator="out" result="glow"/>
+                <feMerge>
+                    <feMergeNode in="glow"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <!-- Gold glow for strings -->
+            <filter id="stringGlow" x="-50%" y="-10%" width="200%" height="120%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"/>
+                <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+            <!-- Noise texture -->
+            <filter id="noise" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch" result="noise"/>
+                <feColorMatrix type="saturate" values="0" in="noise" result="grey"/>
+                <feBlend in="SourceGraphic" in2="grey" mode="overlay"/>
+            </filter>
+
+            <!-- Curtain fabric texture -->
+            <filter id="fabricNoise" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.3 1.2" numOctaves="3" stitchTiles="stitch" result="noise"/>
+                <feColorMatrix type="saturate" values="0" in="noise" result="grey"/>
+                <feBlend in="SourceGraphic" in2="grey" mode="overlay"/>
+            </filter>
+
+            <!-- Stage floor gradient -->
+            <linearGradient id="stageFloor" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#0a0a0a" stop-opacity="0"/>
+                <stop offset="60%" stop-color="#050505" stop-opacity="0.5"/>
+                <stop offset="100%" stop-color="#030303"/>
+            </linearGradient>
+
+            <!-- Stage floor reflection -->
+            <linearGradient id="floorReflect" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#d4a853" stop-opacity="0.04"/>
+                <stop offset="100%" stop-color="#d4a853" stop-opacity="0"/>
+            </linearGradient>
+        </defs>
+
+        <!-- Base: deep black -->
+        <rect width="1500" height="500" fill="url(#centerVoid)"/>
+
+        <!-- Back-light glow from behind curtains -->
+        <rect width="1500" height="500" fill="url(#backLight)"/>
+
+        <!-- Left curtain -->
+        <rect x="0" y="0" width="350" height="500" fill="url(#curtainLeft)"/>
+        <!-- Left curtain fabric texture -->
+        <rect x="0" y="0" width="350" height="500" fill="url(#curtainLeft)" filter="url(#fabricNoise)" opacity="0.15"/>
+        <!-- Left curtain fold lines (vertical light/dark bands) -->
+        <g opacity="0.08">
+            <rect x="30" y="0" width="8" height="500" fill="#c41e3a"/>
+            <rect x="70" y="0" width="12" height="500" fill="black"/>
+            <rect x="120" y="0" width="6" height="500" fill="#c41e3a"/>
+            <rect x="170" y="0" width="15" height="500" fill="black"/>
+            <rect x="230" y="0" width="8" height="500" fill="#c41e3a"/>
+            <rect x="280" y="0" width="10" height="500" fill="black"/>
+        </g>
+
+        <!-- Right curtain -->
+        <rect x="1150" y="0" width="350" height="500" fill="url(#curtainRight)"/>
+        <!-- Right curtain fabric texture -->
+        <rect x="1150" y="0" width="350" height="500" fill="url(#curtainRight)" filter="url(#fabricNoise)" opacity="0.15"/>
+        <!-- Right curtain fold lines -->
+        <g opacity="0.08">
+            <rect x="1190" y="0" width="10" height="500" fill="black"/>
+            <rect x="1240" y="0" width="8" height="500" fill="#c41e3a"/>
+            <rect x="1290" y="0" width="15" height="500" fill="black"/>
+            <rect x="1340" y="0" width="6" height="500" fill="#c41e3a"/>
+            <rect x="1400" y="0" width="12" height="500" fill="black"/>
+            <rect x="1450" y="0" width="8" height="500" fill="#c41e3a"/>
+        </g>
+
+        <!-- Curtain edge glow -->
+        <rect width="1500" height="500" fill="url(#curtainGlowLeft)"/>
+        <rect width="1500" height="500" fill="url(#curtainGlowRight)"/>
+
+        <!-- Puppet strings descending from top across the banner -->
+        <g filter="url(#stringGlow)">
+            <!-- String 1 -->
+            <path d="M 400 0 C 398 80, 402 160, 399 250 C 397 320, 401 400, 400 500" fill="none" stroke="url(#goldString)" stroke-width="1" opacity="0.25"/>
+            <!-- String 2 -->
+            <path d="M 550 0 C 552 70, 548 150, 551 240 C 553 310, 549 390, 550 500" fill="none" stroke="url(#goldString)" stroke-width="1" opacity="0.2"/>
+            <!-- String 3 (near center-left) -->
+            <path d="M 680 0 C 678 60, 682 140, 679 230 C 677 310, 681 400, 680 500" fill="none" stroke="url(#goldString)" stroke-width="1.1" opacity="0.3"/>
+            <!-- String 4 (center) -->
+            <path d="M 750 0 C 752 75, 748 155, 751 235 C 753 315, 749 395, 750 500" fill="none" stroke="url(#goldString)" stroke-width="1.2" opacity="0.15"/>
+            <!-- String 5 (near center-right) -->
+            <path d="M 830 0 C 828 65, 832 145, 829 225 C 827 305, 831 395, 830 500" fill="none" stroke="url(#goldString)" stroke-width="1.1" opacity="0.3"/>
+            <!-- String 6 -->
+            <path d="M 960 0 C 962 80, 958 160, 961 240 C 963 330, 959 410, 960 500" fill="none" stroke="url(#goldString)" stroke-width="1" opacity="0.2"/>
+            <!-- String 7 -->
+            <path d="M 1100 0 C 1098 70, 1102 150, 1099 250 C 1097 340, 1101 420, 1100 500" fill="none" stroke="url(#goldString)" stroke-width="1" opacity="0.25"/>
+        </g>
+
+        <!-- Stage floor hint at bottom -->
+        <rect x="300" y="440" width="900" height="60" fill="url(#stageFloor)"/>
+        <!-- Floor reflection -->
+        <rect x="300" y="440" width="900" height="30" fill="url(#floorReflect)"/>
+        <!-- Stage edge line -->
+        <line x1="300" y1="440" x2="1200" y2="440" stroke="#d4a853" stroke-width="0.5" opacity="0.12"/>
+
+        <!-- Main title: SUTRADHAAR -->
+        <text x="750" y="215" text-anchor="middle" font-family="'Playfair Display', serif" font-size="76" font-weight="700" letter-spacing="0.22em" fill="url(#goldText)" filter="url(#outerGlow)">SUTRADHAAR</text>
+
+        <!-- Gold glow layer behind title -->
+        <text x="750" y="215" text-anchor="middle" font-family="'Playfair Display', serif" font-size="76" font-weight="700" letter-spacing="0.22em" fill="#d4a853" opacity="0.4" filter="url(#textGlow)">SUTRADHAAR</text>
+
+        <!-- Decorative gold line under title -->
+        <line x1="520" y1="240" x2="980" y2="240" stroke="#d4a853" stroke-width="0.8" opacity="0.35"/>
+        <!-- Small diamond accent at center of line -->
+        <polygon points="750,234 756,240 750,246 744,240" fill="#d4a853" opacity="0.4"/>
+
+        <!-- Subtitle -->
+        <text x="750" y="290" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="28" font-weight="400" font-style="italic" fill="#d4a853" opacity="0.6" letter-spacing="0.1em">Sab mile hue hain.</text>
+
+        <!-- Gold border frame (thin, subtle) -->
+        <rect x="35" y="20" width="1430" height="460" rx="2" fill="none" stroke="#d4a853" stroke-width="0.6" opacity="0.12"/>
+        <!-- Inner border -->
+        <rect x="42" y="27" width="1416" height="446" rx="1" fill="none" stroke="#d4a853" stroke-width="0.3" opacity="0.08"/>
+
+        <!-- Noise texture overlay -->
+        <rect width="1500" height="500" filter="url(#noise)" opacity="0.04"/>
+    </svg>
+
+    <div class="canvas-instructions">Right-click → Save Image As... or screenshot at 1500×500</div>
+</body>
+</html>
