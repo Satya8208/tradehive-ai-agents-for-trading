@@ -188,7 +188,7 @@ def test_analyze_market_marks_partial_consensus_shortfall_as_runtime_failure(tmp
     assert analyzer.last_analysis_metadata["sigma_ratio"] is not None
     statuses = {item["provider"]: item["status"] for item in analyzer.last_model_statuses}
     assert statuses["xai"] == "ok"
-    assert statuses["claude"] == "exception"
+    assert statuses["openai"] == "exception"
     assert statuses["deepseek"] == "exception"
 
     prediction_files = sorted((cfg.predictions_dir).glob("prediction_*.json"))

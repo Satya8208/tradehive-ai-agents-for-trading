@@ -25,10 +25,15 @@ import atexit
 # Load environment variables
 load_dotenv()
 
-# Get API keys from environment
+# Get API keys from environment (validated when BirdEye endpoints are called)
 BIRDEYE_API_KEY = os.getenv("BIRDEYE_API_KEY")
-if not BIRDEYE_API_KEY:
-    raise ValueError("🚨 BIRDEYE_API_KEY not found in environment variables!")
+
+
+def _birdeye_headers():
+    key = BIRDEYE_API_KEY or os.getenv("BIRDEYE_API_KEY")
+    if not key:
+        raise ValueError("🚨 BIRDEYE_API_KEY not found in environment variables!")
+    return {"X-API-KEY": key}
 
 sample_address = "2yXTyarttn2pTZ6cwt4DqmrRuBw1G7pmFv9oT6MStdKP"
 
@@ -64,7 +69,7 @@ def token_overview(address):
 
     print(f'Getting the token overview for {address}')
     overview_url = f"{BASE_URL}/token_overview?address={address}"
-    headers = {"X-API-KEY": BIRDEYE_API_KEY}
+    headers = _birdeye_headers()
 
     response = requests.get(overview_url, headers=headers)
     result = {}
@@ -187,7 +192,7 @@ def token_security_info(address):
 
     # API endpoint for getting token security information
     url = f"{BASE_URL}/token_security?address={address}"
-    headers = {"X-API-KEY": BIRDEYE_API_KEY}
+    headers = _birdeye_headers()
 
     # Sending a GET request to the API
     response = requests.get(url, headers=headers)
@@ -213,7 +218,7 @@ def token_creation_info(address):
     '''
     # API endpoint for getting token creation information
     url = f"{BASE_URL}/token_creation_info?address={address}"
-    headers = {"X-API-KEY": BIRDEYE_API_KEY}
+    headers = _birdeye_headers()
 
     # Sending a GET request to the API
     response = requests.get(url, headers=headers)
@@ -357,7 +362,7 @@ def get_data(address, days_back_4_data, timeframe):
 
     url = f"https://public-api.birdeye.so/defi/ohlcv?address={address}&type={timeframe}&time_from={time_from}&time_to={time_to}"
 
-    headers = {"X-API-KEY": BIRDEYE_API_KEY}
+    headers = _birdeye_headers()
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         json_response = response.json()
@@ -463,7 +468,7 @@ def fetch_wallet_token_single(address, token_mint_address):
 
 def token_price(address):
     url = f"https://public-api.birdeye.so/defi/price?address={address}"
-    headers = {"X-API-KEY": BIRDEYE_API_KEY}
+    headers = _birdeye_headers()
     response = requests.get(url, headers=headers)
     price_data = response.json()
 
